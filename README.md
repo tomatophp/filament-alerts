@@ -1,3 +1,5 @@
+![Screenshot](./arts/screenshot.png)
+
 # Filament alerts
 
 Send notification to users using notification templates and multi notification channels
