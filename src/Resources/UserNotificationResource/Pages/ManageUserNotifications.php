@@ -16,7 +16,7 @@ class ManageUserNotifications extends ManageRecords
 
     public function getTitle():string
     {
-        return "Notifications";
+        return trans('filament-alerts::messages.notifications.title');
     }
 
     protected function getHeaderActions(): array
@@ -49,8 +49,8 @@ class ManageUserNotifications extends ManageRecords
                         ->id($record->model_id)
                         ->fire();
                 })
-                ->label('Create Notification'),
-            Action::make('logs')->action(fn()=> redirect()->route('filament.admin.resources.notifications-logs.index'))->color('info')->label('Logs'),
+                ->label(trans('filament-alerts::messages.notifications.create')),
+            Action::make('logs')->action(fn()=> redirect()->route('filament.admin.resources.notifications-logs.index'))->color('info')->label(trans('filament-alerts::messages.notifications.logs')),
         ];
     }
 

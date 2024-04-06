@@ -118,6 +118,11 @@ $user->notifyDB(string $message, ?string $title=null, ?string $url =null);
 $user->notifySlack(string $title,string $message=null,?string $url=null, ?string $image=null, ?string $webhook=null);
 $user->notifyDiscord(string $title,string $message=null,?string $url=null, ?string $image=null, ?string $webhook=null);
 ```
+
+## API
+
+we are support some API to get the notification and make some actions you can find it under `api/notifications` route
+
 ## Publish Assets
 
 you can publish config file by use this command
@@ -143,6 +148,8 @@ you can publish migrations file by use this command
 ```bash
 php artisan vendor:publish --tag="filament-alerts-migrations"
 ```
+
+
 
 ## Support
 

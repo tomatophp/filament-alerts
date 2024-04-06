@@ -21,12 +21,12 @@ class NotificationsLogsResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return "Notifications";
+        return trans('filament-alerts::messages.group');
     }
 
     public static function getNavigationLabel(): string
     {
-        return "Logs";
+        return trans('filament-alerts::messages.logs.title');
     }
 
     public static function shouldRegisterNavigation(): bool
@@ -36,26 +36,7 @@ class NotificationsLogsResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('model_type')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('model_id')
-                    ->numeric(),
-                Forms\Components\Textarea::make('title')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->maxLength(255)
-                    ->default('info'),
-                Forms\Components\TextInput::make('provider')
-                    ->required()
-                    ->maxLength(255)
-                    ->default('fcm-api'),
-            ]);
+        return $form->schema([]);
     }
 
     public static function table(Table $table): Table
@@ -64,18 +45,24 @@ class NotificationsLogsResource extends Resource
             ->defaultSort('id', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('model.name')
+                    ->label(trans('filament-alerts::messages.logs.form.user'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label(trans('filament-alerts::messages.logs.form.title'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label(trans('filament-alerts::messages.logs.form.type'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('provider')
+                    ->label(trans('filament-alerts::messages.logs.form.provider'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(trans('filament-alerts::messages.logs.form.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(trans('filament-alerts::messages.logs.form.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

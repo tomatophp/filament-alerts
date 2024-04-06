@@ -33,12 +33,12 @@ class NotificationsTemplateResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return "Notifications";
+        return trans('filament-alerts::messages.group');
     }
 
     public static function getNavigationLabel(): string
     {
-        return "Templates";
+        return trans('filament-alerts::messages.templates.title');
     }
 
 
@@ -54,40 +54,50 @@ class NotificationsTemplateResource extends Resource
                Forms\Components\Grid::make(['default' => 3])
                     ->schema([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('image')
+                            ->label(trans('filament-alerts::messages.templates.form.image'))
                             ->collection('image')
                             ->maxFiles(1)
                             ->maxWidth(1024)
                             ->acceptedFileTypes(['image/*'])
                             ->columnSpan(3),
                         Forms\Components\TextInput::make('name')
+                            ->label(trans('filament-alerts::messages.templates.form.name'))
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('key')
+                            ->label(trans('filament-alerts::messages.templates.form.key'))
                             ->unique(table:'notifications_templates', column: 'key', ignoreRecord:true)
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('title')
+                            ->label(trans('filament-alerts::messages.templates.form.title'))
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Textarea::make('body')
+                            ->label(trans('filament-alerts::messages.templates.form.body'))
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('url')
+                            ->label(trans('filament-alerts::messages.templates.form.url'))
                             ->columnSpan(3)
                             ->url()
                             ->maxLength(255),
                         IconPicker::make('icon')
+                            ->label(trans('filament-alerts::messages.templates.form.icon'))
                             ->columnSpan(3)
                             ->default('heroicon-o-check-circle'),
                         Forms\Components\Select::make('type')
+                            ->label(trans('filament-alerts::messages.templates.form.type'))
                             ->options(collect(config('filament-alerts.types'))->pluck('name', 'id')->toArray())
                             ->default('success'),
                         Forms\Components\Select::make('providers')
+                            ->label(trans('filament-alerts::messages.templates.form.providers'))
                             ->multiple()
                             ->options(collect(config('filament-alerts.providers'))->pluck('name', 'id')->toArray()),
                         Forms\Components\Select::make('action')
+                            ->label(trans('filament-alerts::messages.templates.form.action'))
                             ->options([
-                                'manual' => 'Manual',
-                                'system' => 'System',
+                                'manual' => trans('filament-alerts::messages.templates.form.manual'),
+                                'system' => trans('filament-alerts::messages.templates.form.system'),
                             ])
                             ->default('manual'),
                     ])
@@ -100,24 +110,30 @@ class NotificationsTemplateResource extends Resource
             ->defaultSort('id', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(trans('filament-alerts::messages.templates.form.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('key')
+                    ->label(trans('filament-alerts::messages.templates.form.key'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('url')
+                    ->label(trans('filament-alerts::messages.templates.form.title'))
                     ->searchable(),
                 IconColumn::make('icon')
+                    ->label(trans('filament-alerts::messages.templates.form.icon'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label(trans('filament-alerts::messages.templates.form.type'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('action')
+                    ->label(trans('filament-alerts::messages.templates.form.action'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(trans('filament-alerts::messages.templates.form.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(trans('filament-alerts::messages.templates.form.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -127,7 +143,7 @@ class NotificationsTemplateResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('clone')
-                    ->label('Clone')
+                    ->label(trans('filament-alerts::messages.templates.actions.clone'))
                     ->requiresConfirmation()
                     ->action(function(NotificationsTemplate $record) {
 
@@ -144,13 +160,14 @@ class NotificationsTemplateResource extends Resource
                         ]);
 
                         Notification::make()
-                            ->title(__('Template Cloned Successfully'))
+                            ->title(trans('filament-alerts::messages.templates.actions.clone-notification'))
                             ->success()
                             ->send();
                     })
                     ->color('info')
                     ->icon('heroicon-o-document-duplicate'),
                 Tables\Actions\Action::make('try')
+                    ->label(trans('filament-alerts::messages.templates.actions.try'))
                     ->requiresConfirmation()
                     ->action(function(NotificationsTemplate $record){
                         $matchesTitle = array();
@@ -179,19 +196,18 @@ class NotificationsTemplateResource extends Resource
                                 ->fire();
 
                             Notification::make()
-                                ->title(__('Notification Sent Successfully'))
+                                ->title(trans('filament-alerts::messages.templates.actions.try-notification'))
                                 ->success()
                                 ->send();
 
                         }catch (\Exception $exception){
                             Notification::make()
-                                ->title(__('Please Check Your Provider Settings'))
+                                ->title(trans('filament-alerts::messages.templates.actions.try-notification-danger'))
                                 ->danger()
                                 ->send();
                         }
                     })
                     ->color('success')
-                    ->label('Try')
                     ->icon('heroicon-o-paper-airplane'),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

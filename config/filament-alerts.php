@@ -107,5 +107,8 @@ return [
         "discord" => [
             "webhook" => env('DISCORD_WEBHOOK'),
         ]
-    ]
+    ],
+
+
+    "api-model" => \App\Models\User::class
 ];

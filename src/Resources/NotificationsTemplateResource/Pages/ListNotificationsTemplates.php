@@ -17,19 +17,19 @@ class ListNotificationsTemplates extends ListRecords
 
     public function getTitle():string
     {
-        return "Templates";
+        return trans('filament-alerts::messages.templates.title');
     }
 
     public static function getNavigationLabel(): string
     {
-        return "Templates";
+        return trans('filament-alerts::messages.templates.title');
     }
 
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Create Template'),
+            Actions\CreateAction::make()->label(trans('filament-alerts::messages.templates.create')),
             Actions\LocaleSwitcher::make(),
         ];
     }

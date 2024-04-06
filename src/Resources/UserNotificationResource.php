@@ -30,17 +30,17 @@ class UserNotificationResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return "Notifications";
+        return trans('filament-alerts::messages.group');
     }
 
     public static function getTitle(): string
     {
-        return "Notifications";
+        return trans('filament-alerts::messages.notifications.title');
     }
 
     public static function getNavigationLabel(): string
     {
-        return "Notifications";
+        return trans('filament-alerts::messages.notifications.title');
     }
 
 
@@ -51,12 +51,13 @@ class UserNotificationResource extends Resource
                 Forms\Components\Select::make('template_id')
                     ->searchable()
                     ->validationAttribute('template_id','required|exists:notifications_templates,id')
-                    ->label('Template')
+                    ->label(trans('filament-alerts::messages.notifications.form.template'))
                     ->options(
                         NotificationsTemplate::pluck('name', 'id')->toArray()
                     )
                     ->required(),
                 Forms\Components\Select::make('privacy')
+                    ->label(trans('filament-alerts::messages.notifications.form.privacy'))
                     ->searchable()
                     ->options([
                         'public' => 'Public',
@@ -67,13 +68,13 @@ class UserNotificationResource extends Resource
                     ->default('public'),
                 Forms\Components\Select::make('model_type')
                     ->searchable()
-                    ->label('User Type')
+                    ->label(trans('filament-alerts::messages.notifications.form.user_type'))
                     ->options(config('filament-alerts.models'))
                     ->required()
                     ->live(),
                 Forms\Components\Select::make('model_id')
+                    ->label(trans('filament-alerts::messages.notifications.form.user'))
                     ->searchable()
-                    ->label('User')
                     ->hidden(fn (Forms\Get $get): bool => $get('privacy') !== 'private')
                     ->options(fn (Forms\Get $get) => $get('model_type') ? $get('model_type')::pluck('name', 'id')->toArray() : [])
                     ->required(),
@@ -86,26 +87,25 @@ class UserNotificationResource extends Resource
             ->defaultSort('id', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('model.name')
-                    ->label('User')
+                    ->label(trans('filament-alerts::messages.notifications.form.user'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('template.name')
+                    ->label(trans('filament-alerts::messages.notifications.form.template'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('url')
-                    ->searchable(),
-                IconColumn::make('icon')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('privacy')
+                    ->label(trans('filament-alerts::messages.notifications.form.privacy'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label(trans('filament-alerts::messages.notifications.form.createdBy'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(trans('filament-alerts::messages.notifications.form.created_at'))
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(trans('filament-alerts::messages.notifications.form.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)

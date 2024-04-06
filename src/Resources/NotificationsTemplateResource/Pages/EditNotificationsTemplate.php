@@ -17,7 +17,7 @@ class EditNotificationsTemplate extends EditRecord
 
     public function getTitle():string
     {
-        return "Edit Template";
+        return trans('filament-alerts::messages.templates.edit');
     }
 
     protected function getHeaderActions(): array

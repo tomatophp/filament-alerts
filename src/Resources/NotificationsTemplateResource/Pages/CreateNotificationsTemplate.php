@@ -17,7 +17,7 @@ class CreateNotificationsTemplate extends CreateRecord
 
     public function getTitle():string
     {
-        return "Create Template";
+        return trans('filament-alerts::messages.templates.create');
     }
 
     protected function getHeaderActions(): array
