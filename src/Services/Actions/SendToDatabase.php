@@ -29,6 +29,7 @@ trait SendToDatabase
             $notification->model_type = $this->model;
             $notification->model_id = $this->id;
             $notification->privacy = $this->privacy;
+            $notification->created_by = auth()->user()->id;
             $notification->save();
 
             return true;

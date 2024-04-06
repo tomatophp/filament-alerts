@@ -32,16 +32,22 @@ trait SendToJob
 
             if (!empty($this->template)) {
                 $collectRoles = [];
-                foreach ($this->templateModel->roles as $role) {
-                    $collectRoles[] = $role->id;
-                }
-                if (count($collectRoles)) {
-                    if ($this->user->hasRole($collectRoles)) {
+                if(class_exists(Spatie\Permission\Models\Role::class)){
+                    foreach ($this->templateModel->roles as $role) {
+                        $collectRoles[] = $role->id;
+                    }
+                    if (count($collectRoles)) {
+                        if ($this->user->hasRole($collectRoles)) {
+                            NotificationJop::dispatch($arrgs);
+                        }
+                    } else {
                         NotificationJop::dispatch($arrgs);
                     }
-                } else {
+                }
+                else {
                     NotificationJop::dispatch($arrgs);
                 }
+
             } else {
                 NotificationJop::dispatch($arrgs);
             }

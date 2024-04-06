@@ -17,7 +17,7 @@ use TomatoPHP\FilamentAlerts\Mail\SendEmail;
 use TomatoPHP\FilamentAlerts\Models\UserNotification;
 use TomatoPHP\FilamentAlerts\Models\UserToken;
 
-trait InteractWithNotifications
+trait InteractsWithNotifications
 {
     public function notifySMSMisr(string $message): void
     {

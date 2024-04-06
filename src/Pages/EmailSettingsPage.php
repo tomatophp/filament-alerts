@@ -1,6 +1,6 @@
 <?php
 
-namespace TomatoPHP\FilamentSettingsHub\Pages;
+namespace TomatoPHP\FilamentAlerts\Pages;
 
 use Filament\Forms\Components\Checkbox;
 use Filament\Notifications\Notification;
@@ -54,6 +54,9 @@ class EmailSettingsPage extends SettingsPage
                 TextInput::make('mail_port')
                     ->label(trans('filament-settings-hub::messages.settings.mail_port'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_port")': null),
+                TextInput::make('mail_username')
+                    ->label(trans('filament-settings-hub::messages.settings.mail_username'))
+                    ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_username")': null),
                 TextInput::make('mail_password')
                     ->label(trans('filament-settings-hub::messages.settings.mail_password'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_password")': null),

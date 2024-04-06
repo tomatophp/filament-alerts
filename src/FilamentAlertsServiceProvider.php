@@ -2,7 +2,10 @@
 
 namespace TomatoPHP\FilamentAlerts;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use TomatoPHP\FilamentSettingsHub\Facades\FilamentSettingsHub;
+use TomatoPHP\FilamentSettingsHub\Services\Contracts\SettingHold;
 
 
 class FilamentAlertsServiceProvider extends ServiceProvider
@@ -48,10 +51,48 @@ class FilamentAlertsServiceProvider extends ServiceProvider
         //Register Routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
+
+
+
     }
 
     public function boot(): void
     {
-        //you boot methods here
+        FilamentSettingsHub::register([
+            SettingHold::make()
+                ->label('Firebase Settings')
+                ->icon('heroicon-o-fire')
+                ->route('filament.admin.pages.notifications-settings-page')
+                ->description('Update Firebase Settings')
+                ->group('Notifications'),
+            SettingHold::make()
+                ->label('Email Settings')
+                ->icon('heroicon-o-envelope')
+                ->route('filament.admin.pages.email-settings-page')
+                ->description('Update Email Provider Settings')
+                ->group('Notifications'),
+        ]);
+
+
+        try {
+            Config::set('mail.mailers.smtp', [
+                'transport' => setting('mail_mailer'),
+                'host' => setting('mail_host'),
+                'port' => setting('mail_port'),
+                'encryption' => setting('mail_encryption'),
+                'username' => setting('mail_username'),
+                'password' => setting('mail_password'),
+                'timeout' => null,
+                'auth_mode' => null,
+            ]);
+
+            Config::set('mail.from', [
+                'address' => setting('mail_from_address'),
+                'name' => setting('mail_from_name'),
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error($e);
+        }
     }
 }

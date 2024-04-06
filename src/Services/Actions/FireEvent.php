@@ -53,7 +53,7 @@ trait FireEvent
                         /*
                         * Check if notification saved on database
                         */
-                        if ($this->database || array_key_exists('database', $this->providers)) {
+                        if ($this->database || in_array('database', $this->providers)) {
                             $this->sendToDatabase();
                         }
                         /*
@@ -69,7 +69,7 @@ trait FireEvent
                     /*
                      * Check if notification saved on database
                      */
-                    if ($this->database || array_key_exists('database', $this->providers)) {
+                    if ($this->database || in_array('database', $this->providers)) {
                         $this->sendToDatabase();
                     }
 
@@ -99,13 +99,13 @@ trait FireEvent
                 if (!empty($this->template)) {
                     $loadTemplate = $this->loadTemplate();
                     if ($loadTemplate) {
-                        if ($this->database || array_key_exists('database', $this->providers)) {
+                        if ($this->database || in_array('database', $this->providers)) {
                             $this->sendToDatabase();
                         }
                         $this->sendToJob();
                     }
                 } else {
-                    if ($this->database || array_key_exists('database', $this->providers)) {
+                    if ($this->database || in_array('database', $this->providers)) {
                         $this->sendToDatabase();
                     }
                     $this->sendToJob();

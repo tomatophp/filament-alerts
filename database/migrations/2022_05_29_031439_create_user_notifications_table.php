@@ -33,7 +33,7 @@ return new class extends Migration
             $table->json('data')->nullable();
 
             //If Created By
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });

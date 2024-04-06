@@ -44,27 +44,30 @@ trait LoadTemplate
          */
         $this->type = $this->templateModel->type;
 
-        /*
-         * Check Template For Roles
-         */
-        $collectRoles = [];
-        foreach ($this->templateModel->roles as $role) {
-            $collectRoles[] = $role->id;
-        }
-        if (count($collectRoles)) {
+        if(class_exists(Spatie\Permission\Models\Role::class)){
             /*
-             * If Current User Has Role
-             */
-            try {
-                if ($this->user->hasRole($collectRoles)) {
-                    return true;
+           * Check Template For Roles
+           */
+            $collectRoles = [];
+            foreach ($this->templateModel->roles as $role) {
+                $collectRoles[] = $role->id;
+            }
+            if (count($collectRoles)) {
+                /*
+                 * If Current User Has Role
+                 */
+                try {
+                    if ($this->user->hasRole($collectRoles)) {
+                        return true;
+                    }
+                }catch (\Exception $exception){
+                    return false;
                 }
-            }catch (\Exception $exception){
+
                 return false;
             }
-
-            return false;
         }
+
 
         return true;
     }

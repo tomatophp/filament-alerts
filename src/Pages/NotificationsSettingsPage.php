@@ -1,6 +1,6 @@
 <?php
 
-namespace TomatoPHP\FilamentSettingsHub\Pages;
+namespace TomatoPHP\FilamentAlerts\Pages;
 
 use Filament\Forms\Components\Checkbox;
 use Filament\Notifications\Notification;

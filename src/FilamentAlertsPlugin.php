@@ -5,8 +5,11 @@ namespace TomatoPHP\FilamentAlerts;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Illuminate\View\View;
-use TomatoPHP\FilamentSettingsHub\Pages\EmailSettingsPage;
-use TomatoPHP\FilamentSettingsHub\Pages\NotificationsSettingsPage;
+use TomatoPHP\FilamentAlerts\Resources\NotificationsLogsResource;
+use TomatoPHP\FilamentAlerts\Resources\NotificationsTemplateResource;
+use TomatoPHP\FilamentAlerts\Resources\UserNotificationResource;
+use TomatoPHP\FilamentAlerts\Pages\EmailSettingsPage;
+use TomatoPHP\FilamentAlerts\Pages\NotificationsSettingsPage;
 
 
 class FilamentAlertsPlugin implements Plugin
@@ -18,7 +21,13 @@ class FilamentAlertsPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->pages([
+        $panel
+            ->resources([
+                NotificationsLogsResource::class,
+                UserNotificationResource::class,
+                NotificationsTemplateResource::class
+            ])
+            ->pages([
                 NotificationsSettingsPage::class,
                 EmailSettingsPage::class
             ]);

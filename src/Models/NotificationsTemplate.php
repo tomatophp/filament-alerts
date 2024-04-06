@@ -40,6 +40,8 @@ class NotificationsTemplate extends Model implements HasMedia
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'template_has_roles', 'template_id', 'role_id');
+        if(class_exists(Role::class)){
+            return $this->belongsToMany(Role::class, 'template_has_roles', 'template_id', 'role_id');
+        }
     }
 }

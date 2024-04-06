@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -23,6 +24,7 @@ class UserNotification extends Model implements HasMedia
     protected $casts = [
         'data'=>'array'
     ];
+
     public $fillable = [
         'id',
         'created_by',
@@ -45,7 +47,7 @@ class UserNotification extends Model implements HasMedia
 
     public function template()
     {
-        return $this->hasOne(NotificationsTemplate::class, 'id', 'id');
+        return $this->hasOne(NotificationsTemplate::class, 'id', 'template_id');
     }
 
     public function read()
@@ -74,5 +76,10 @@ class UserNotification extends Model implements HasMedia
     public function userRead()
     {
         return $this->hasMany(UserReadNotification::class, 'notification_id', 'id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }
