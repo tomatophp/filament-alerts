@@ -1,0 +1,49 @@
+{
+    "name": "tomatophp/filament-alerts",
+    "type": "library",
+    "description": "Send notification to users using notification templates and multi notification channels",
+    "keywords": [
+        "php",
+        "laravel",
+        "notifications",
+        "filament",
+        "alets",
+        "TALL stack"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "TomatoPHP\\FilamentAlerts\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TomatoPHP\\FilamentAlerts\\FilamentAlertsServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Fady Mondy",
+            "email": "info@3x1.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1|^8.2",
+        "tomatophp/console-helpers": "^1.1",
+        "filament/filament": "^3.0.0",
+        "filament/notifications": "^3.0.0",
+        "tomatophp/filament-settings-hub": "^1.0",
+        "tomatophp/discord-notifications": "^1.0",
+        "tomatophp/fcm-notifications": "^1.0",
+        "tomatophp/pusher-notifications": "^1.0",
+        "tomatophp/messagebird-notifications": "^1.0",
+        "laravel/slack-notification-channel": "^3.2"
+    }
+}
