@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Resources;
 
+use Guava\FilamentIconPicker\Tables\IconColumn;
 use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 use TomatoPHP\FilamentAlerts\Resources\UserNotificationResource\Pages;
 use TomatoPHP\FilamentAlerts\Resources\UserNotificationResource\RelationManagers;
@@ -92,7 +93,7 @@ class UserNotificationResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('url')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('icon')
+                IconColumn::make('icon')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
                     ->searchable(),

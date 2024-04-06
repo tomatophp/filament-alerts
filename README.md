@@ -4,17 +4,120 @@
 
 Send notification to users using notification templates and multi notification channels
 
+## Screenshots
+
+![Screenshot](./arts/create-template.png)
+![Screenshot](./arts/notifications.png)
+![Screenshot](./arts/notify.png)
+![Screenshot](./arts/templates.png)
+
 ## Installation
+
+
+before use this package make sure you have installed 
+
+- [Filament Spatie Translatable](https://filamentphp.com/plugins/filament-spatie-translatable)
+- [Filament Spatie Media Library](https://filamentphp.com/plugins/filament-spatie-media-library)
+- [Filament Settings Hub](https://github.com/tomatophp/filament-settings-hub)
 
 ```bash
 composer require tomatophp/filament-alerts
 ```
+
 after install your package please run this command
 
 ```bash
 php artisan filament-alerts:install
 ```
 
+## Usage
+
+to set up any model to get notifications you
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use TomatoPHP\FilamentAlerts\Traits\InteractsWithNotifications;
+
+class User extends Authenticatable
+{
+    use HasApiTokens;
+    use HasFactory;
+    use HasProfilePhoto;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
+    use HasRoles;
+    use InteractsWithNotifications;
+    ...
+```
+
+and you must set the settings for FCM to get real-time notification
+
+### Queue
+
+the notification is run on queue, so you must run the queue worker to send the notifications
+
+```bash
+php artisan queue:work
+```
+
+### Notification Service
+
+to create a new template you can use template CRUD and make sure that the template key is unique because you will use it on every single notification.
+
+### Send Notification
+
+to send a notification you must use our helper SendNotification::class like
+
+```php
+SendNotification::make($template->providers)
+    ->template($template->key)
+    ->findTitle($matchesTitle)
+    ->replaceTitle($titleFill)
+    ->findBody($matchesBody)
+    ->replaceBody($titleBody)
+    ->model(User::class)
+    ->id(User::first()->id)
+    ->privacy('private')
+    ->fire();
+```
+
+where `$template` is selected of the template by key and $matchesTitle and $matchesBody is an array of matches to replace the template and $titleFill and $titleBody are an array of values to replace the matches
+
+
+### Notification Channels
+
+you can use multiple notification channels like
+
+- Email
+- SMS
+- FCM
+- Pusher
+- Database
+- Slack
+- Discord
+
+it can be working with direct user methods like
+
+```php
+$user->notifySMSMisr(string $message);
+$user->notifyEmail(string $message, ?string $subject = null, ?string $url = null);
+$user->notifyFCMSDK(string $message, string $type='web', ?string $title=null, ?string $url=null, ?string $image=null, ?string $icon=null, ?array $data=[]);
+$user->notifyPusherSDK(string $token, string $title, string $message);
+$user->notifyDB(string $message, ?string $title=null, ?string $url =null);
+$user->notifySlack(string $title,string $message=null,?string $url=null, ?string $image=null, ?string $webhook=null);
+$user->notifyDiscord(string $title,string $message=null,?string $url=null, ?string $image=null, ?string $webhook=null);
+```
 ## Publish Assets
 
 you can publish config file by use this command
