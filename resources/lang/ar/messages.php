@@ -55,5 +55,35 @@ return [
             "created_at" => "تم إنشاءه في",
             "updated_at" => "تم تحديثه في",
         ]
+    ],
+    "settings" => [
+        "group" => "التنبيهات",
+        "firebase" => [
+            "title" => "إعدادات فايربيز",
+            "description" => "تحديث الاعدادات الخاصة بالفايربيز",
+            "notifications_allow" => "تفعيل التنبيهات",
+            "fcm_apiKey" => "FCM API Key",
+            "fcm_authDomain" => "FCM Auth Domain",
+            "fcm_projectId" => "FCM Project Id",
+            "fcm_storageBucket" => "FCM Storage Bucket",
+            "fcm_messagingSenderId" => "FCM Messaging Sender Id",
+            "fcm_appId" => "FCM App Id",
+            "fcm_measurementId" => "FCM Measurement Id",
+            "fcm_cr" => "FCM Admin Json",
+            "fcm_database_url" => "FCM Database Url",
+            "fcm_vapid" => "FCM Vapid",
+        ],
+        "email" => [
+            "title" => "إعدادات البريد الالكتروني",
+            "description" => "تحديث وربط البريد الالكتروني",
+            "mail_mailer" => "Mailer",
+            "mail_host" => "Host",
+            "mail_port" => "Port",
+            "mail_username" => "Username",
+            "mail_password" => "Password",
+            "mail_encryption" => "Encryption",
+            "mail_from_address" => "From address",
+            "mail_from_name" => "From Name",
+        ]
     ]
 ];

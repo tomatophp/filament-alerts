@@ -32,7 +32,7 @@ class EmailSettingsPage extends SettingsPage
     protected function getActions(): array
     {
         return [
-            Action::make('back')->action(fn()=> redirect()->route('filament.admin.pages.settings-hub'))->color('danger')->label(trans('filament-settings-hub::messages.back')),
+            Action::make('back')->action(fn()=> redirect()->route('filament.admin.pages.settings-hub'))->color('danger')->label(trans('filament-alerts::messages.back')),
         ];
     }
 
@@ -46,29 +46,29 @@ class EmailSettingsPage extends SettingsPage
         return [
             Grid::make(['default' => 1])->schema([
                 TextInput::make('mail_mailer')
-                    ->label(trans('filament-settings-hub::messages.settings.mail_mailer'))
-                    ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_mailer")': null),
+                    ->label(trans('filament-alerts::messages.settings.email.mail_mailer'))
+                    ->hint(config('filament-alerts.show_hint') ?'setting("mail_mailer")': null),
                 TextInput::make('mail_host')
-                    ->label(trans('filament-settings-hub::messages.settings.mail_host'))
-                    ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_host")': null),
+                    ->label(trans('filament-alerts::messages.settings.email.mail_host'))
+                    ->hint(config('filament-alerts.show_hint') ?'setting("mail_host")': null),
                 TextInput::make('mail_port')
-                    ->label(trans('filament-settings-hub::messages.settings.mail_port'))
-                    ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_port")': null),
+                    ->label(trans('filament-alerts::messages.settings.email.mail_port'))
+                    ->hint(config('filament-alerts.show_hint') ?'setting("mail_port")': null),
                 TextInput::make('mail_username')
-                    ->label(trans('filament-settings-hub::messages.settings.mail_username'))
-                    ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_username")': null),
+                    ->label(trans('filament-alerts::messages.settings.email.mail_username'))
+                    ->hint(config('filament-alerts.show_hint') ?'setting("mail_username")': null),
                 TextInput::make('mail_password')
-                    ->label(trans('filament-settings-hub::messages.settings.mail_password'))
-                    ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_password")': null),
+                    ->label(trans('filament-alerts::messages.settings.email.mail_password'))
+                    ->hint(config('filament-alerts.show_hint') ?'setting("mail_password")': null),
                 TextInput::make('mail_encryption')
-                    ->label(trans('filament-settings-hub::messages.settings.mail_encryption'))
-                    ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_encryption")': null),
+                    ->label(trans('filament-alerts::messages.settings.email.mail_encryption'))
+                    ->hint(config('filament-alerts.show_hint') ?'setting("mail_encryption")': null),
                 TextInput::make('mail_from_address')
-                    ->label(trans('filament-settings-hub::messages.settings.mail_from_address'))
-                    ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_from_address")': null),
+                    ->label(trans('filament-alerts::messages.settings.email.mail_from_address'))
+                    ->hint(config('filament-alerts.show_hint') ?'setting("mail_from_address")': null),
                 TextInput::make('mail_from_name')
-                    ->label(trans('filament-settings-hub::messages.settings.mail_from_name'))
-                    ->hint(config('filament-settings-hub.show_hint') ?'setting("mail_from_name")': null),
+                    ->label(trans('filament-alerts::messages.settings.email.mail_from_name'))
+                    ->hint(config('filament-alerts.show_hint') ?'setting("mail_from_name")': null),
             ])
 
         ];

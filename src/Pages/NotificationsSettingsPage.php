@@ -25,7 +25,7 @@ class NotificationsSettingsPage extends SettingsPage
 
     public function getTitle(): string
     {
-        return trans('filament-alerts::messages.settings.notifications.title');
+        return trans('filament-alerts::messages.settings.firebase.title');
     }
 
     protected function getActions(): array
@@ -45,37 +45,37 @@ class NotificationsSettingsPage extends SettingsPage
         return [
             Grid::make(['default' => 1])->schema([
                 Checkbox::make('notifications_allow')
-                    ->label(trans('filament-settings-hub::messages.settings.notifications_allow'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.notifications_allow'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("notifications_allow")': null),
                 TextInput::make('fcm_apiKey')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_apiKey'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_apiKey'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_apiKey")': null),
                 TextInput::make('fcm_authDomain')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_authDomain'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_authDomain'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_authDomain")': null),
                 TextInput::make('fcm_projectId')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_projectId'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_projectId'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_projectId")': null),
                 TextInput::make('fcm_storageBucket')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_storageBucket'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_storageBucket'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_storageBucket")': null),
                 TextInput::make('fcm_messagingSenderId')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_messagingSenderId'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_messagingSenderId'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_messagingSenderId")': null),
                 TextInput::make('fcm_appId')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_appId'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_appId'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_appId")': null),
                 TextInput::make('fcm_measurementId')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_measurementId'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_measurementId'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_measurementId")': null),
                 FileUpload::make('fcm_cr')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_cr'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_cr'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_cr")': null),
                 TextInput::make('fcm_database_url')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_database_url'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_database_url'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_database_url")': null),
                 TextInput::make('fcm_vapid')
-                    ->label(trans('filament-settings-hub::messages.settings.fcm_vapid'))
+                    ->label(trans('filament-alerts::messages.settings.firebase.fcm_vapid'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_vapid")': null),
             ])
 

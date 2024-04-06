@@ -57,17 +57,17 @@ class FilamentAlertsServiceProvider extends ServiceProvider
     {
         FilamentSettingsHub::register([
             SettingHold::make()
-                ->label('Firebase Settings')
+                ->label('filament-alerts::messages.settings.firebase.title')
                 ->icon('heroicon-o-fire')
                 ->route('filament.admin.pages.notifications-settings-page')
-                ->description('Update Firebase Settings')
-                ->group('Notifications'),
+                ->description('filament-alerts::messages.settings.firebase.description')
+                ->group('filament-alerts::messages.settings.group'),
             SettingHold::make()
-                ->label('Email Settings')
+                ->label('filament-alerts::messages.settings.email.title')
                 ->icon('heroicon-o-envelope')
                 ->route('filament.admin.pages.email-settings-page')
-                ->description('Update Email Provider Settings')
-                ->group('Notifications'),
+                ->description('filament-alerts::messages.settings.email.description')
+                ->group('filament-alerts::messages.settings.group'),
         ]);
 
 

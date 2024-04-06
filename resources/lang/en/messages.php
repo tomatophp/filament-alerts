@@ -55,5 +55,35 @@ return [
             "created_at" => "Created At",
             "updated_at" => "Updated At",
         ]
+    ],
+    "settings" => [
+        "group" => "Notifications",
+        "firebase" => [
+            "title" => "Firebase Settings",
+            "description" => "Update firebase connection settings",
+            "notifications_allow" => "Allow Notifications",
+            "fcm_apiKey" => "FCM API Key",
+            "fcm_authDomain" => "FCM Auth Domain",
+            "fcm_projectId" => "FCM Project Id",
+            "fcm_storageBucket" => "FCM Storage Bucket",
+            "fcm_messagingSenderId" => "FCM Messaging Sender Id",
+            "fcm_appId" => "FCM App Id",
+            "fcm_measurementId" => "FCM Measurement Id",
+            "fcm_cr" => "FCM Admin Json",
+            "fcm_database_url" => "FCM Database Url",
+            "fcm_vapid" => "FCM Vapid",
+        ],
+        "email" => [
+            "title" => "Email Settings",
+            "description" => "Update email provider connection settings",
+            "mail_mailer" => "Mailer",
+            "mail_host" => "Host",
+            "mail_port" => "Port",
+            "mail_username" => "Username",
+            "mail_password" => "Password",
+            "mail_encryption" => "Encryption",
+            "mail_from_address" => "From address",
+            "mail_from_name" => "From Name",
+        ]
     ]
 ];
