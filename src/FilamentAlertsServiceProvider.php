@@ -59,13 +59,13 @@ class FilamentAlertsServiceProvider extends ServiceProvider
             SettingHold::make()
                 ->label('filament-alerts::messages.settings.firebase.title')
                 ->icon('heroicon-o-fire')
-                ->route('filament.admin.pages.notifications-settings-page')
+                ->route('filament.'.filament()->getCurrentPanel()->getId().'.pages.notifications-settings-page')
                 ->description('filament-alerts::messages.settings.firebase.description')
                 ->group('filament-alerts::messages.settings.group'),
             SettingHold::make()
                 ->label('filament-alerts::messages.settings.email.title')
                 ->icon('heroicon-o-envelope')
-                ->route('filament.admin.pages.email-settings-page')
+                ->route('filament.'.filament()->getCurrentPanel()->getId().'.pages.email-settings-page')
                 ->description('filament-alerts::messages.settings.email.description')
                 ->group('filament-alerts::messages.settings.group'),
         ]);
