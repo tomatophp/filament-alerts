@@ -1,4 +1,4 @@
-![Screenshot](https://github.com/tomatophp/filament-alerts/blob/master/filament/content/plugins/images/3x1io-tomato-alerts.jpg)
+![Screenshot](https://github.com/tomatophp/filament-alerts/blob/master/arts/3x1io-tomato-alerts.jpg)
 
 # Filament Alerts Sender
 
