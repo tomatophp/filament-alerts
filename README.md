@@ -1,6 +1,11 @@
+![Screenshot](https://github.com/tomatophp/filament-alerts/blob/master/filament/content/plugins/images/3x1io-tomato-alerts.jpg)
+
 # Filament Alerts Sender
 
-![Screenshot](https://github.com/tomatophp/filament-alerts/blob/master/filament/content/plugins/images/3x1io-tomato-alerts.jpg)
+[![Latest Stable Version](https://poser.pugx.org/tomatophp/filament-alerts/version.svg)](https://packagist.org/packages/tomatophp/filament-alerts)
+[![PHP Version Require](http://poser.pugx.org/tomatophp/filament-alerts/require/php)](https://packagist.org/packages/tomatophp/filament-alerts)
+[![License](https://poser.pugx.org/tomatophp/filament-alerts/license.svg)](https://packagist.org/packages/tomatophp/filament-alerts)
+[![Downloads](https://poser.pugx.org/tomatophp/filament-alerts/d/total.svg)](https://packagist.org/packages/tomatophp/filament-alerts)
 
 Send notification to users using notification templates and multi notification channels
 
