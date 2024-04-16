@@ -1,6 +1,6 @@
 # Filament Alerts Sender
 
-![Screenshot](https://github.com/tomatophp/filament-alerts/raw/master/filament/content/plugins/images/3x1io-tomato-alerts.png)
+![Screenshot](https://github.com/tomatophp/filament-alerts/blob/master/filament/content/plugins/images/3x1io-tomato-alerts.jpg)
 
 Send notification to users using notification templates and multi notification channels
 
