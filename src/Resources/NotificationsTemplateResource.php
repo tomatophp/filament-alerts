@@ -15,10 +15,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Guava\FilamentIconPicker\Forms\IconPicker;
-use Guava\FilamentIconPicker\Tables\IconColumn;
 use Filament\Resources\Concerns\Translatable;
 use TomatoPHP\FilamentAlerts\Services\SendNotification;
+use TomatoPHP\FilamentIcons\Components\IconColumn;
+use TomatoPHP\FilamentIcons\Components\IconPicker;
 
 
 class NotificationsTemplateResource extends Resource
