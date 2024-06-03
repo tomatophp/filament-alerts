@@ -1,4 +1,4 @@
-![Screenshot](https://github.com/tomatophp/filament-alerts/blob/master/arts/3x1io-tomato-alerts.jpg)
+![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/3x1io-tomato-alerts.jpg)
 
 # Filament Alerts Sender
 
@@ -11,10 +11,10 @@ Send notification to users using notification templates and multi notification c
 
 ## Screenshots
 
-![Screenshot](https://github.com/tomatophp/filament-alerts/raw/master/arts/create-template.png)
-![Screenshot](https://github.com/tomatophp/filament-alerts/raw/master/arts/notifications.png)
-![Screenshot](https://github.com/tomatophp/filament-alerts/raw/master/arts/notify.png)
-![Screenshot](https://github.com/tomatophp/filament-alerts/raw/master/arts/templates.png)
+![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/create-template.png)
+![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/notifications.png)
+![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/notify.png)
+![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/templates.png)
 
 ## Installation
 
