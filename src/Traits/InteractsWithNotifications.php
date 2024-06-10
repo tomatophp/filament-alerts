@@ -19,7 +19,13 @@ use TomatoPHP\FilamentAlerts\Models\UserToken;
 
 trait InteractsWithNotifications
 {
-    public function notifySMSMisr(string $message): void
+
+    protected ?string $fcm;
+    protected ?int $fcmId;
+
+    public function notifySMSMisr(
+        string $message
+    ): void
     {
         dispatch(new NotifySMSMisrJob([
             'phone' => $this->phone,
@@ -27,16 +33,25 @@ trait InteractsWithNotifications
         ]));
     }
 
-    public function notifyEmail(string $message, ?string $subject = null, ?string $url = null)
+    public function notifyEmail(
+        string $message,
+        ?string $subject = null,
+        ?string $url = null
+    )
     {
         dispatch(new NotifyEmailJob([
             'email' => $this->email,
             'subject' => $subject,
             'message' => $message,
+            'url' => $url
         ]));
     }
 
-    public function notifyDB(string $message, ?string $title=null, ?string $url =null)
+    public function notifyDB(
+        string $message,
+        ?string $title=null,
+        ?string $url =null
+    )
     {
         dispatch(new NotifyDatabaseJob([
             'model_type' => get_called_class(),
@@ -47,7 +62,13 @@ trait InteractsWithNotifications
         ]));
     }
 
-    public function notifySlack(string $title,string $message=null,?string $url=null, ?string $image=null, ?string $webhook=null)
+    public function notifySlack(
+        string $title,
+        string $message=null,
+        ?string $url=null,
+        ?string $image=null,
+        ?string $webhook=null
+    )
     {
         dispatch(new NotifySlackJob([
             'webhook' => $webhook,
@@ -58,7 +79,13 @@ trait InteractsWithNotifications
         ]));
     }
 
-    public function notifyDiscord(string $title,string $message=null,?string $url=null, ?string $image=null, ?string $webhook=null)
+    public function notifyDiscord(
+        string $title,
+        string $message=null,
+        ?string $url=null,
+        ?string $image=null,
+        ?string $webhook=null
+    )
     {
         dispatch(new NotifyDiscordJob([
             'webhook' => $webhook,
@@ -69,7 +96,15 @@ trait InteractsWithNotifications
         ]));
     }
 
-    public function notifyFCMSDK(string $message, string $type='web', ?string $title=null, ?string $url=null, ?string $image=null, ?string $icon=null, ?array $data=[])
+    public function notifyFCMSDK(
+        string $message,
+        string $type='web',
+        ?string $title=null,
+        ?string $url=null,
+        ?string $image=null,
+        ?string $icon=null,
+        ?array $data=[]
+    )
     {
         dispatch(new NotifyFCMJob([
             'user' => $this,
@@ -83,7 +118,11 @@ trait InteractsWithNotifications
         ]));
     }
 
-    public function notifyPusherSDK(string $token, string $title, string $message)
+    public function notifyPusherSDK(
+        string $token,
+        string $title,
+        string $message
+    )
     {
         dispatch(new NotifyPusherJob([
             'user' => $this,
@@ -126,6 +165,13 @@ trait InteractsWithNotifications
     public function getUserNotifications()
     {
         return $this->morphMany(UserNotification::class, 'model');
+    }
+
+    public function setFCM(?string $type='fcm-web'): static
+    {
+        $this->fcm = $type;
+        $this->fcmId = $this->id;
+        return $this;
     }
 
     public function userTokensFcm()

@@ -11,11 +11,6 @@ class ListUserNotifications extends ListRecords
 {
     protected static string $resource = UserNotificationResource::class;
 
-    public function getTitle():string
-    {
-        return "Notifications";
-    }
-
     protected function getHeaderActions(): array
     {
         return [

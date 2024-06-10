@@ -5,6 +5,7 @@ return [
     "back" => "Back",
     "notifications" => [
         "title" => "Notifications",
+        "single" => "Notification",
         "create" => "Create Notification",
         "logs" => "Logs",
         "form" => [
@@ -19,6 +20,7 @@ return [
     ],
     "templates" => [
         "title" => "Templates",
+        "single" => "Template",
         "create" => "Create Template",
         "edit" => "Edit Template",
         "actions" => [
@@ -58,6 +60,7 @@ return [
     ],
     "settings" => [
         "group" => "Notifications",
+        "notifications_sound" => "Notifications Sound",
         "firebase" => [
             "title" => "Firebase Settings",
             "description" => "Update firebase connection settings",

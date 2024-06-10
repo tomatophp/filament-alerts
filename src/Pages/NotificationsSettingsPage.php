@@ -7,6 +7,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Actions\Action;
 use Filament\Pages\SettingsPage;
 use Filament\Forms\Components\Grid;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Sitemap\SitemapGenerator;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
@@ -47,6 +48,9 @@ class NotificationsSettingsPage extends SettingsPage
                 Checkbox::make('notifications_allow')
                     ->label(trans('filament-alerts::messages.settings.firebase.notifications_allow'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("notifications_allow")': null),
+                FileUpload::make('notifications_sound')
+                    ->label(trans('filament-alerts::messages.settings.notifications_sound'))
+                    ->hint(config('filament-settings-hub.show_hint') ?'setting("notifications_sound")': null),
                 TextInput::make('fcm_apiKey')
                     ->label(trans('filament-alerts::messages.settings.firebase.fcm_apiKey'))
                     ->hint(config('filament-settings-hub.show_hint') ?'setting("fcm_apiKey")': null),

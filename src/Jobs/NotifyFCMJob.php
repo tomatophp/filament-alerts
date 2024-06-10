@@ -54,10 +54,7 @@ class NotifyFCMJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->user->fcm = $this->type;
-        $this->user->fcmId = $this->user->id;
-
-        $this->user->notify(new FCMNotificationService(
+        $this->user->setFCM($this->type)->notify(new FCMNotificationService(
             $this->message,
             $this->type,
             $this->title,

@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Services\Actions;
 
+use Filament\Notifications\Notification;
 use TomatoPHP\FilamentAlerts\Models\UserNotification;
 
 trait SendToDatabase
@@ -31,6 +32,19 @@ trait SendToDatabase
             $notification->privacy = $this->privacy;
             $notification->created_by = auth()->user()->id;
             $notification->save();
+
+            Notification::make($notification->id)
+                ->title($notification->title)
+                ->body($notification->description)
+                ->icon($notification->icon)
+                ->color($notification->type)
+                ->actions($notification->url ? [
+                    \Filament\Notifications\Actions\Action::make('view')
+                        ->label('View')
+                        ->url($notification->url)
+                        ->markAsRead()
+                ] : [])
+                ->sendToDatabase($notification->model_type::find($notification->model_id));
 
             return true;
         }catch (\Exception $exception){

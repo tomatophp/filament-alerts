@@ -14,6 +14,7 @@ use NotificationChannels\Fcm\Resources\ApnsConfig;
 use NotificationChannels\Fcm\Resources\AndroidConfig;
 use NotificationChannels\Fcm\Resources\ApnsFcmOptions;
 use NotificationChannels\Fcm\Resources\AndroidFcmOptions;
+use NotificationChannels\Fcm\Resources\Notification as FcmNotification;
 use NotificationChannels\Fcm\Resources\WebpushFcmOptions;
 use NotificationChannels\Fcm\Resources\AndroidNotification;
 use NotificationChannels\Messagebird\MessagebirdChannel;
@@ -22,6 +23,7 @@ use NotificationChannels\PusherPushNotifications\PusherChannel;
 use NotificationChannels\PusherPushNotifications\PusherMessage;
 use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Discord\DiscordMessage;
+use TomatoPHP\FilamentAlerts\Jobs\NotifySlackJob;
 
 class NotificationService extends Notification
 {
@@ -37,7 +39,7 @@ class NotificationService extends Notification
     public ?string $provider;
     public ?string $phone;
     public ?string $email;
-    public ?string $data;
+    public ?array $data;
     /**
      * Create a new notification instance.
      *
@@ -56,7 +58,7 @@ class NotificationService extends Notification
         $modelId = null,
         $phone = null,
         $email = null,
-        $data = null,
+        $data = [],
     )
     {
         $this->title = $title;
@@ -122,41 +124,64 @@ class NotificationService extends Notification
 
     public function toFcm($notifiable): FcmMessage
     {
-        return FcmMessage::create()
-            ->setData([
-                'title' => $this->title,
-                'message' => $this->message,
+        $data = [];
+        if(is_array($this->data)){
+            $data = [
+                'id' => $this->data['id']??null,
+                'actions' => $this->data['actions']?json_encode($this->data['actions']):null,
+                'body' => $this->message,
+                'color' => $this->data['color']??null,
+                'duration' => $this->data['duration']??null,
                 'icon' => $this->icon,
-                'url' => $this->url,
-                'image' => $this->image,
-                'type' => $this->type,
-                'privacy' => $this->privacy,
-                'model' => (string)$this->model,
-                'model_id' => (string)$this->modelId,
-                'data' =>  $this->data??"" ,
-            ])
-            ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
-                ->setTitle($this->title)
-                ->setBody($this->message)
-                ->setImage($this->image))
-            ->setWebpush(
-                \NotificationChannels\Fcm\Resources\WebpushConfig::create()
-                    ->setFcmOptions(WebpushFcmOptions::create()->setAnalyticsLabel('analytics'))
-            )
-            ->setAndroid(
-                AndroidConfig::create()
-                    ->setFcmOptions(AndroidFcmOptions::create()->setAnalyticsLabel('analytics'))
-                    ->setNotification(AndroidNotification::create()->setColor('#0A0A0A'))
-            )->setApns(
-                ApnsConfig::create()
-                    ->setFcmOptions(ApnsFcmOptions::create()->setAnalyticsLabel('analytics_ios'))
-                     ->setPayload([
-                        'aps' => [
-                            'mutable-content' => 1,
-                            'sound' => 'default',
-                        ],
-                    ])
-            );
+                'iconColor' => $this->data['iconColor']??null,
+                'status' => $this->data['status']??null,
+                'title' => $this->title,
+                'view' => $this->data['view']??null,
+                'viewData' => $this->data['viewData']?json_encode($this->data['viewData']):null,
+                'data' => $this->data['data']?json_encode($this->data['data']):null
+            ];
+        }
+        else {
+            $data = [
+                'id' => null,
+                'actions' => null,
+                'body' => $this->message,
+                'color' => null,
+                'duration' => null,
+                'icon' => $this->icon,
+                'iconColor' => null,
+                'status' => null,
+                'title' => $this->title,
+                'view' => null,
+                'viewData' => null,
+                'data' => null
+            ];
+        }
+        return (
+        new FcmMessage(
+            notification: new FcmNotification(
+                title: $this->title,
+                body: $this->message,
+                image: $this->image ?? null
+            ),
+            data: $data,
+            custom: [
+                'android' => [
+                    'notification' => [
+                        'color' => '#0A0A0A',
+                    ],
+                    'fcm_options' => [
+                        'analytics_label' => 'analytics',
+                    ],
+                ],
+                'apns' => [
+                    'fcm_options' => [
+                        'analytics_label' => 'analytics',
+                    ],
+                ],
+            ]
+        )
+        );
     }
 
     public function toPushNotification($notifiable): PusherMessage
@@ -195,14 +220,13 @@ class NotificationService extends Notification
 
     public function toSlack($notifiable): SlackMessage
     {
-        $message = $this->message;
-        return (new SlackMessage)
-            ->error()
-            ->content('Whoops! Something went wrong.')
-            ->attachment(function ($attachment) use ($message) {
-                $attachment->title('Error on project ' . config('app.name'))
-                    ->content($message);
-            });
+        NotifySlackJob::dispatch([
+            'webhook' => config('services.slack.webhook'),
+            'title' => $this->title,
+            'message' => $this->message,
+            'url' => $this->url,
+            'image' => $this->image,
+        ]);
     }
 
     public function toDiscord($notifiable): DiscordMessage

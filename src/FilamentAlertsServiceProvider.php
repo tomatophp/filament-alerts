@@ -2,8 +2,18 @@
 
 namespace TomatoPHP\FilamentAlerts;
 
+use Filament\Facades\Filament;
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Actions\ActionGroup;
+use Filament\Notifications\Notification;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View;
+use Livewire\Livewire;
+use TomatoPHP\FilamentAlerts\Livewire\Firebase;
 use TomatoPHP\FilamentSettingsHub\Facades\FilamentSettingsHub;
 use TomatoPHP\FilamentSettingsHub\Services\Contracts\SettingHold;
 
@@ -15,6 +25,7 @@ class FilamentAlertsServiceProvider extends ServiceProvider
         //Register generate command
         $this->commands([
            \TomatoPHP\FilamentAlerts\Console\FilamentAlertsInstall::class,
+           \TomatoPHP\FilamentAlerts\Console\FilamentAlertsFCM::class,
         ]);
 
         //Register Config file
@@ -51,45 +62,12 @@ class FilamentAlertsServiceProvider extends ServiceProvider
         //Register Routes
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
 
+        Livewire::component(Firebase::class);
+
     }
 
     public function boot(): void
     {
-        FilamentSettingsHub::register([
-            SettingHold::make()
-                ->label('filament-alerts::messages.settings.firebase.title')
-                ->icon('heroicon-o-fire')
-                ->route('filament.'.filament()->getCurrentPanel()->getId().'.pages.notifications-settings-page')
-                ->description('filament-alerts::messages.settings.firebase.description')
-                ->group('filament-alerts::messages.settings.group'),
-            SettingHold::make()
-                ->label('filament-alerts::messages.settings.email.title')
-                ->icon('heroicon-o-envelope')
-                ->route('filament.'.filament()->getCurrentPanel()->getId().'.pages.email-settings-page')
-                ->description('filament-alerts::messages.settings.email.description')
-                ->group('filament-alerts::messages.settings.group'),
-        ]);
 
-
-        try {
-            Config::set('mail.mailers.smtp', [
-                'transport' => setting('mail_mailer'),
-                'host' => setting('mail_host'),
-                'port' => setting('mail_port'),
-                'encryption' => setting('mail_encryption'),
-                'username' => setting('mail_username'),
-                'password' => setting('mail_password'),
-                'timeout' => null,
-                'auth_mode' => null,
-            ]);
-
-            Config::set('mail.from', [
-                'address' => setting('mail_from_address'),
-                'name' => setting('mail_from_name'),
-            ]);
-
-        } catch (\Exception $e) {
-            \Log::error($e);
-        }
     }
 }

@@ -40,11 +40,19 @@ class NotificationsTemplateResource extends Resource
     {
         return trans('filament-alerts::messages.templates.title');
     }
+    public static function getLabel(): ?string
+    {
+        return trans('filament-alerts::messages.templates.single');
+    }
 
+    public static function getPluralLabel(): ?string
+    {
+        return trans('filament-alerts::messages.templates.title');
+    }
 
     public static function getTranslatableLocales(): array
     {
-        return ['en', 'ar'];
+        return array_keys(filament('filament-alerts')->lang);
     }
 
     public static function form(Form $form): Form
@@ -139,7 +147,17 @@ class NotificationsTemplateResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('action')
+                    ->label(trans('filament-alerts::messages.templates.form.action'))
+                    ->searchable()
+                    ->options([
+                        'manual' => trans('filament-alerts::messages.templates.form.manual'),
+                        'system' => trans('filament-alerts::messages.templates.form.system'),
+                    ]),
+                Tables\Filters\SelectFilter::make('type')
+                    ->label(trans('filament-alerts::messages.templates.form.type'))
+                    ->searchable()
+                    ->options(collect(config('filament-alerts.types'))->pluck('name', 'id')->toArray()),
             ])
             ->actions([
                 Tables\Actions\Action::make('clone')

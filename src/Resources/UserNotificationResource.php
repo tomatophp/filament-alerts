@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\Concerns\Translatable;
 
-
 class UserNotificationResource extends Resource
 {
     use Translatable;
@@ -34,6 +33,16 @@ class UserNotificationResource extends Resource
     }
 
     public static function getTitle(): string
+    {
+        return trans('filament-alerts::messages.notifications.title');
+    }
+    
+    public static function getLabel(): ?string
+    {
+        return trans('filament-alerts::messages.notifications.single');
+    }
+    
+    public static function getPluralLabel(): ?string
     {
         return trans('filament-alerts::messages.notifications.title');
     }

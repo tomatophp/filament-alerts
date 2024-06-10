@@ -2,6 +2,8 @@
 
 namespace TomatoPHP\FilamentAlerts\Services\Actions;
 
+use Filament\Notifications\Notification;
+
 trait FireEvent
 {
     /**
@@ -56,6 +58,21 @@ trait FireEvent
                         if ($this->database || in_array('database', $this->providers)) {
                             $this->sendToDatabase();
                         }
+
+                        if (in_array('reverb', $this->providers)) {
+                            Notification::make($this->id)
+                                ->title($this->title)
+                                ->body($this->message)
+                                ->icon($this->icon)
+                                ->color($this->type)
+                                ->actions($this->url ? [
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label('View')
+                                        ->url($this->url)
+                                        ->markAsRead()
+                                ] : [])
+                                ->broadcast($this->model::find($this->id));
+                        }
                         /*
                          * Fire a job
                          */
@@ -71,6 +88,21 @@ trait FireEvent
                      */
                     if ($this->database || in_array('database', $this->providers)) {
                         $this->sendToDatabase();
+                    }
+
+                    if (in_array('reverb', $this->providers)) {
+                        Notification::make($this->id)
+                            ->title($this->title)
+                            ->body($this->message)
+                            ->icon($this->icon)
+                            ->color($this->type)
+                            ->actions($this->url ? [
+                                \Filament\Notifications\Actions\Action::make('view')
+                                    ->label('View')
+                                    ->url($this->url)
+                                    ->markAsRead()
+                            ] : [])
+                            ->broadcast($this->model::find($this->id));
                     }
 
                     /*
@@ -102,11 +134,39 @@ trait FireEvent
                         if ($this->database || in_array('database', $this->providers)) {
                             $this->sendToDatabase();
                         }
+                        if (in_array('reverb', $this->providers)) {
+                            Notification::make($this->id)
+                                ->title($this->title)
+                                ->body($this->message)
+                                ->icon($this->icon)
+                                ->color($this->type)
+                                ->actions($this->url ? [
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label('View')
+                                        ->url($this->url)
+                                        ->markAsRead()
+                                ] : [])
+                                ->broadcast($this->model::find($this->id));
+                        }
                         $this->sendToJob();
                     }
                 } else {
                     if ($this->database || in_array('database', $this->providers)) {
                         $this->sendToDatabase();
+                    }
+                    if (in_array('reverb', $this->providers)) {
+                        Notification::make($this->id)
+                            ->title($this->title)
+                            ->body($this->message)
+                            ->icon($this->icon)
+                            ->color($this->type)
+                            ->actions($this->url ? [
+                                \Filament\Notifications\Actions\Action::make('view')
+                                    ->label('View')
+                                    ->url($this->url)
+                                    ->markAsRead()
+                            ] : [])
+                            ->broadcast($this->model::find($this->id));
                     }
                     $this->sendToJob();
                 }

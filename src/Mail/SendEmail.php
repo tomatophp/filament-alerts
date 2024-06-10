@@ -47,7 +47,7 @@ class SendEmail extends Mailable
     public function content()
     {
         return new Content(
-            view: config('tomato-notifications.email.template') ?? 'tomato-notifications::email.template',
+            view: config('filament-alerts.email.template') ?? 'filament-alerts::email.template',
             with: ['content' => $this->content, 'url'=> $this->url],
         );
     }

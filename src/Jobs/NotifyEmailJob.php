@@ -21,6 +21,7 @@ class NotifyEmailJob implements ShouldQueue
     public ?string $email;
     public ?string $subject;
     public ?string $message;
+    public ?string $url;
     /**
      * Create a new notification instance.
      *

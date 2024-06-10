@@ -1,14 +1,20 @@
 {
     "name": "tomatophp/filament-alerts",
     "type": "library",
-    "description": "Send notification to users using notification templates and multi notification channels",
+    "description": "Send notification to users using notification templates and multi notification channels, it's support Filament Native Notification Service with macro, and a full integration to FCM service worker notifications",
     "keywords": [
         "php",
         "laravel",
         "notifications",
         "filament",
         "alets",
-        "TALL stack"
+        "TALL stack",
+        "fcm",
+        "discord",
+        "slack",
+        "email",
+        "database",
+        "reverb"
     ],
     "license": "MIT",
     "autoload": {

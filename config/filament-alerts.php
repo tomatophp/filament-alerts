@@ -70,12 +70,8 @@ return [
             "id" => "fcm-api"
         ],
         [
-            "name" => 'Pusher Web',
-            "id" => "pusher-web"
-        ],
-        [
-            "name" => 'Pusher Mobile',
-            "id" => "pusher-api"
+            "name" => 'Reverb',
+            "id" => "reverb"
         ],
         [
             "name" => 'SMS MessageBird',

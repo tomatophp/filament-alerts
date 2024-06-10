@@ -22,8 +22,8 @@ class NotifySlackJob implements ShouldQueue
     public ?string $webhook;
     public ?string $title;
     public ?string $message;
-    public ?string $url;
-    public ?string $image;
+    public ?string $url=null;
+    public ?string $image=null;
     /**
      * Create a new notification instance.
      *
@@ -34,8 +34,8 @@ class NotifySlackJob implements ShouldQueue
         $this->webhook = $arrgs['webhook'];
         $this->title = $arrgs['title'];
         $this->message  = $arrgs['message'];
-        $this->url  = $arrgs['url'];
-        $this->image  = $arrgs['image'];
+        $this->url  = $arrgs['url']??null;
+        $this->image  = $arrgs['image']??null;
     }
 
     /**
@@ -68,7 +68,7 @@ class NotifySlackJob implements ShouldQueue
             }
 
 
-            if($image){
+            if($this->image){
                 $blocks['accessory'] = [
                     "type"=> "image",
                     "image_url"=> $this->image,

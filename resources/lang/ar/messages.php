@@ -5,6 +5,7 @@ return [
     "back" => "رجوع",
     "notifications" => [
         "title" => "التنبيهات",
+        "single" => "تنبيه",
         "create" => "إنشاء تنبيه",
         "logs" => "سجل التنبيهات",
         "form" => [
@@ -19,6 +20,7 @@ return [
     ],
     "templates" => [
         "title" => "القوالب",
+        "single" => "قالب",
         "create" => "إنشاء قالب",
         "edit" => "تعديل قالب",
         "actions" => [
@@ -58,6 +60,7 @@ return [
     ],
     "settings" => [
         "group" => "التنبيهات",
+        "notifications_sound" => "صوت التنبيهات",
         "firebase" => [
             "title" => "إعدادات فايربيز",
             "description" => "تحديث الاعدادات الخاصة بالفايربيز",
