@@ -12,11 +12,13 @@ class Firebase extends Component
     #[On('fcm-token')]
     public function fcmToken(string $token)
     {
-        $user = auth()->user();
-        $user->setFCM('fcm-web')->userTokensFcm()->firstOrCreate([
-            'provider' => 'fcm-web',
-            'provider_token' => $token
-        ]);
+        if(auth()->user()){
+            $user = auth()->user();
+            $user->setFCM('fcm-web')->userTokensFcm()->firstOrCreate([
+                'provider' => 'fcm-web',
+                'provider_token' => $token
+            ]);
+        }
     }
 
     #[On('fcm-notification')]
