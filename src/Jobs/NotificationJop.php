@@ -2,6 +2,8 @@
 
 namespace TomatoPHP\FilamentAlerts\Jobs;
 
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Actions\ActionGroup;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -57,13 +59,6 @@ class NotificationJop implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->provider === 'fcm-api' || $this->provider === 'fcm-web') {
-            $this->user->fcm = $this->provider;
-            $this->user->fcmId = $this->user->id;
-        } else {
-            $this->user->fcm = "fcm-api";
-            $this->user->fcmId = $this->user->id;
-        }
 
         if($this->provider === 'sms-misr'){
             if($this->user->phone){
@@ -80,6 +75,32 @@ class NotificationJop implements ShouldQueue
 
                 Http::post('https://smsmisr.com/api/SMS', $params)->json();
             }
+        }
+        else if ($this->provider === 'fcm-api' || $this->provider === 'fcm-web') {
+            $this->user->notifyFCMSDK(
+                message: $this->message,
+                type: $this->provider,
+                title: $this->title,
+                url: $this->url,
+                image: $this->image,
+                icon: $this->icon,
+                data: [
+                    'url' => $this->url,
+                    'id' => $this->model_id,
+                    'actions' => [],
+                    'body' => $this->message,
+                    'color' => null,
+                    'duration' => null,
+                    'icon' => $this->icon,
+                    'iconColor' => null,
+                    'status' => null,
+                    'title' => $this->title,
+                    'view' => null,
+                    'viewData' => null,
+                    'data'=> $this->data
+                ],
+                sendToDatabase: false
+            );
         }
         else {
             $this->user->notify(new NotificationService(

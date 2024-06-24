@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
      */
     class Notification
     {
-        public function sendToFCM(Model $user, array $data=[]): static {}
         public function sendToEmail(Model $user): static {}
         public function sendToSlack(Model $user): static {}
         public function sendToDiscord(Model $user): static {}

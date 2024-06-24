@@ -84,10 +84,6 @@ class NotificationService extends Notification
      */
     public function via(mixed $notifiable): array
     {
-        if ($this->provider === 'fcm-api' || $this->provider === 'fcm-web') {
-            return [FcmChannel::class];
-        }
-
         if ($this->provider === 'pusher-api' || $this->provider === 'pusher-web') {
             return [PusherChannel::class];
         }
@@ -120,68 +116,6 @@ class NotificationService extends Notification
     public function toMessagebird($notifiable): MessagebirdMessage
     {
         return (new MessagebirdMessage($this->message))->setRecipients($this->phone);
-    }
-
-    public function toFcm($notifiable): FcmMessage
-    {
-        $data = [];
-        if(is_array($this->data)){
-            $data = [
-                'id' => $this->data['id']??null,
-                'actions' => $this->data['actions']?json_encode($this->data['actions']):null,
-                'body' => $this->message,
-                'color' => $this->data['color']??null,
-                'duration' => $this->data['duration']??null,
-                'icon' => $this->icon,
-                'iconColor' => $this->data['iconColor']??null,
-                'status' => $this->data['status']??null,
-                'title' => $this->title,
-                'view' => $this->data['view']??null,
-                'viewData' => $this->data['viewData']?json_encode($this->data['viewData']):null,
-                'data' => $this->data['data']?json_encode($this->data['data']):null
-            ];
-        }
-        else {
-            $data = [
-                'id' => null,
-                'actions' => null,
-                'body' => $this->message,
-                'color' => null,
-                'duration' => null,
-                'icon' => $this->icon,
-                'iconColor' => null,
-                'status' => null,
-                'title' => $this->title,
-                'view' => null,
-                'viewData' => null,
-                'data' => null
-            ];
-        }
-        return (
-        new FcmMessage(
-            notification: new FcmNotification(
-                title: $this->title,
-                body: $this->message,
-                image: $this->image ?? null
-            ),
-            data: $data,
-            custom: [
-                'android' => [
-                    'notification' => [
-                        'color' => '#0A0A0A',
-                    ],
-                    'fcm_options' => [
-                        'analytics_label' => 'analytics',
-                    ],
-                ],
-                'apns' => [
-                    'fcm_options' => [
-                        'analytics_label' => 'analytics',
-                    ],
-                ],
-            ]
-        )
-        );
     }
 
     public function toPushNotification($notifiable): PusherMessage

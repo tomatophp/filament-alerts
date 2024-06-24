@@ -87,14 +87,6 @@ class FilamentAlertsPlugin implements Plugin
             "id" => "discord"
         ],
         [
-            "name" => 'FCM Web',
-            "id" => "fcm-web"
-        ],
-        [
-            "name" => 'FCM Mobile',
-            "id" => "fcm-api"
-        ],
-        [
             "name" => 'Reverb',
             "id" => "reverb"
         ],
@@ -271,45 +263,6 @@ class FilamentAlertsPlugin implements Plugin
         Config::set('filament-alerts.lang', count($this->lang)?$this->lang:[]);
         Config::set('filament-alerts.types', count($this->types)?$this->types:[]);
 
-        if($this->useFCM){
-            FilamentView::registerRenderHook(
-                PanelsRenderHook::BODY_END,
-                function (){
-                    return view('filament-alerts::firebase');
-                },
-            );
-
-            Notification::macro('sendToFCM', function (Model $user, array $data=[]): static
-            {
-                /** @var Notification $this */
-                $user->notifyFCMSDK(
-                    title: $this->title,
-                    message: $this->body,
-                    type: 'fcm-web',
-                    url: count($this->actions)? $this->actions[0]->getUrl()  : null,
-                    icon: $this->icon,
-                    data: [
-                        'url' => count($this->actions)? $this->actions[0]->getUrl()  : null,
-                        'id' => $this->getId(),
-                        'actions' => array_map(fn (Action | ActionGroup $action): array => $action->toArray(), $this->getActions()),
-                        'body' => $this->getBody(),
-                        'color' => $this->getColor(),
-                        'duration' => $this->getDuration(),
-                        'icon' => $this->getIcon(),
-                        'iconColor' => $this->getIconColor(),
-                        'status' => $this->getStatus(),
-                        'title' => $this->getTitle(),
-                        'view' => $this->getView(),
-                        'viewData' => $this->getViewData(),
-                        'data'=> $data
-                    ]
-                );
-
-                return $this;
-            });
-        }
-
-
         if($this->useEmail){
             Notification::macro('sendToEmail', function (Model $user): static
             {
@@ -364,6 +317,19 @@ class FilamentAlertsPlugin implements Plugin
 
                 return $this;
             });
+        }
+
+        if($this->useFCM){
+            $this->providers = array_merge($this->providers, [
+                [
+                    "name" => 'FCM Web',
+                    "id" => "fcm-web"
+                ],
+                [
+                    "name" => 'FCM Mobile',
+                    "id" => "fcm-api"
+                ],
+            ]);
         }
     }
 

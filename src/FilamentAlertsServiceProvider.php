@@ -25,7 +25,6 @@ class FilamentAlertsServiceProvider extends ServiceProvider
         //Register generate command
         $this->commands([
            \TomatoPHP\FilamentAlerts\Console\FilamentAlertsInstall::class,
-           \TomatoPHP\FilamentAlerts\Console\FilamentAlertsFCM::class,
         ]);
 
         //Register Config file
@@ -61,9 +60,6 @@ class FilamentAlertsServiceProvider extends ServiceProvider
 
         //Register Routes
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
-
-        Livewire::component(Firebase::class);
-
     }
 
     public function boot(): void

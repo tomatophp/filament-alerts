@@ -183,10 +183,43 @@ to make FCM Notification Work you need to install [Filament Settings Hub](https:
 )
 ```
 
-now go to settings hub and update FCM settings by add admin-auth.json file and update fcm settings than run this command
+than you need to install `filament-fcm` package by use this command
 
 ```bash
-php artisan filament-alerts:fcm
+composer require tomatophp/filament-fcm
+```
+
+and add the service provider plugin
+
+```php
+->plugin(\TomatoPHP\FilamentFcm\FilamentFcmPlugin::make())
+```
+
+now you need to update config
+
+
+```dotenv
+# Firebase Project
+FIREBASE_API_KEY=
+FIREBASE_AUTH_DOMAIN=
+FIREBASE_DATABASE_URL=
+FIREBASE_PROJECT_ID=
+FIREBASE_STORAGE_BUCKET=
+FIREBASE_MESSAGING_SENDER_ID=
+FIREBASE_APP_ID=
+FIREBASE_MEASUREMENT_ID=
+
+# Firebase Cloud Messaging
+FIREBASE_VAPID=
+
+# Firebase Alert Sound
+FCM_ALERT_SOUND=
+```
+
+than run this command
+
+```bash
+php artisan filament-fcm:install
 ```
 
 it will generate FCM worker for you to make notifications working on the background.

@@ -50,7 +50,6 @@
         "filament/spatie-laravel-translatable-plugin": "^3.2",
         "tomatophp/filament-settings-hub": "^1.0",
         "tomatophp/discord-notifications": "^1.0",
-        "tomatophp/fcm-notifications": "^1.0",
         "tomatophp/pusher-notifications": "^1.0",
         "tomatophp/messagebird-notifications": "^1.0",
         "laravel/slack-notification-channel": "^3.2"
