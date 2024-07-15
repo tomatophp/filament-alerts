@@ -178,7 +178,7 @@ to make FCM Notification Work you need to install [Filament Settings Hub](https:
 
 ```php
 ->plugin(\TomatoPHP\FilamentAlerts\FilamentAlertsPlugin::make()
-    ->useSettingHub()
+    ->useSettingsHub()
     ->useFCM()
 )
 ```
