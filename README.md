@@ -45,6 +45,12 @@ before use this package make sure you have installed
 composer require tomatophp/filament-alerts
 ```
 
+now you need to publish and migrate settings table
+
+```bash
+php artisan vendor:publish --provider="Spatie\LaravelSettings\LaravelSettingsServiceProvider" --tag="migrations"
+```
+
 after install your package please run this command
 
 ```bash
