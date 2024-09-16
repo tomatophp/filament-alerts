@@ -1,0 +1,29 @@
+{
+    "name": "FilamentAlerts",
+    "alias": "filament-alerts",
+    "description": {
+        "ar": "قم بإرسال التنبيهات المختلفة للمستخدمين عن طريق اكثر من مزود خدمة",
+        "en": "Send notifications to users using notification templates and multi-notification channels",
+        "gr": "Send notifications to users using notification templates and multi-notification channels",
+        "sp": "Send notifications to users using notification templates and multi-notification channels"
+    },
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "TomatoPHP\\FilamentAlerts\\FilamentAlertsServiceProvider"
+    ],
+    "files": [],
+    "title": {
+        "ar": "التنبيهات",
+        "en": "Alerts Sender",
+        "gr": "Alerts Sender",
+        "sp": "Alerts Sender"
+    },
+    "color": "#cc1448",
+    "icon": "heroicon-c-bell",
+    "placeholder": "https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/3x1io-tomato-alerts.jpg",
+    "type": "plugin",
+    "version": "v2.0.3",
+    "github" : "https://github.com/tomatophp/filament-alerts",
+    "docs" : "https://github.com/tomatophp/filament-alerts"
+}

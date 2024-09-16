@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "group" => "التنبيهات",
+    "group" => "الإعدادات",
     "back" => "رجوع",
     "notifications" => [
         "title" => "التنبيهات",

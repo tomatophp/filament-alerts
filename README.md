@@ -301,7 +301,6 @@ you can publish migrations file by use this command
 php artisan vendor:publish --tag="filament-alerts-migrations"
 ```
 
-
 ## Other Filament Packages
 
 Checkout our [Awesome TomatoPHP](https://github.com/tomatophp/awesome)

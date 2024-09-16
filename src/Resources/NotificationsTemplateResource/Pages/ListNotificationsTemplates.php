@@ -2,9 +2,11 @@
 
 namespace TomatoPHP\FilamentAlerts\Resources\NotificationsTemplateResource\Pages;
 
+use Filament\Pages\Actions\Action;
 use TomatoPHP\FilamentAlerts\Resources\NotificationsTemplateResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use TomatoPHP\FilamentAlerts\Resources\UserNotificationResource;
 
 class ListNotificationsTemplates extends ListRecords
 {
@@ -30,6 +32,10 @@ class ListNotificationsTemplates extends ListRecords
     {
         return [
             Actions\CreateAction::make()->label(trans('filament-alerts::messages.templates.create')),
+            Actions\Action::make('notifications')
+                ->action(fn()=> redirect()->to(UserNotificationResource::getUrl('index')))
+                ->color('danger')
+                ->label(trans('filament-alerts::messages.back')),
             Actions\LocaleSwitcher::make(),
         ];
     }

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "group" => "Notifications",
+    "group" => "Settings",
     "back" => "Back",
     "notifications" => [
         "title" => "Notifications",

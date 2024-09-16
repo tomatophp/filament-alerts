@@ -7,6 +7,7 @@ use Filament\Resources\Pages\ManageRecords;
 use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 use TomatoPHP\FilamentAlerts\Resources\NotificationsLogsResource;
 use Filament\Actions;
+use TomatoPHP\FilamentAlerts\Resources\UserNotificationResource;
 
 class ManageNotificationsLogs extends ManageRecords
 {
@@ -20,8 +21,10 @@ class ManageNotificationsLogs extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('notifications')->action(fn()=> redirect()->route('filament.admin.resources.user-notifications.index'))->color('danger')->label(trans('filament-alerts::messages.back')),
-
+            Action::make('notifications')
+                ->action(fn()=> redirect()->to(UserNotificationResource::getUrl('index')))
+                ->color('danger')
+                ->label(trans('filament-alerts::messages.back')),
         ];
     }
 }

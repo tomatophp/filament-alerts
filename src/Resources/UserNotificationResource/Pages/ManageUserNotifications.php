@@ -4,7 +4,10 @@ namespace TomatoPHP\FilamentAlerts\Resources\UserNotificationResource\Pages;
 
 use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\ManageRecords;
+use TomatoPHP\FilamentAlerts\Models\NotificationsLogs;
 use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
+use TomatoPHP\FilamentAlerts\Resources\NotificationsLogsResource;
+use TomatoPHP\FilamentAlerts\Resources\NotificationsTemplateResource;
 use TomatoPHP\FilamentAlerts\Resources\UserNotificationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -50,7 +53,20 @@ class ManageUserNotifications extends ManageRecords
                         ->fire();
                 })
                 ->label(trans('filament-alerts::messages.notifications.create')),
-            Action::make('logs')->action(fn()=> redirect()->route('filament.admin.resources.notifications-logs.index'))->color('info')->label(trans('filament-alerts::messages.notifications.logs')),
+            Action::make('templates')
+                ->icon('heroicon-o-document-text')
+                ->hiddenLabel()
+                ->action(fn()=> redirect()->to(NotificationsTemplateResource::getUrl('index')))
+                ->color('danger')
+                ->tooltip(trans('filament-alerts::messages.templates.title'))
+                ->label(trans('filament-alerts::messages.templates.title')),
+            Action::make('logs')
+                ->icon('heroicon-o-archive-box-arrow-down')
+                ->hiddenLabel()
+                ->action(fn()=> redirect()->to(NotificationsLogsResource::getUrl('index')))
+                ->color('info')
+                ->tooltip(trans('filament-alerts::messages.notifications.logs'))
+                ->label(trans('filament-alerts::messages.notifications.logs')),
         ];
     }
 
