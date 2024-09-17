@@ -226,15 +226,6 @@ class FilamentAlertsPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
-        if(class_exists(Module::class)){
-            if(\Nwidart\Modules\Facades\Module::find('FilamentAlerts')->isEnabled()){
-                $this->isActive = true;
-            }
-        }
-        else {
-            $this->isActive = true;
-        }
-
         if($this->isActive) {
             if (class_exists(FilamentSettingsHub::class) && $this->useSettingHub) {
                 FilamentSettingsHub::register([
