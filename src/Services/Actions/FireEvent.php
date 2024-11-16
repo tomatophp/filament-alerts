@@ -8,7 +8,7 @@ trait FireEvent
 {
     /**
      * @return void
-     * use to fire the event of notifications and send notification to queue
+     *              use to fire the event of notifications and send notification to queue
      */
     public function fire(): void
     {
@@ -46,7 +46,7 @@ trait FireEvent
                 /*
                  * Check if notification has Template
                  */
-                if (!empty($this->template)) {
+                if (! empty($this->template)) {
                     $loadTemplate = $this->loadTemplate();
                     /*
                      * Check if template is found
@@ -69,7 +69,7 @@ trait FireEvent
                                     \Filament\Notifications\Actions\Action::make('view')
                                         ->label('View')
                                         ->url($this->url)
-                                        ->markAsRead()
+                                        ->markAsRead(),
                                 ] : [])
                                 ->broadcast($this->model::find($this->id));
                         }
@@ -100,7 +100,7 @@ trait FireEvent
                                 \Filament\Notifications\Actions\Action::make('view')
                                     ->label('View')
                                     ->url($this->url)
-                                    ->markAsRead()
+                                    ->markAsRead(),
                             ] : [])
                             ->broadcast($this->model::find($this->id));
                     }
@@ -111,12 +111,12 @@ trait FireEvent
                     $this->sendToJob();
                 }
             }
-        } else if ($this->privacy === 'private') {
+        } elseif ($this->privacy === 'private') {
 
             /*
              * Get user to send notification
              */
-            $this->user =  $this->model::find($this->id);
+            $this->user = $this->model::find($this->id);
             /*
              * Check if user exists
              */
@@ -128,7 +128,7 @@ trait FireEvent
                     app()->setLocale($this->lang);
                 }
 
-                if (!empty($this->template)) {
+                if (! empty($this->template)) {
                     $loadTemplate = $this->loadTemplate();
                     if ($loadTemplate) {
                         if ($this->database || in_array('database', $this->providers)) {
@@ -144,7 +144,7 @@ trait FireEvent
                                     \Filament\Notifications\Actions\Action::make('view')
                                         ->label('View')
                                         ->url($this->url)
-                                        ->markAsRead()
+                                        ->markAsRead(),
                                 ] : [])
                                 ->broadcast($this->model::find($this->id));
                         }
@@ -164,7 +164,7 @@ trait FireEvent
                                 \Filament\Notifications\Actions\Action::make('view')
                                     ->label('View')
                                     ->url($this->url)
-                                    ->markAsRead()
+                                    ->markAsRead(),
                             ] : [])
                             ->broadcast($this->model::find($this->id));
                     }

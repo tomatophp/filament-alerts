@@ -2,7 +2,6 @@
 
 namespace TomatoPHP\FilamentAlerts\Services\Notifications\Traits;
 
-
 use Illuminate\Support\Facades\App;
 use Modules\Accounts\Entities\Account;
 use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
@@ -10,7 +9,7 @@ use TomatoPHP\FilamentAlerts\Services\SendNotification;
 
 trait HandleNotificationsTrait
 {
-    public function sendNotification($ids, $template, $body = [], $bodyKeys = [], $title = [], $data)
+    public function sendNotification($ids, $template, $body, $bodyKeys, $title, $data)
     {
         $templateModel = NotificationsTemplate::where('key', $template)->first();
 
@@ -22,7 +21,7 @@ trait HandleNotificationsTrait
                 App::setLocale($account->lang);
                 $translated = [];
                 foreach ($body as $key) {
-//                if (gettype($key) == 'string')
+                    //                if (gettype($key) == 'string')
                     $translated[] = __($key);
                 }
 
@@ -33,7 +32,7 @@ trait HandleNotificationsTrait
                     ->replaceBody($translated ?? '')
                     ->model(Account::class)
                     ->id($account->id)
-                    ->url("khaleds")
+                    ->url('khaleds')
                     ->data(json_encode($data))
                     ->privacy('private')
                     ->database(true)

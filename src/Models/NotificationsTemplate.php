@@ -4,9 +4,9 @@ namespace TomatoPHP\FilamentAlerts\Models;
 
 use Eloquent as Model;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Models\Role;
 use Spatie\Translatable\HasTranslations;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 class NotificationsTemplate extends Model implements HasMedia
 {
@@ -14,6 +14,7 @@ class NotificationsTemplate extends Model implements HasMedia
     use InteractsWithMedia;
 
     const CREATED_AT = 'created_at';
+
     const UPDATED_AT = 'updated_at';
 
     public $translatable = ['title', 'body'];
@@ -28,19 +29,18 @@ class NotificationsTemplate extends Model implements HasMedia
         'icon',
         'type',
         'providers',
-        'action'
+        'action',
     ];
 
     protected $casts = [
-        "providers" => "array",
-        "title" => "array",
-        "body" => "array"
+        'providers' => 'json',
+        'title' => 'json',
+        'body' => 'json',
     ];
-
 
     public function roles()
     {
-        if(class_exists(Role::class)){
+        if (class_exists(Role::class)) {
             return $this->belongsToMany(Role::class, 'template_has_roles', 'template_id', 'role_id');
         }
     }

@@ -9,7 +9,7 @@ trait SendToDatabase
 {
     /**
      * @return bool
-     * use to save the notification into database
+     *              use to save the notification into database
      */
     public function sendToDatabase(): bool
     {
@@ -17,7 +17,7 @@ trait SendToDatabase
          * Save Notification To Database
          */
         try {
-            $notification = new UserNotification();
+            $notification = new UserNotification;
             $notification->title = $this->title;
             $notification->description = $this->message;
             $notification->icon = $this->icon;
@@ -42,14 +42,13 @@ trait SendToDatabase
                     \Filament\Notifications\Actions\Action::make('view')
                         ->label('View')
                         ->url($notification->url)
-                        ->markAsRead()
+                        ->markAsRead(),
                 ] : [])
                 ->sendToDatabase($notification->model_type::find($notification->model_id));
 
             return true;
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return false;
         }
     }
-
 }

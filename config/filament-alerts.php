@@ -1,110 +1,44 @@
 <?php
 
 return [
-    'types' => [
-        [
-            "name" => "Alert",
-            "id" => "alert",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
-        [
-            "name" => "Info",
-            "id" => "info",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
-        [
-            "name" => "Danger",
-            "id" => "danger",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
-        [
-            "name" => "Success",
-            "id" => "success",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
-        [
-            "name" => "Warring",
-            "id" => "warring",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
+    'lang' => [
+        'ar' => 'arabic',
+        'en' => 'english',
     ],
 
-    'provider' => "database",
+    'drivers' => [],
 
-    'models' => [
-        \App\Models\User::class => "Admins",
+    'predefined' => [
+        'types' => true,
+        'actions' => true,
+        'users' => true,
+        'drivers' => true
     ],
 
-    'providers' => [
-        [
-            "name" =>'Database',
-            "id" => "database"
-        ],
-        [
-            "name" =>'Email',
-            "id" => "email"
-        ],
-        [
-            "name" => 'SMS Misr',
-            "id" => "sms-misr"
-        ],
-        [
-            "name" =>'Slack',
-            "id" => "slack",
-        ],
-        [
-            "name" => 'Discord',
-            "id" => "discord"
-        ],
-        [
-            "name" => 'FCM Web',
-            "id" => "fcm-web"
-        ],
-        [
-            "name" => 'FCM Mobile',
-            "id" => "fcm-api"
-        ],
-        [
-            "name" => 'Reverb',
-            "id" => "reverb"
-        ],
-        [
-            "name" => 'SMS MessageBird',
-            "id" => "sms-messagebird"
-        ]
-
-    ],
-
-    "lang" => [
-        "ar" => "arabic",
-        "en" => "english"
-    ],
-
-    "email" => [
+    'email' => [
         "template" => null
     ],
 
-    "drivers" => [
-        "sms-misr" => [
-            "environment" => env('SMS_MISR_ENV', 1),
-            "username" => env('SMS_MISR_USERNAME'),
-            "password" => env('SMS_MISR_PASSWORD'),
-            "sender" => env('SMS_MISR_SENDER'),
-            "language" => env('SMS_MISR_LANGUAGE', 1),
+
+    'resource' => [
+        'table' => [
+            'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateTable::class,
+            'filters' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateFilters::class,
+            'actions' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateActions::class,
+            'header-actions' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateHeaderActions::class,
+            'bulkActions' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateBulkActions::class,
         ],
-        "slack" => [
-            "webhook" => env('SLACK_WEBHOOK'),
+        'form' => [
+            'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form\NotificationsTemplateForm::class,
         ],
-        "discord" => [
-            "webhook" => env('DISCORD_WEBHOOK'),
-        ]
+        'infolist' => [
+            'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Infolist\NotificationsTemplateInfoList::class,
+        ],
+        'pages' => [
+            'list' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ManagePageActions::class,
+            'create' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\CreatePageActions::class,
+            'edit' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\EditPageActions::class,
+            'view' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ViewPageActions::class,
+        ],
     ],
-
-
-    "api-model" => \App\Models\User::class
 ];

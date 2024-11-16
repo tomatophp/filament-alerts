@@ -2,18 +2,20 @@
 
 namespace TomatoPHP\FilamentAlerts\Events;
 
-
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
-
+use Illuminate\Queue\SerializesModels;
 
 class NotificationEvent
 {
-    use SerializesModels, Dispatchable;
+    use Dispatchable;
+    use SerializesModels;
 
     public $replacements;
+
     public $type;
+
     public $notified;
+
     public $data;
 
     /**

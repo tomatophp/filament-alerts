@@ -8,7 +8,7 @@ trait LoadTemplate
 {
     /**
      * @return bool
-     * use to load template and replace template tags
+     *              use to load template and replace template tags
      */
     public function loadTemplate(): bool
     {
@@ -16,7 +16,6 @@ trait LoadTemplate
          * Get Template By Key
          */
         $this->templateModel = NotificationsTemplate::where('key', $this->template)->first();
-
 
         /*
          * Find & Replace Key/Value
@@ -44,7 +43,7 @@ trait LoadTemplate
          */
         $this->type = $this->templateModel->type;
 
-        if(class_exists(Spatie\Permission\Models\Role::class)){
+        if (class_exists(Spatie\Permission\Models\Role::class)) {
             /*
            * Check Template For Roles
            */
@@ -60,14 +59,13 @@ trait LoadTemplate
                     if ($this->user->hasRole($collectRoles)) {
                         return true;
                     }
-                }catch (\Exception $exception){
+                } catch (\Exception $exception) {
                     return false;
                 }
 
                 return false;
             }
         }
-
 
         return true;
     }

@@ -2,44 +2,45 @@
 
 namespace TomatoPHP\FilamentAlerts\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Support\Facades\File;
-use NotificationChannels\Fcm\FcmChannel;
-use NotificationChannels\Fcm\FcmMessage;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use NotificationChannels\Fcm\Resources\ApnsConfig;
-use NotificationChannels\Fcm\Resources\AndroidConfig;
-use NotificationChannels\Fcm\Resources\ApnsFcmOptions;
-use NotificationChannels\Fcm\Resources\AndroidFcmOptions;
-use NotificationChannels\Fcm\Resources\Notification as FcmNotification;
-use NotificationChannels\Fcm\Resources\WebpushFcmOptions;
-use NotificationChannels\Fcm\Resources\AndroidNotification;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
+use NotificationChannels\Discord\DiscordChannel;
+use NotificationChannels\Discord\DiscordMessage;
 use NotificationChannels\Messagebird\MessagebirdChannel;
 use NotificationChannels\Messagebird\MessagebirdMessage;
 use NotificationChannels\PusherPushNotifications\PusherChannel;
 use NotificationChannels\PusherPushNotifications\PusherMessage;
-use NotificationChannels\Discord\DiscordChannel;
-use NotificationChannels\Discord\DiscordMessage;
 use TomatoPHP\FilamentAlerts\Jobs\NotifySlackJob;
 
 class NotificationService extends Notification
 {
     public ?string $title;
+
     public ?string $message;
+
     public ?string $icon;
+
     public ?string $url;
+
     public ?string $image;
+
     public ?string $type;
+
     public ?string $privacy;
+
     public ?string $model;
+
     public ?string $modelId;
+
     public ?string $provider;
+
     public ?string $phone;
+
     public ?string $email;
+
     public ?array $data;
+
     /**
      * Create a new notification instance.
      *
@@ -53,34 +54,30 @@ class NotificationService extends Notification
         $url,
         $type,
         $privacy,
-        $provider = "email",
+        $provider = 'email',
         $model = null,
         $modelId = null,
         $phone = null,
         $email = null,
         $data = [],
-    )
-    {
+    ) {
         $this->title = $title;
-        $this->message  = $message;
-        $this->icon  = $icon;
-        $this->url  = $url;
-        $this->image  = $image;
-        $this->type  = $type;
-        $this->privacy  = $privacy;
-        $this->model  = $model;
-        $this->modelId  = $modelId;
-        $this->provider  = $provider;
-        $this->phone  = $phone;
-        $this->email  = $email;
-        $this->data  = $data;
+        $this->message = $message;
+        $this->icon = $icon;
+        $this->url = $url;
+        $this->image = $image;
+        $this->type = $type;
+        $this->privacy = $privacy;
+        $this->model = $model;
+        $this->modelId = $modelId;
+        $this->provider = $provider;
+        $this->phone = $phone;
+        $this->email = $email;
+        $this->data = $data;
     }
 
     /**
      * Get the notification's delivery channels.
-     *
-     * @param mixed $notifiable
-     * @return array
      */
     public function via(mixed $notifiable): array
     {
@@ -165,7 +162,7 @@ class NotificationService extends Notification
 
     public function toDiscord($notifiable): DiscordMessage
     {
-        if (!empty($this->ref)) {
+        if (! empty($this->ref)) {
             return DiscordMessage::create($this->message, $this->ref);
         }
 

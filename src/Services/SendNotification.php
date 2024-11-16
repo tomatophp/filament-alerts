@@ -2,9 +2,6 @@
 
 namespace TomatoPHP\FilamentAlerts\Services;
 
-use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
-use TomatoPHP\FilamentAlerts\Models\UserNotification;
-use TomatoPHP\FilamentAlerts\Jobs\NotificationJop;
 use TomatoPHP\FilamentAlerts\Services\Actions\FireEvent;
 use TomatoPHP\FilamentAlerts\Services\Actions\LoadTemplate;
 use TomatoPHP\FilamentAlerts\Services\Actions\SendToDatabase;
@@ -33,39 +30,36 @@ use TomatoPHP\FilamentAlerts\Services\Concerns\IsDatabase;
 
 class SendNotification
 {
-    use HasTitle;
-    use HasMessage;
-    use HasType;
-    use HasProviders;
-    use HasPrivacy;
-    use HasUrl;
-    use HasImage;
-    use HasIcon;
-    use HasModel;
-    use HasTemplate;
-    use HasFindTitle;
-    use HasFindBody;
-    use HasReplaceTitle;
-    use HasReplaceBody;
-    use HasId;
-    use HasCreatedBy;
-    use HasUser;
-    use HasLang;
-    use HasTemplateModel;
-    use IsDatabase;
-
     /*
      * Actions
      */
     use FireEvent;
+    use HasCreatedBy;
+    use HasData;
+    use HasFindBody;
+    use HasFindTitle;
+    use HasIcon;
+    use HasId;
+    use HasImage;
+    use HasLang;
+    use HasMessage;
+    use HasModel;
+    use HasPrivacy;
+    use HasProviders;
+    use HasReplaceBody;
+    use HasReplaceTitle;
+    use HasTemplate;
+    use HasTemplateModel;
+    use HasTitle;
+    use HasType;
+    use HasUrl;
+
+    use HasUser;
+    use IsDatabase;
     use LoadTemplate;
     use SendToDatabase;
     use SendToJob;
-    use HasData;
-    /**
-     * @param ?array $providers
-     * @return static
-     */
+
     public static function make(?array $providers): static
     {
         return (new static)->providers($providers);

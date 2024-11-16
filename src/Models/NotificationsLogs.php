@@ -13,6 +13,7 @@ class NotificationsLogs extends Model implements HasMedia
     public $table = 'notifications_logs';
 
     const CREATED_AT = 'created_at';
+
     const UPDATED_AT = 'updated_at';
 
     public $fillable = [
@@ -22,12 +23,11 @@ class NotificationsLogs extends Model implements HasMedia
         'title',
         'description',
         'type',
-        'provider'
+        'provider',
     ];
 
     public function model()
     {
         return $this->morphTo();
     }
-
 }
