@@ -81,22 +81,6 @@ class NotificationService extends Notification
      */
     public function via(mixed $notifiable): array
     {
-        if ($this->provider === 'pusher-api' || $this->provider === 'pusher-web') {
-            return [PusherChannel::class];
-        }
-
-        if ($this->provider === 'slack') {
-            return ['slack'];
-        }
-
-        if ($this->provider === 'discord') {
-            return [DiscordChannel::class];
-        }
-
-        if ($this->provider === 'sms-messagebird') {
-            return [MessagebirdChannel::class];
-        }
-
         return ['mail'];
     }
 
@@ -108,64 +92,5 @@ class NotificationService extends Notification
             ->line($this->message)
             ->action('Open Link', $this->url)
             ->line('Thank you for using our application!');
-    }
-
-    public function toMessagebird($notifiable): MessagebirdMessage
-    {
-        return (new MessagebirdMessage($this->message))->setRecipients($this->phone);
-    }
-
-    public function toPushNotification($notifiable): PusherMessage
-    {
-        return PusherMessage::create()
-            ->web()
-            ->title($this->title)
-            ->link($this->url)
-            ->body($this->message)
-            ->setOption('icon', $this->icon)
-            ->setOption('image', $this->image)
-            ->setOption('type', $this->type)
-            ->setOption('privacy', $this->privacy)
-            ->setOption('model', $this->model)
-            ->setOption('model_id', $this->modelId)
-            ->setOption('data', $this->data)
-            ->withAndroid(
-                PusherMessage::create()
-                    ->IOS()
-                    ->icon($this->icon)
-                    ->badge(1)
-                    ->title($this->title)
-                    ->link($this->url)
-                    ->body($this->message)
-            )
-            ->withiOS(
-                PusherMessage::create()
-                    ->android()
-                    ->icon($this->icon)
-                    ->badge(1)
-                    ->title($this->title)
-                    ->link($this->url)
-                    ->body($this->message)
-            );
-    }
-
-    public function toSlack($notifiable): SlackMessage
-    {
-        NotifySlackJob::dispatch([
-            'webhook' => config('services.slack.webhook'),
-            'title' => $this->title,
-            'message' => $this->message,
-            'url' => $this->url,
-            'image' => $this->image,
-        ]);
-    }
-
-    public function toDiscord($notifiable): DiscordMessage
-    {
-        if (! empty($this->ref)) {
-            return DiscordMessage::create($this->message, $this->ref);
-        }
-
-        return DiscordMessage::create($this->message);
     }
 }

@@ -53,7 +53,7 @@ class SendAction extends Action
                     ->database(false)
                     ->privacy($data['privacy'])
                     ->model($data['model_type'])
-                    ->id($data['model_id'])
+                    ->id($data['model_id']??null)
                     ->fire();
 
 
