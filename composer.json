@@ -9,12 +9,8 @@
         "filament",
         "alets",
         "TALL stack",
-        "fcm",
-        "discord",
-        "slack",
         "email",
-        "database",
-        "reverb"
+        "database"
     ],
     "license": "MIT",
     "autoload": {
@@ -24,7 +20,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "TomatoPHP\\FilamentAlerts\\Tests\\": "tests/src/",
+            "TomatoPHP\\FilamentAlerts\\Tests\\Database\\Factories\\": "tests/database/factories",
+            "TomatoPHP\\FilamentAlerts\\Tests\\Database\\Seeders\\": "tests/database/seeders"
         }
     },
     "extra": {
@@ -40,18 +38,42 @@
             "email": "info@3x1.io"
         }
     ],
+    "scripts": {
+        "testbench": "vendor/bin/testbench package:discover --ansi",
+        "db": "vendor/bin/testbench package:create-sqlite-db && vendor/bin/testbench migrate",
+        "analyse": "vendor/bin/phpstan analyse src tests",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
     "require": {
         "php": "^8.1|^8.2",
         "tomatophp/console-helpers": "^1.1",
         "filament/filament": "^3.0.0",
         "filament/notifications": "^3.0.0",
-        "tomatophp/filament-icons": "^1.0",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "filament/spatie-laravel-translatable-plugin": "^3.2",
-        "tomatophp/filament-settings-hub": "^1.0",
-        "tomatophp/discord-notifications": "^1.0",
-        "tomatophp/pusher-notifications": "^1.0",
-        "tomatophp/messagebird-notifications": "^1.0",
-        "laravel/slack-notification-channel": "^3.2"
-    }
+        "tomatophp/filament-icons": "^1.0",
+        "tomatophp/filament-settings-hub": "^2.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "livewire/livewire": "^2.10|^3.0",
+        "nunomaduro/larastan": "^2.9",
+        "orchestra/testbench": "^9.5",
+        "pestphp/pest": "^2.36",
+        "pestphp/pest-plugin-laravel": "^2.4",
+        "pestphp/pest-plugin-livewire": "^2.1",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan-deprecation-rules": "^1.2",
+        "phpstan/phpstan-phpunit": "^1.4"
+    },
+    "version": "2.2.0"
 }

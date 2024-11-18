@@ -2,72 +2,135 @@
 
 namespace TomatoPHP\FilamentAlerts\Services;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
+use TomatoPHP\FilamentAlerts\Events\NotificationEvent;
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
-use TomatoPHP\FilamentAlerts\Models\UserNotification;
-use TomatoPHP\FilamentAlerts\Jobs\NotificationJop;
-use TomatoPHP\FilamentAlerts\Services\Actions\FireEvent;
-use TomatoPHP\FilamentAlerts\Services\Actions\LoadTemplate;
-use TomatoPHP\FilamentAlerts\Services\Actions\SendToDatabase;
-use TomatoPHP\FilamentAlerts\Services\Actions\SendToJob;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasCreatedBy;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasData;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasFindBody;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasFindTitle;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasIcon;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasId;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasImage;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasLang;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasMessage;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasModel;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasPrivacy;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasProviders;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasReplaceBody;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasReplaceTitle;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasTemplate;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasTemplateModel;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasTitle;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasType;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasUrl;
-use TomatoPHP\FilamentAlerts\Services\Concerns\HasUser;
-use TomatoPHP\FilamentAlerts\Services\Concerns\IsDatabase;
 
 class SendNotification
 {
-    use HasTitle;
-    use HasMessage;
-    use HasType;
-    use HasProviders;
-    use HasPrivacy;
-    use HasUrl;
-    use HasImage;
-    use HasIcon;
-    use HasModel;
-    use HasTemplate;
-    use HasFindTitle;
-    use HasFindBody;
-    use HasReplaceTitle;
-    use HasReplaceBody;
-    use HasId;
-    use HasCreatedBy;
-    use HasUser;
-    use HasLang;
-    use HasTemplateModel;
-    use IsDatabase;
+    protected string $template;
 
-    /*
-     * Actions
-     */
-    use FireEvent;
-    use LoadTemplate;
-    use SendToDatabase;
-    use SendToJob;
-    use HasData;
-    /**
-     * @param ?array $providers
-     * @return static
-     */
-    public static function make(?array $providers): static
+    protected ?string $model;
+
+    protected string | int | null $modelId = null;
+
+    protected array $drivers = [];
+
+    protected array $data = [];
+
+    protected array $title = [];
+
+    protected array $body = [];
+
+    public function __construct(public ?Model $user = null)
     {
-        return (new static)->providers($providers);
+        if ($user) {
+            $this->model = get_class($user);
+            $this->modelId = $user->id;
+        }
+    }
+
+    /**
+     * @return $this
+     */
+    public function template(int | string $template): static
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function model(string $model): static
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function modelId(int | string | null $modelId): static
+    {
+        $this->modelId = $modelId;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function drivers(array $drivers): static
+    {
+        $this->drivers = $drivers;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function data(array $data): static
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function title(array $title): static
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function body(array $body): static
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    public function send(): void
+    {
+        $template = NotificationsTemplate::query()
+            ->where('key', $this->template)
+            ->orWhere('id', $this->template)
+            ->first();
+        $drivers = $this->drivers ?: FilamentAlerts::loadDrivers()->whereIn('key', $template->providers)->pluck('driver')->toArray();
+        foreach ($drivers as $driver) {
+            $driver = FilamentAlerts::loadDrivers()->where('driver', $driver)->first();
+            if ($driver) {
+                Event::dispatch(new NotificationEvent([
+                    'driver' => $driver->driver,
+                    'template' => $this->template,
+                    'model' => $this->model,
+                    'modelId' => $this->modelId,
+                    'title' => $this->title,
+                    'body' => $this->body,
+                    'data' => $this->data,
+                ]));
+
+                app($driver->driver)->send(
+                    template: $this->template,
+                    model: $this->model,
+                    modelId: $this->modelId,
+                    title: $this->title,
+                    body: $this->body,
+                    data: $this->data
+                );
+            }
+        }
     }
 }

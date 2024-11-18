@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -19,7 +19,6 @@ return new class extends Migration
             //If Selected Record On the model
             $table->string('model_type');
             $table->unsignedBigInteger('model_id');
-
 
             $table->foreignId('notification_id')->constrained('user_notifications')->onDelete('cascade');
 

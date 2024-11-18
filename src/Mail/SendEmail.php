@@ -3,7 +3,6 @@
 namespace TomatoPHP\FilamentAlerts\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -11,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class SendEmail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new message instance.
@@ -20,11 +20,10 @@ class SendEmail extends Mailable
      */
     public function __construct(
         public string $content,
-        public ?string $title=null,
-        public ?string $url=null
-    )
-    {
-        $this->title = $title ?? "New Notification From ".config('app.name');
+        public ?string $title = null,
+        public ?string $url = null
+    ) {
+        $this->title = $title ?? 'New Notification From ' . config('app.name');
     }
 
     /**
@@ -48,7 +47,7 @@ class SendEmail extends Mailable
     {
         return new Content(
             view: config('filament-alerts.email.template') ?? 'filament-alerts::email.template',
-            with: ['content' => $this->content, 'url'=> $this->url],
+            with: ['content' => $this->content, 'url' => $this->url],
         );
     }
 }

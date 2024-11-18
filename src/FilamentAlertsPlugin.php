@@ -3,139 +3,57 @@
 namespace TomatoPHP\FilamentAlerts;
 
 use Filament\Contracts\Plugin;
-use Filament\Notifications\Actions\Action;
-use Filament\Notifications\Actions\ActionGroup;
 use Filament\Notifications\Notification;
 use Filament\Panel;
 use Filament\SpatieLaravelTranslatablePlugin;
-use Filament\Support\Facades\FilamentView;
-use Filament\View\PanelsRenderHook;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
-use Illuminate\View\View;
-use Nwidart\Modules\Module;
-use TomatoPHP\FilamentAlerts\Resources\NotificationsLogsResource;
-use TomatoPHP\FilamentAlerts\Resources\NotificationsTemplateResource;
-use TomatoPHP\FilamentAlerts\Resources\UserNotificationResource;
-use TomatoPHP\FilamentAlerts\Pages\EmailSettingsPage;
-use TomatoPHP\FilamentAlerts\Pages\NotificationsSettingsPage;
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
+use TomatoPHP\FilamentAlerts\Filament\Pages\EmailSettingsPage;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsLogsResource;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource;
+use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationAction;
+use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationDriver;
+use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationType;
+use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationUser;
+use TomatoPHP\FilamentAlerts\Services\Drivers\DatabaseDriver;
+use TomatoPHP\FilamentAlerts\Services\Drivers\EmailDriver;
 use TomatoPHP\FilamentSettingsHub\Facades\FilamentSettingsHub;
+use TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin;
 use TomatoPHP\FilamentSettingsHub\Services\Contracts\SettingHold;
-
 
 class FilamentAlertsPlugin implements Plugin
 {
-    private bool $isActive = false;
-
     public function getId(): string
     {
         return 'filament-alerts';
     }
 
-    public ?bool $useSettingHub = false;
-    public ?bool $hideNotificationsResource = false;
-    public ?array $types = [
-        [
-            "name" => "Alert",
-            "id" => "alert",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
-        [
-            "name" => "Info",
-            "id" => "info",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
-        [
-            "name" => "Danger",
-            "id" => "danger",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
-        [
-            "name" => "Success",
-            "id" => "success",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
-        [
-            "name" => "Warring",
-            "id" => "warring",
-            "color" => "#fff",
-            "icon" => "bx bxs-user"
-        ],
-    ];
-    public ?array $models = [
-        \App\Models\User::class => "Admins",
-    ];
-    public ?array $providers = [
-        [
-            "name" =>'Database',
-            "id" => "database"
-        ],
-        [
-            "name" =>'Email',
-            "id" => "email"
-        ],
-        [
-            "name" => 'SMS Misr',
-            "id" => "sms-misr"
-        ],
-        [
-            "name" =>'Slack',
-            "id" => "slack",
-        ],
-        [
-            "name" => 'Discord',
-            "id" => "discord"
-        ],
-        [
-            "name" => 'Reverb',
-            "id" => "reverb"
-        ],
-        [
-            "name" => 'SMS MessageBird',
-            "id" => "sms-messagebird"
-        ]
+    public ?bool $useSettingsHub = false;
 
-    ];
+    public ?bool $hideNotificationsResource = false;
+
     public ?array $lang = [
-        "ar" => "arabic",
-        "en" => "english"
+        'en' => 'English',
+        'ar' => 'Arabic',
     ];
-    public ?bool $useDatabase = true;
-    public ?bool $useFCM = false;
-    public ?bool $useSlack = false;
-    public ?bool $useDiscord = false;
-    public ?bool $useReverb = false;
-    public ?bool $useEmail= true;
-    public ?bool $useSMSMisr = false;
-    public ?bool $useMessageBird = false;
-    public ?string $apiModel = \App\Models\User::class;
 
     public function register(Panel $panel): void
     {
-        if(class_exists(Module::class) && \Nwidart\Modules\Facades\Module::find('FilamentAlerts')?->isEnabled()){
-            $this->isActive = true;
-        }
-        else {
-            $this->isActive = true;
-        }
+        $panel
+            ->plugin(SpatieLaravelTranslatablePlugin::make())
+            ->resources((! $this->hideNotificationsResource) ? [
+                NotificationsLogsResource::class,
+                NotificationsTemplateResource::class,
+            ] : []);
 
-        if($this->isActive) {
-
-            $panel
-                ->plugin(SpatieLaravelTranslatablePlugin::make())
-                ->resources((!$this->hideNotificationsResource) ? [
-                    NotificationsLogsResource::class,
-                    UserNotificationResource::class,
-                    NotificationsTemplateResource::class
-                ] : [])
-                ->pages($this->useSettingHub ? [
-                    NotificationsSettingsPage::class,
-                    EmailSettingsPage::class
-                ] : []);
+        if ($this->useSettingsHub) {
+            if (! $panel->hasPlugin('filament-settings-hub')) {
+                $panel->plugin(FilamentSettingsHubPlugin::make());
+            }
+            $panel->pages([
+                EmailSettingsPage::class,
+            ]);
         }
 
     }
@@ -143,212 +61,137 @@ class FilamentAlertsPlugin implements Plugin
     public function hideNotificationsResource(?bool $hideNotificationsResource = true): static
     {
         $this->hideNotificationsResource = $hideNotificationsResource;
+
         return $this;
     }
 
-    public function useSettingsHub(?bool $useSettingHub = true): static
+    public function useSettingsHub(?bool $useSettingsHub = true): static
     {
-        $this->useSettingHub = $useSettingHub;
-        return $this;
-    }
+        $this->useSettingsHub = $useSettingsHub;
 
-    public function types(?array $types = []): static
-    {
-        $this->types = $types;
-        return $this;
-    }
-
-    public function models(?array $models = []): static
-    {
-        $this->models = $models;
-        return $this;
-    }
-
-    public function providers(?array $providers = []): static
-    {
-        $this->providers = $providers;
         return $this;
     }
 
     public function lang(?array $lang = []): static
     {
         $this->lang = $lang;
-        return $this;
-    }
 
-    public function useDatabase(?bool $useDatabase = true): static
-    {
-        $this->useDatabase = $useDatabase;
-        return $this;
-    }
-
-    public function useFCM(?bool $useFCM = true): static
-    {
-        $this->useFCM = $useFCM;
-        return $this;
-    }
-
-    public function useSlack(?bool $useSlack = true): static
-    {
-        $this->useSlack = $useSlack;
-        return $this;
-    }
-
-    public function useDiscord(?bool $useDiscord = true): static
-    {
-        $this->useDiscord = $useDiscord;
-        return $this;
-    }
-
-    public function useReverb(?bool $useReverb = true): static
-    {
-        $this->useReverb = $useReverb;
-        return $this;
-    }
-
-    public function useEmail(?bool $useEmail = true): static
-    {
-        $this->useEmail = $useEmail;
-        return $this;
-    }
-
-    public function useSMSMisr(?bool $useSMSMisr = true): static
-    {
-        $this->useSMSMisr = $useSMSMisr;
-        return $this;
-    }
-
-    public function apiModel(?string $apiModel = \App\Models\User::class): static
-    {
-        $this->apiModel = $apiModel;
         return $this;
     }
 
     public function boot(Panel $panel): void
     {
-        if($this->isActive) {
-            if (class_exists(FilamentSettingsHub::class) && $this->useSettingHub) {
-                FilamentSettingsHub::register([
-                    SettingHold::make()
-                        ->label('filament-alerts::messages.settings.firebase.title')
-                        ->icon('heroicon-o-fire')
-                        ->page(NotificationsSettingsPage::class)
-                        ->order(2)
-                        ->description('filament-alerts::messages.settings.firebase.description')
-                        ->group('filament-alerts::messages.settings.group'),
-                    SettingHold::make()
-                        ->label('filament-alerts::messages.settings.email.title')
+        if (class_exists(FilamentSettingsHub::class) && $this->useSettingsHub) {
+            FilamentSettingsHub::register([
+                SettingHold::make()
+                    ->label('filament-alerts::messages.settings.email.title')
+                    ->icon('heroicon-o-envelope')
+                    ->page(EmailSettingsPage::class)
+                    ->order(2)
+                    ->description('filament-alerts::messages.settings.email.description')
+                    ->group('filament-alerts::messages.settings.group'),
+            ]);
+
+            try {
+                Config::set('mail.mailers.smtp', [
+                    'transport' => setting('mail_mailer'),
+                    'host' => setting('mail_host'),
+                    'port' => setting('mail_port'),
+                    'encryption' => setting('mail_encryption'),
+                    'username' => setting('mail_username'),
+                    'password' => setting('mail_password'),
+                    'timeout' => null,
+                    'auth_mode' => null,
+                ]);
+
+                Config::set('mail.from', [
+                    'address' => setting('mail_from_address'),
+                    'name' => setting('mail_from_name'),
+                ]);
+
+            } catch (\Exception $e) {
+                \Log::error($e);
+            }
+        }
+
+        Notification::macro('sendUse', function (Model $user, string $driver = EmailDriver::class, array $data = []): static {
+            /** @var Notification $this */
+            app($driver)->sendIt(
+                title: $this->getTitle(),
+                body: $this->getBody(),
+                icon: $this->getIcon(),
+                type: $this->getStatus(),
+                url: count($this->getActions()) ? $this->getActions()[0]->getUrl() ?? null : null,
+                model: get_class($user),
+                modelId: $user->id
+            );
+
+            return $this;
+        });
+
+        if (config('filament-alerts.predefined.users')) {
+            FilamentAlerts::register(
+                NotificationUser::make(config('filament-alerts.try.model'))
+                    ->label('User')
+                    ->icon('heroicon-o-user')
+                    ->color('primary')
+            );
+        }
+
+        if (config('filament-alerts.predefined.types')) {
+            FilamentAlerts::register(
+                [
+                    NotificationType::make('success')
+                        ->label('Success')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success'),
+                    NotificationType::make('danger')
+                        ->label('Danger')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger'),
+                    NotificationType::make('info')
+                        ->label('Info')
+                        ->icon('heroicon-o-information-circle')
+                        ->color('info'),
+                ]
+            );
+        }
+
+        if (config('filament-alerts.predefined.drivers')) {
+            FilamentAlerts::register(
+                [
+                    NotificationDriver::make('database')
+                        ->label('Database')
+                        ->color('primary')
+                        ->icon('heroicon-o-server-stack')
+                        ->driver(DatabaseDriver::class),
+                    NotificationDriver::make('email')
+                        ->label('Email')
+                        ->color('info')
                         ->icon('heroicon-o-envelope')
-                        ->page(EmailSettingsPage::class)
-                        ->order(2)
-                        ->description('filament-alerts::messages.settings.email.description')
-                        ->group('filament-alerts::messages.settings.group'),
-                ]);
+                        ->driver(EmailDriver::class),
+                ]
+            );
+        }
 
-
-                try {
-                    Config::set('mail.mailers.smtp', [
-                        'transport' => setting('mail_mailer'),
-                        'host' => setting('mail_host'),
-                        'port' => setting('mail_port'),
-                        'encryption' => setting('mail_encryption'),
-                        'username' => setting('mail_username'),
-                        'password' => setting('mail_password'),
-                        'timeout' => null,
-                        'auth_mode' => null,
-                    ]);
-
-                    Config::set('mail.from', [
-                        'address' => setting('mail_from_address'),
-                        'name' => setting('mail_from_name'),
-                    ]);
-
-                    Config::set('firebase.projects.app', [
-                        'credentials' => env('FIREBASE_CREDENTIALS', public_path('storage/' . setting('fcm_cr'))),
-                        'database' => [
-                            'url' => env('FIREBASE_DATABASE_URL', setting('fcm_database_url')),
-                        ]
-                    ]);
-
-                } catch (\Exception $e) {
-                    \Log::error($e);
-                }
-            }
-
-            Config::set('filament-alerts.provider', count($this->providers) ? $this->providers : []);
-            Config::set('filament-alerts.models', count($this->models) ? $this->models : []);
-            Config::set('filament-alerts.lang', count($this->lang) ? $this->lang : []);
-            Config::set('filament-alerts.types', count($this->types) ? $this->types : []);
-
-            if ($this->useEmail) {
-                Notification::macro('sendToEmail', function (Model $user): static {
-                    /** @var Notification $this */
-                    $user->notifyEmail(
-                        message: $this->body,
-                        subject: $this->title,
-                        url: count($this->actions) ? $this->actions[0]->getUrl() ?? null : null
-                    );
-
-                    return $this;
-                });
-            }
-
-            if ($this->useSlack) {
-                Notification::macro('sendToSlack', function (Model $user): static {
-                    /** @var Notification $this */
-                    $user->notifySlack(
-                        title: $this->title,
-                        message: $this->body,
-                        url: count($this->actions) ? $this->actions[0]->getUrl() : null,
-                        webhook: config('filament-alerts.drivers.slack.webhook')
-                    );
-
-                    return $this;
-                });
-            }
-
-            if ($this->useDiscord) {
-                Notification::macro('sendToDiscord', function (Model $user): static {
-                    /** @var Notification $this */
-                    $user->notifyDiscord(
-                        title: $this->title,
-                        message: $this->body,
-                        url: count($this->actions) ? $this->actions[0]->getUrl() : null,
-                        webhook: config('filament-alerts.drivers.discord.webhook')
-                    );
-
-                    return $this;
-                });
-            }
-
-            if ($this->useSMSMisr) {
-                Notification::macro('sendToSMSMisr', function (Model $user): static {
-                    /** @var Notification $this */
-                    $user->notifySMSMisr(
-                        message: $this->body
-                    );
-
-                    return $this;
-                });
-            }
-
-            if ($this->useFCM) {
-                $this->providers = array_merge($this->providers, [
-                    [
-                        "name" => 'FCM Web',
-                        "id" => "fcm-web"
-                    ],
-                    [
-                        "name" => 'FCM Mobile',
-                        "id" => "fcm-api"
-                    ],
-                ]);
-            }
+        if (config('filament-alerts.predefined.actions')) {
+            FilamentAlerts::register(
+                [
+                    NotificationAction::make('system')
+                        ->label('System')
+                        ->icon('heroicon-o-cog')
+                        ->color('primary'),
+                    NotificationAction::make('manual')
+                        ->label('Manual')
+                        ->icon('heroicon-o-hand')
+                        ->color('info'),
+                ]
+            );
         }
     }
 
-    public static function make(): static
+    public static function make(): FilamentAlertsPlugin
     {
-        return new static();
+        return new FilamentAlertsPlugin;
     }
 }

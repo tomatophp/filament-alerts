@@ -2,40 +2,23 @@
 
 namespace TomatoPHP\FilamentAlerts\Events;
 
-
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
-
+use Illuminate\Queue\SerializesModels;
 
 class NotificationEvent
 {
-    use SerializesModels, Dispatchable;
-
-    public $replacements;
-    public $type;
-    public $notified;
-    public $data;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($notified, $replacements, $type = '', $data = '')
-    {
-        $this->replacements = $replacements;
-        $this->type = $type;
-        $this->notified = $notified;
-        $this->data = $data;
-    }
+    public function __construct(public array $data) {}
 
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     */
     public function broadcastOn()
     {
-        return [];
+        return ['notifications'];
     }
 }

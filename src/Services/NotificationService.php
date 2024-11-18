@@ -2,47 +2,143 @@
 
 namespace TomatoPHP\FilamentAlerts\Services;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
+use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationAction;
+use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationDriver;
+use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationTemplate;
+use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationType;
+use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationUser;
+
 class NotificationService
 {
+    protected array $types = [];
 
+    protected array $drivers = [];
 
-    public function __construct(
-        private \TomatoPHP\FilamentAlerts\Models\UserToken $model
-    )
-    {}
+    protected array $actions = [];
 
-    public function update(string $token,int $id):void{
-        $deviceToken =    $this->model->where('model_id',$id)->first();
-        if($deviceToken){
-            $deviceToken->update([
-                'provider_token' =>  $token
-            ]);
+    protected array $templates = [];
 
+    protected array $users = [];
+
+    public function register(object | array $class): void
+    {
+        if (is_array($class)) {
+            foreach ($class as $item) {
+                $this->register($item);
+            }
+        } else {
+            if ($class instanceof NotificationType) {
+                $this->types[] = $class;
+            } elseif ($class instanceof NotificationDriver) {
+                $this->drivers[] = $class;
+            } elseif ($class instanceof NotificationAction) {
+                $this->actions[] = $class;
+            } elseif ($class instanceof NotificationTemplate) {
+                $this->templates[] = $class;
+            } elseif ($class instanceof NotificationUser) {
+                $this->users[] = $class;
+            }
         }
     }
 
-
-    public function store(string $token,int $id):void{
-
-        $this->model->updateOrCreate(
-            [
-                "model_id"=>$id,
-            ],
-            [
-                "model_type"=>'TomatoPHP\TomatoCrm\Models\Account',
-                "model_id"=>$id,
-                "provider"=>"fcm-api ",
-                "provider_token"=>$token
-            ]);
-
+    public function loadTypes(): Collection
+    {
+        return collect($this->types);
     }
 
-    public function delete( int $id):void{
-        $this->model->where('model_id',$id)->delete();
+    public function loadDrivers(): Collection
+    {
+        return collect($this->drivers);
     }
 
-    public function isChecked(int $id,string $class){
-        $this->model->where('model_id',$id)->delete();
+    public function loadActions(): Collection
+    {
+        return collect($this->actions);
+    }
 
+    public function loadTemplates(): Collection
+    {
+        return collect($this->templates);
+    }
+
+    public function loadUsers(): Collection
+    {
+        return collect($this->users);
+    }
+
+    public function notify(?Model $user = null): SendNotification
+    {
+        return new SendNotification($user);
+    }
+
+    /**
+     * @return bool|array
+     *                    use to load template and replace template tags
+     */
+    public function loadTemplate(
+        string | int $template,
+        array $title = [],
+        array $body = [],
+        ?Model $user = null
+    ): bool | NotificationTemplate {
+        /*
+         * Get Template By Key
+         */
+        $template = NotificationsTemplate::query()
+            ->where('key', $template)
+            ->orWhere('id', $template)
+            ->first();
+
+        if (! $template) {
+            return false;
+        }
+
+        /*
+         * Find & Replace Key/Value
+         */
+        $title = str_replace(array_keys($title) ?? '', array_values($title) ?? '', $template->title);
+        $body = str_replace(array_keys($body) ?? '', array_values($body) ?? '', $template->body);
+
+        /*
+         * Set Template Image
+         */
+        $image = count($template->getMedia('image')) ? $template->getMedia('image')->first()->getUrl() : null;
+
+        $notificationTemplate = NotificationTemplate::make($template->key)
+            ->title($title)
+            ->body($body)
+            ->icon($template->icon)
+            ->url($template->url)
+            ->image($image)
+            ->type($template->type);
+
+        if (class_exists(Spatie\Permission\Models\Role::class)) {
+            /*
+           * Check Template For Roles
+           */
+            $collectRoles = [];
+            foreach ($template->roles as $role) {
+                $collectRoles[] = $role->id;
+            }
+            if (count($collectRoles)) {
+                /*
+                 * If Current User Has Role
+                 */
+                try {
+                    if ($user->hasRole($collectRoles)) {
+                        return $notificationTemplate;
+                    }
+                } catch (\Exception $exception) {
+                    return false;
+                }
+
+                return false;
+            }
+        }
+
+        return $notificationTemplate;
     }
 }
