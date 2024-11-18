@@ -11,6 +11,9 @@
 
 Send notification to users using notification templates and multi notification channels, it's support Filament Native Notification Service with macro, and a full integration to FCM service worker notifications
 
+> [!CAUTION]
+> Don't update to v2.2 if you are using v2.0 or less because you will lose some features but you can update and use this features from integrated packages.
+
 ## Features
 
 - [x] Send Notification to users using drivers
