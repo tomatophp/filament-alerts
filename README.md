@@ -11,9 +11,6 @@
 
 Send notification to users using notification templates and multi notification channels, it's support Filament Native Notification Service with macro, and a full integration to FCM service worker notifications
 
-> [!CAUTION]
-> Don't update to v2.2 if you are using v2.0 or less because you will lose some features but you can update and use this features from integrated packages.
-
 ## Features
 
 - [x] Send Notification to users using drivers
@@ -24,6 +21,11 @@ Send notification to users using notification templates and multi notification c
 - [x] Hide Notifications Resources
 - [x] Use Database Driver
 - [x] Use Email Driver
+- [x] Custom Driver Register
+- [x] Custom Type Register
+- [x] Custom Action Register
+- [x] Multi Users Register
+- [ ] Register Notification Templates
 
 ## Screenshots
 
@@ -174,6 +176,140 @@ we have build a Email settings to change your SMTP settings direct from GUI to a
 ->plugin(\TomatoPHP\FilamentAlerts\FilamentAlertsPlugin::make()
     ->useSettingsHub()
 )
+```
+
+## Add Custom Driver
+
+you can add a custom driver follow up `Driver` abstract class like this
+
+```php
+<?php
+
+namespace TomatoPHP\FilamentAlerts\Services\Drivers;
+
+use TomatoPHP\FilamentAlerts\Jobs\NotifyDatabaseJob;
+
+class DatabaseDriver extends Driver
+{
+    public function setup(): void
+    {
+        // TODO: Implement setup() method.
+    }
+
+    public function sendIt(
+        string $title,
+        string $model,
+        int | string | null $modelId = null,
+        ?string $body = null,
+        ?string $url = null,
+        ?string $icon = null,
+        ?string $image = null,
+        ?string $type = 'info',
+        ?string $action = 'system',
+        ?array $data = [],
+        ?int $template_id = null,
+    ): void {
+        if ($modelId) {
+            dispatch(new NotifyDatabaseJob([
+                'model_type' => $model,
+                'modelId' => $modelId,
+                'title' => $title,
+                'body' => $body,
+                'url' => $url,
+                'icon' => $icon,
+                'type' => $type,
+                'action' => $action,
+                'data' => $data,
+                'template_id' => $template_id,
+            ]));
+        } else {
+            foreach ($model::all() as $user) {
+                dispatch(new NotifyDatabaseJob([
+                    'model_type' => $model,
+                    'modelId' => $user->id,
+                    'title' => $title,
+                    'body' => $body,
+                    'url' => $url,
+                    'icon' => $icon,
+                    'type' => $type,
+                    'action' => $action,
+                    'data' => $data,
+                    'template_id' => $template_id,
+                ]));
+            }
+        }
+
+    }
+}
+
+```
+
+
+then just use the facade service method in your service provider `boot()`
+
+```php
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
+
+public function boot() {
+    FilamentAlerts::register(
+        \TomatoPHP\FilamentAlerts\Services\Concerns\NotificationDriver::make('database')
+            ->label('Database')
+            ->color('primary')
+            ->icon('heroicon-o-bell')
+            ->driver(\TomatoPHP\FilamentAlerts\Services\Drivers\DatabaseDriver::class)
+    );
+} 
+```
+
+## Register Custom Type
+
+you can add a custom type using facade service method in your service provider `boot()`
+
+```php
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
+
+public function boot() {
+    FilamentAlerts::register(
+        \TomatoPHP\FilamentAlerts\Services\Concerns\NotificationType::make('system')
+            ->label('System')
+            ->color('primary')
+            ->icon('heroicon-o-bell')
+    );
+} 
+```
+
+## Register Custom Action
+
+you can add a custom action using facade service method in your service provider `boot()`
+
+```php
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
+
+public function boot() {
+    FilamentAlerts::register(
+        \TomatoPHP\FilamentAlerts\Services\Concerns\NotificationAction::make('system')
+            ->label('System')
+            ->color('primary')
+            ->icon('heroicon-o-bell')
+    );
+} 
+```
+
+## Register Custom User Type
+
+you can add a custom user type using facade service method in your service provider `boot()`
+
+```php
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
+
+public function boot() {
+    FilamentAlerts::register(
+        \TomatoPHP\FilamentAlerts\Services\Concerns\NotificationUser::make(User::class)
+            ->label('User')
+            ->color('primary')
+            ->icon('heroicon-o-bell')
+    );
+} 
 ```
 
 ## User Alerts Resource Hooks
