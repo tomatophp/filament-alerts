@@ -2,12 +2,15 @@
 
 namespace TomatoPHP\FilamentAlerts\Traits;
 
+use Illuminate\Notifications\Notifiable;
 use TomatoPHP\FilamentAlerts\Jobs\NotifyDatabaseJob;
 use TomatoPHP\FilamentAlerts\Jobs\NotifyEmailJob;
 use TomatoPHP\FilamentAlerts\Models\UserNotification;
 
 trait InteractsWithNotifications
 {
+    use Notifiable;
+
     public function notifyEmail(
         string $message,
         ?string $subject = null,
@@ -28,12 +31,13 @@ trait InteractsWithNotifications
     ) {
         dispatch(new NotifyDatabaseJob([
             'model_type' => get_called_class(),
-            'model_id' => $this->id,
-            'subject' => $title,
-            'message' => $message,
+            'modelId' => $this->id,
+            'title' => $title,
+            'body' => $message,
             'url' => $url,
         ]));
     }
+
     public function getUserNotifications()
     {
         return $this->morphMany(UserNotification::class, 'model');

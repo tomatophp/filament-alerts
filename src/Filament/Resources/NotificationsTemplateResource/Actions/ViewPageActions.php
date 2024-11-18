@@ -2,6 +2,8 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions;
 
+use Filament\Actions\LocaleSwitcher;
+
 final class ViewPageActions
 {
     use Contracts\CanRegister;
@@ -11,6 +13,7 @@ final class ViewPageActions
         return [
             Components\EditAction::make(),
             Components\DeleteAction::make(),
+            LocaleSwitcher::make(),
         ];
     }
 }

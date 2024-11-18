@@ -7,7 +7,6 @@ use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 
 class Providers extends Component
 {
-
     public static function make(): Forms\Components\Select
     {
         return Forms\Components\Select::make('providers')

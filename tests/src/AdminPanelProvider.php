@@ -16,6 +16,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use TomatoPHP\FilamentAlerts\FilamentAlertsPlugin;
+use TomatoPHP\FilamentAlerts\Tests\Resources\UserResource;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -32,6 +33,9 @@ class AdminPanelProvider extends PanelProvider
             ->plugin(
                 FilamentAlertsPlugin::make()
             )
+            ->resources([
+                UserResource::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

@@ -9,7 +9,7 @@ class Title extends Column
     public static function make(): Tables\Columns\TextColumn
     {
         return Tables\Columns\TextColumn::make('title')
-            ->description(fn($record) => $record->body)
+            ->description(fn ($record) => $record->body)
             ->label(trans('filament-alerts::messages.templates.form.title'))
             ->searchable();
     }

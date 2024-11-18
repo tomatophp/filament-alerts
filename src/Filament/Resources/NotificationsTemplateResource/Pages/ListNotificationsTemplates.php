@@ -2,17 +2,13 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages;
 
-use Filament\Actions;
-use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
-use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsLogsResource;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource;
 
 class ListNotificationsTemplates extends ListRecords
 {
     use ListRecords\Concerns\Translatable;
 
-    #[Reactive]
     public ?string $activeLocale = null;
 
     protected static string $resource = NotificationsTemplateResource::class;
@@ -29,16 +25,6 @@ class ListNotificationsTemplates extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make()->label(trans('filament-alerts::messages.templates.create')),
-            Action::make('logs')
-                ->icon('heroicon-o-archive-box-arrow-down')
-                ->hiddenLabel()
-                ->action(fn () => redirect()->to(NotificationsLogsResource::getUrl()))
-                ->color('info')
-                ->tooltip(trans('filament-alerts::messages.notifications.logs'))
-                ->label(trans('filament-alerts::messages.notifications.logs')),
-            Actions\LocaleSwitcher::make(),
-        ];
+        return config('filament-alerts.resource.pages.list')::make($this);
     }
 }

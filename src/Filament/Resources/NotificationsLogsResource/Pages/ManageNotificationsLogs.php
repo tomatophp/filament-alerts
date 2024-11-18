@@ -6,7 +6,6 @@ use Filament\Actions\Action;
 use Filament\Resources\Pages\ManageRecords;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsLogsResource;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource;
-use TomatoPHP\FilamentAlerts\Filament\Resources\UserNotificationResource;
 
 class ManageNotificationsLogs extends ManageRecords
 {

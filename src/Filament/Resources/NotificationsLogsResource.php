@@ -2,12 +2,11 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources;
 
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use TomatoPHP\FilamentAlerts\Models\NotificationsLogs;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsLogsResource\Pages;
+use TomatoPHP\FilamentAlerts\Models\NotificationsLogs;
 
 class NotificationsLogsResource extends Resource
 {
@@ -36,12 +35,12 @@ class NotificationsLogsResource extends Resource
             ->defaultSort('id', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')
-                    ->description(fn($record) => $record->created_at->diffForHumans())
+                    ->description(fn ($record) => $record->created_at->diffForHumans())
                     ->label(trans('filament-alerts::messages.logs.form.created_at'))
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('model.name')
-                    ->description(fn($record) => $record->model_type)
+                    ->description(fn ($record) => $record->model_type)
                     ->label(trans('filament-alerts::messages.logs.form.user'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')

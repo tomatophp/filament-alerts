@@ -6,7 +6,6 @@ use Filament\Forms;
 
 class Body extends Component
 {
-
     public static function make(): Forms\Components\Textarea
     {
         return Forms\Components\Textarea::make('body')

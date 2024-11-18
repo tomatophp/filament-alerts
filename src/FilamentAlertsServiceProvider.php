@@ -46,11 +46,9 @@ class FilamentAlertsServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/lang' => base_path('lang/vendor/filament-alerts'),
         ], 'filament-alerts-lang');
 
-        //Register Routes
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
         $this->app->bind('filament-alerts', function () {
-            return new NotificationService();
+            return new NotificationService;
         });
     }
 

@@ -2,10 +2,9 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form;
 
+use Filament\Forms;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Form;
-use Filament\Forms;
-use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 
 class NotificationsTemplateForm
 {
@@ -27,7 +26,7 @@ class NotificationsTemplateForm
                     Components\Key::make(),
                     Components\Type::make(),
                     Components\Providers::make(),
-                    Components\Action::make()
+                    Components\Action::make(),
                 ]),
             Forms\Components\Section::make('Notification Content')
                 ->description('The title and body of the notification')
@@ -35,15 +34,15 @@ class NotificationsTemplateForm
                 ->schema([
                     Components\Title::make(),
                     Components\Icon::make(),
-                    Components\Body::make()
+                    Components\Body::make(),
                 ]),
             Forms\Components\Section::make('Notification Media and URL')
                 ->description('The image and the URL to redirect the user to')
                 ->columns(2)
                 ->schema([
                     Components\Image::make(),
-                    Components\Url::make()
-                ])
+                    Components\Url::make(),
+                ]),
         ];
     }
 

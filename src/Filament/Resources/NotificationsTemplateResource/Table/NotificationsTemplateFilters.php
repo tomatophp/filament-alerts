@@ -18,7 +18,7 @@ class NotificationsTemplateFilters
     {
         return [
             Filters\Type::make(),
-            Filters\Action::make()
+            Filters\Action::make(),
         ];
     }
 

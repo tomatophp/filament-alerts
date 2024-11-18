@@ -2,6 +2,8 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions;
 
+use Filament\Actions\LocaleSwitcher;
+
 final class CreatePageActions
 {
     use Contracts\CanRegister;
@@ -9,7 +11,7 @@ final class CreatePageActions
     public function getDefaultActions(): array
     {
         return [
-            //
+            LocaleSwitcher::make(),
         ];
     }
 }

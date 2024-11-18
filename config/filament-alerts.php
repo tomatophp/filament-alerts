@@ -12,13 +12,12 @@ return [
         'types' => true,
         'actions' => true,
         'users' => true,
-        'drivers' => true
+        'drivers' => true,
     ],
 
     'email' => [
-        "template" => null
+        'template' => null,
     ],
-
 
     'resource' => [
         'table' => [
@@ -40,5 +39,9 @@ return [
             'edit' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\EditPageActions::class,
             'view' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ViewPageActions::class,
         ],
+    ],
+
+    'try' => [
+        'model' => \App\Models\User::class,
     ],
 ];

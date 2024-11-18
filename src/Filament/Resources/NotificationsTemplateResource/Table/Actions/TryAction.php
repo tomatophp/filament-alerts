@@ -2,11 +2,10 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\Actions;
 
-use App\Models\User;
 use Filament\Notifications\Notification;
 use Filament\Tables;
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
-use TomatoPHP\FilamentAlerts\Services\SendNotification;
 
 class TryAction extends Action
 {
@@ -22,26 +21,24 @@ class TryAction extends Action
                 preg_match('/{.*?}/', $record->title, $matchesTitle);
                 $titleFill = [];
                 foreach ($matchesTitle as $titleItem) {
-                    $titleFill[] = 'test-title';
+                    $titleFill[$titleItem] = 'test-title';
                 }
                 $matchesBody = [];
                 preg_match('/{.*?}/', $record->body, $matchesBody);
                 $titleBody = [];
                 foreach ($matchesBody as $bodyItem) {
-                    $titleBody[] = 'test-body';
+                    $titleBody[$bodyItem] = 'test-body';
                 }
 
                 try {
-                    SendNotification::make($record->providers)
-                        ->template($record->key)
-                        ->findTitle($matchesTitle)
-                        ->replaceTitle($titleFill)
-                        ->findBody($matchesBody)
-                        ->replaceBody($titleBody)
-                        ->model(User::class)
-                        ->id(User::first()->id)
-                        ->privacy('private')
-                        ->fire();
+                    $user = config('filament-alerts.try.model')::query()->first();
+                    if ($user) {
+                        FilamentAlerts::notify($user)
+                            ->template($record->id)
+                            ->title($titleFill)
+                            ->body($titleBody)
+                            ->send();
+                    }
 
                     Notification::make()
                         ->title(trans('filament-alerts::messages.templates.actions.try-notification'))

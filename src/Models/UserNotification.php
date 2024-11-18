@@ -2,7 +2,6 @@
 
 namespace TomatoPHP\FilamentAlerts\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -82,6 +81,6 @@ class UserNotification extends Model implements HasMedia
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by', 'id');
+        return $this->belongsTo(config('filament-alerts.try.model')::class, 'created_by', 'id');
     }
 }

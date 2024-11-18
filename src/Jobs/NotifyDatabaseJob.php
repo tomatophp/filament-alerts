@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Jobs;
 
+use Filament\Notifications\Notification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -19,13 +20,19 @@ class NotifyDatabaseJob implements ShouldQueue
 
     public ?string $model_type;
 
-    public ?int $model_id;
+    public int | string | null $modelId;
 
-    public ?string $subject;
+    public ?int $template_id = null;
 
-    public ?string $message;
+    public ?string $title;
+
+    public ?string $body;
 
     public ?string $url;
+
+    public ?string $icon;
+
+    public ?string $type;
 
     /**
      * Create a new notification instance.
@@ -35,10 +42,13 @@ class NotifyDatabaseJob implements ShouldQueue
     public function __construct($arrgs)
     {
         $this->model_type = $arrgs['model_type'];
-        $this->model_id = $arrgs['model_id'];
-        $this->subject = $arrgs['subject'];
-        $this->message = $arrgs['message'];
-        $this->url = $arrgs['url'];
+        $this->modelId = $arrgs['modelId'];
+        $this->body = $arrgs['body'];
+        $this->title = $arrgs['title'] ?? 'New Alert';
+        $this->url = $arrgs['url'] ?? '#';
+        $this->icon = $arrgs['icon'] ?? 'heroicon-o-information-circle';
+        $this->type = $arrgs['type'] ?? 'info';
+        $this->template_id = $arrgs['template_id'] ?? null;
     }
 
     /**
@@ -49,24 +59,39 @@ class NotifyDatabaseJob implements ShouldQueue
     public function handle()
     {
         $notification = new UserNotification;
-        $notification->title = $this->subject ?? 'New Alert';
-        $notification->description = $this->message;
-        $notification->icon = 'bx bx-bell';
-        $notification->type = 'info';
+        $notification->title = $this->title ?? 'New Alert';
+        $notification->description = $this->body;
+        $notification->template_id = $this->template_id;
+        $notification->icon = $this->icon;
+        $notification->type = $this->type;
         $notification->url = $this->url ?? '#';
         $notification->model_type = $this->model_type;
-        $notification->model_id = $this->model_id;
+        $notification->model_id = $this->modelId;
         $notification->privacy = 'private';
+        $notification->created_by = $this->modelId;
         $notification->save();
+
+        Notification::make($notification->id)
+            ->title($notification->title)
+            ->body($notification->description)
+            ->icon($notification->icon)
+            ->color($notification->type)
+            ->actions($notification->url ? [
+                \Filament\Notifications\Actions\Action::make('view')
+                    ->label('View')
+                    ->url($notification->url)
+                    ->markAsRead(),
+            ] : [])
+            ->sendToDatabase($notification->model_type::find($notification->model_id));
 
         if ($notification) {
             $log = new NotificationsLogs;
-            $log->title = $this->subject;
-            $log->description = $this->message;
+            $log->title = $this->title;
+            $log->description = $this->body;
             $log->model_type = $this->model_type;
-            $log->model_id = $this->model_id;
+            $log->model_id = $this->modelId;
             $log->provider = 'database';
-            $log->type = 'info';
+            $log->type = $this->type;
             $log->save();
         }
     }

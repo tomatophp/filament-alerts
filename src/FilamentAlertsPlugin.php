@@ -2,14 +2,12 @@
 
 namespace TomatoPHP\FilamentAlerts;
 
-use App\Models\User;
 use Filament\Contracts\Plugin;
 use Filament\Notifications\Notification;
 use Filament\Panel;
 use Filament\SpatieLaravelTranslatablePlugin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
-use Nwidart\Modules\Module;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 use TomatoPHP\FilamentAlerts\Filament\Pages\EmailSettingsPage;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsLogsResource;
@@ -25,8 +23,6 @@ use TomatoPHP\FilamentSettingsHub\Services\Contracts\SettingHold;
 
 class FilamentAlertsPlugin implements Plugin
 {
-    private bool $isActive = false;
-
     public function getId(): string
     {
         return 'filament-alerts';
@@ -36,18 +32,10 @@ class FilamentAlertsPlugin implements Plugin
 
     public ?bool $hideNotificationsResource = false;
 
-    public ?array $types = [];
-
-    public ?array $models = [];
-
-    public ?array $providers = [];
-
     public ?array $lang = [
-        "en" => "English",
-        "ar" => "Arabic"
+        'en' => 'English',
+        'ar' => 'Arabic',
     ];
-
-    public ?string $apiModel = \App\Models\User::class;
 
     public function register(Panel $panel): void
     {
@@ -76,34 +64,12 @@ class FilamentAlertsPlugin implements Plugin
         return $this;
     }
 
-    public function types(?array $types = []): static
-    {
-        $this->types = $types;
-
-        return $this;
-    }
-
-    public function models(?array $models = []): static
-    {
-        $this->models = $models;
-
-        return $this;
-    }
-
-    public function providers(?array $providers = []): static
-    {
-        $this->providers = $providers;
-
-        return $this;
-    }
-
     public function lang(?array $lang = []): static
     {
         $this->lang = $lang;
 
         return $this;
     }
-
 
     public function boot(Panel $panel): void
     {
@@ -140,28 +106,31 @@ class FilamentAlertsPlugin implements Plugin
             }
         }
 
-        Notification::macro('sendToEmail', function (Model $user): static {
+        Notification::macro('sendUse', function (Model $user, string $driver = EmailDriver::class, array $data = []): static {
             /** @var Notification $this */
-            $user->notifyEmail(
-                message: $this->body,
-                subject: $this->title,
-                url: count($this->actions) ? $this->actions[0]->getUrl() ?? null : null
+            app($driver)->sendIt(
+                title: $this->getTitle(),
+                body: $this->getBody(),
+                icon: $this->getIcon(),
+                type: $this->getStatus(),
+                url: count($this->getActions()) ? $this->getActions()[0]->getUrl() ?? null : null,
+                model: get_class($user),
+                modelId: $user->id
             );
 
             return $this;
         });
 
-
-        if(config('filament-alerts.predefined.users')){
+        if (config('filament-alerts.predefined.users')) {
             FilamentAlerts::register(
-                NotificationUser::make(User::class)
+                NotificationUser::make(config('filament-alerts.try.model'))
                     ->label('User')
                     ->icon('heroicon-o-user')
                     ->color('primary')
             );
         }
 
-        if(config('filament-alerts.predefined.types')){
+        if (config('filament-alerts.predefined.types')) {
             FilamentAlerts::register(
                 [
                     NotificationType::make('success')
@@ -175,12 +144,12 @@ class FilamentAlertsPlugin implements Plugin
                     NotificationType::make('info')
                         ->label('Info')
                         ->icon('heroicon-o-information-circle')
-                        ->color('info')
+                        ->color('info'),
                 ]
             );
         }
 
-        if(config('filament-alerts.predefined.drivers')){
+        if (config('filament-alerts.predefined.drivers')) {
             FilamentAlerts::register(
                 [
                     NotificationDriver::make('database')
@@ -197,7 +166,7 @@ class FilamentAlertsPlugin implements Plugin
             );
         }
 
-        if(config('filament-alerts.predefined.actions')){
+        if (config('filament-alerts.predefined.actions')) {
             FilamentAlerts::register(
                 [
                     NotificationAction::make('system')

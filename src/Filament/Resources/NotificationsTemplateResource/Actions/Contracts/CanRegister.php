@@ -6,6 +6,7 @@ use Filament\Actions\StaticAction;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Support\Concerns\EvaluatesClosures;
+
 use function Filament\Support\get_model_label;
 
 trait CanRegister
@@ -16,7 +17,7 @@ trait CanRegister
 
     protected static ?Page $page = null;
 
-    public static function make(?Page $page=null): array
+    public static function make(?Page $page = null): array
     {
         self::$page = $page;
 
@@ -25,14 +26,15 @@ trait CanRegister
 
     public function getActions(): array
     {
-        return collect($this->getDefaultActions())->merge(self::$actions)->map(function (StaticAction $action){
-            if(method_exists($action, 'record') && str($action->getName())->contains(['create', 'edit', 'view'])){
+        return collect($this->getDefaultActions())->merge(self::$actions)->map(function (StaticAction $action) {
+            if (method_exists($action, 'record') && str($action->getName())->contains(['create', 'edit', 'view', 'impersonate'])) {
                 $action->record(method_exists(self::$page, 'getRecord') ? self::$page->getRecord() : null)
                     ->model(method_exists(self::$page, 'getModel') ? self::$page->getModel() : null)
                     ->modelLabel(method_exists(self::$page, 'getModelLabel') ? get_model_label(self::$page->getModel()) : null)
-                    ->form(fn(Form $form) => app(self::$page->getResource())::form($form))
-                    ->url(fn() => isset(app(self::$page->getResource())::getPages()[$action->getName()]) ? app(app(self::$page->getResource())::getPages()[$action->getName()]->getPage())->getUrl() : null);
+                    ->form(fn (Form $form) => app(self::$page->getResource())::form($form))
+                    ->url(fn () => isset(app(self::$page->getResource())::getPages()[$action->getName()]) ? app(app(self::$page->getResource())::getPages()[$action->getName()]->getPage())->getUrl(['record' => method_exists(self::$page, 'getRecord') ? self::$page->getRecord() : null]) : null);
             }
+
             return $action;
         })->toArray();
     }
@@ -45,11 +47,9 @@ trait CanRegister
                     self::$actions[] = $item;
                 }
             }
-        }
-        else if($component instanceof \Closure){
+        } elseif ($component instanceof \Closure) {
             self::$actions[] = (new self)->evaluate($component);
-        }
-        else {
+        } else {
             self::$actions[] = $component;
         }
     }

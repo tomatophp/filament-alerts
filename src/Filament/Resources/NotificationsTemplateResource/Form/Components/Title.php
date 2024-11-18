@@ -6,7 +6,6 @@ use Filament\Forms;
 
 class Title extends Component
 {
-
     public static function make(): Forms\Components\TextInput
     {
         return Forms\Components\TextInput::make('title')

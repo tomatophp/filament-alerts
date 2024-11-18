@@ -3,23 +3,17 @@
 return [
     'group' => 'الإعدادات',
     'back' => 'رجوع',
-    'notifications' => [
-        'title' => 'التنبيهات',
-        'single' => 'تنبيه',
-        'create' => 'إنشاء تنبيه',
-        'logs' => 'سجل التنبيهات',
-        'form' => [
-            'user' => 'المستخدم',
-            'template' => 'القالب',
-            'privacy' => 'الخصوصية',
-            'user_type' => 'نوع المستخدم',
-            'createdBy' => 'تم الإنشاء بواسطة',
-            'created_at' => 'تم إنشاءه في',
-            'updated_at' => 'تم تحديثه في',
-        ],
+    'actions' => [
+        "send" => [
+            "label" => "إرسال التنبيه",
+            "form" => [
+                "template_id" => "القالب",
+            ],
+            "notification" => "تم إرسال التنبيه",
+        ]
     ],
     'templates' => [
-        'title' => 'القوالب',
+        'title' => 'التنبيهات',
         'single' => 'قالب',
         'create' => 'إنشاء قالب',
         'edit' => 'تعديل قالب',
@@ -60,22 +54,6 @@ return [
     ],
     'settings' => [
         'group' => 'التنبيهات',
-        'notifications_sound' => 'صوت التنبيهات',
-        'firebase' => [
-            'title' => 'إعدادات فايربيز',
-            'description' => 'تحديث الاعدادات الخاصة بالفايربيز',
-            'notifications_allow' => 'تفعيل التنبيهات',
-            'fcm_apiKey' => 'FCM API Key',
-            'fcm_authDomain' => 'FCM Auth Domain',
-            'fcm_projectId' => 'FCM Project Id',
-            'fcm_storageBucket' => 'FCM Storage Bucket',
-            'fcm_messagingSenderId' => 'FCM Messaging Sender Id',
-            'fcm_appId' => 'FCM App Id',
-            'fcm_measurementId' => 'FCM Measurement Id',
-            'fcm_cr' => 'FCM Admin Json',
-            'fcm_database_url' => 'FCM Database Url',
-            'fcm_vapid' => 'FCM Vapid',
-        ],
         'email' => [
             'title' => 'إعدادات البريد الالكتروني',
             'description' => 'تحديث وربط البريد الالكتروني',

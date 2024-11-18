@@ -2,9 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\Actions;
 
-use Filament\Notifications\Notification;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Model;
 
 class DeleteAction extends Action
 {

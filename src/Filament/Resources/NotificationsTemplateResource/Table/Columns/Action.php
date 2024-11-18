@@ -11,7 +11,7 @@ class Action extends Column
         return Tables\Columns\TextColumn::make('action')
             ->badge()
             ->color('info')
-            ->state(fn($record) =>str( $record->action)->title())
+            ->state(fn ($record) => str($record->action)->title())
             ->icon('heroicon-o-bell')
             ->sortable()
             ->label(trans('filament-alerts::messages.templates.form.action'))

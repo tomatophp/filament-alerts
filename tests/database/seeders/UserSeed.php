@@ -1,9 +1,9 @@
 <?php
 
-namespace TomatoPHP\FilamentTranslations\Tests\Database\Seeders;
+namespace TomatoPHP\FilamentAlerts\Tests\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use TomatoPHP\FilamentTranslations\Tests\Models\User;
+use TomatoPHP\FilamentAlerts\Tests\Models\User;
 
 class UserSeed extends Seeder
 {

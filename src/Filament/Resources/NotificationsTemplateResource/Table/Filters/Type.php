@@ -7,7 +7,6 @@ use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 
 class Type extends Filter
 {
-
     public static function make(): Tables\Filters\SelectFilter
     {
         return Tables\Filters\SelectFilter::make('type')

@@ -2,11 +2,10 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\Actions;
 
+use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Tables;
-use Filament\Forms;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
-use TomatoPHP\FilamentAlerts\Services\SendNotification;
 
 class SendAction extends Action
 {
@@ -15,10 +14,10 @@ class SendAction extends Action
         return Tables\Actions\Action::make('send')
             ->requiresConfirmation()
             ->iconButton()
-            ->label("Send")
-            ->tooltip("Send")
+            ->label(trans('filament-alerts::messages.actions.send.label'))
+            ->tooltip(trans('filament-alerts::messages.actions.send.label'))
             ->icon('heroicon-o-bell')
-            ->form(fn($record) => [
+            ->form(fn ($record) => [
                 Forms\Components\Hidden::make('template_id')
                     ->default($record->id),
                 Forms\Components\Select::make('privacy')
@@ -46,19 +45,15 @@ class SendAction extends Action
                     ->options(fn (Forms\Get $get) => $get('model_type') ? $get('model_type')::pluck('name', 'id')->toArray() : [])
                     ->required(),
             ])
-            ->action(function (array $data, $record){
-                SendNotification::make($record->providers)
-                    ->title($record->title)
-                    ->template($record->key)
-                    ->database(false)
-                    ->privacy($data['privacy'])
+            ->action(function (array $data, $record) {
+                FilamentAlerts::notify()
                     ->model($data['model_type'])
-                    ->id($data['model_id']??null)
-                    ->fire();
-
+                    ->modelId($data['model_id'] ?? null)
+                    ->template($record->id)
+                    ->send();
 
                 Notification::make()
-                    ->title('Notification sent')
+                    ->title(trans('filament-alerts::messages.actions.send.notification'))
                     ->success()
                     ->send();
             });

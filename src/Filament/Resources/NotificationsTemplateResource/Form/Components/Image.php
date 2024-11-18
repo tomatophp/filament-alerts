@@ -4,10 +4,8 @@ namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResou
 
 use Filament\Forms;
 
-
 class Image extends Component
 {
-
     public static function make(): Forms\Components\SpatieMediaLibraryFileUpload
     {
         return Forms\Components\SpatieMediaLibraryFileUpload::make('image')

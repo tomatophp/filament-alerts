@@ -9,7 +9,7 @@ class Name extends Column
     public static function make(): Tables\Columns\TextColumn
     {
         return Tables\Columns\TextColumn::make('name')
-            ->description(fn($record) => $record->key)
+            ->description(fn ($record) => $record->key)
             ->sortable()
             ->label(trans('filament-alerts::messages.templates.form.name'))
             ->searchable();

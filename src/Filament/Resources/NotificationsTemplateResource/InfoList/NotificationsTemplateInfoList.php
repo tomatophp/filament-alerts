@@ -17,7 +17,15 @@ class NotificationsTemplateInfoList
     public static function getDefaultComponents(): array
     {
         return [
-            //
+            Entries\Name::make(),
+            Entries\Key::make(),
+            Entries\Type::make(),
+            Entries\Action::make(),
+            Entries\Providers::make(),
+            Entries\Title::make(),
+            Entries\Body::make(),
+            Entries\Image::make(),
+            Entries\Url::make(),
         ];
     }
 

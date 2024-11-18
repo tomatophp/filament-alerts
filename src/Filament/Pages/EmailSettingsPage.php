@@ -2,9 +2,9 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Pages;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
-use Filament\Actions\Action;
 use Filament\Pages\SettingsPage;
 use TomatoPHP\FilamentAlerts\Settings\EmailSettings;
 

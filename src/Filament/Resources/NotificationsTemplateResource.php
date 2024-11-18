@@ -2,22 +2,13 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources;
 
-use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
-use Filament\Notifications\Notification;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
-use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
-use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form\NotificationsTemplateForm;
-use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages;
-use TomatoPHP\FilamentAlerts\Services\SendNotification;
-use TomatoPHP\FilamentIcons\Components\IconColumn;
-use TomatoPHP\FilamentIcons\Components\IconPicker;
+use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 
 class NotificationsTemplateResource extends Resource
 {
@@ -41,12 +32,12 @@ class NotificationsTemplateResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return trans('filament-alerts::messages.notifications.title');
+        return trans('filament-alerts::messages.templates.title');
     }
 
     public static function getTitle(): string
     {
-        return trans('filament-alerts::messages.notifications.title');
+        return trans('filament-alerts::messages.templates.title');
     }
 
     public static function getLabel(): ?string
@@ -71,7 +62,7 @@ class NotificationsTemplateResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return  config('filament-alerts.resource.form.class')::make($form);
+        return config('filament-alerts.resource.form.class')::make($form);
     }
 
     public static function table(Table $table): Table

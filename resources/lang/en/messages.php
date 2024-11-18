@@ -3,23 +3,17 @@
 return [
     'group' => 'Settings',
     'back' => 'Back',
-    'notifications' => [
-        'title' => 'Notifications',
-        'single' => 'Notification',
-        'create' => 'Create Notification',
-        'logs' => 'Logs',
-        'form' => [
-            'user' => 'User',
-            'template' => 'Template',
-            'privacy' => 'Privacy',
-            'user_type' => 'User Type',
-            'createdBy' => 'Created By',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-        ],
+    'actions' => [
+        "send" => [
+            "label" => "Send Notification",
+            "form" => [
+                "template_id" => "Template",
+            ],
+            "notification" => "Notification has been sent",
+        ]
     ],
     'templates' => [
-        'title' => 'Templates',
+        'title' => 'Notifications',
         'single' => 'Template',
         'create' => 'Create Template',
         'edit' => 'Edit Template',
@@ -60,22 +54,6 @@ return [
     ],
     'settings' => [
         'group' => 'Notifications',
-        'notifications_sound' => 'Notifications Sound',
-        'firebase' => [
-            'title' => 'Firebase Settings',
-            'description' => 'Update firebase connection settings',
-            'notifications_allow' => 'Allow Notifications',
-            'fcm_apiKey' => 'FCM API Key',
-            'fcm_authDomain' => 'FCM Auth Domain',
-            'fcm_projectId' => 'FCM Project Id',
-            'fcm_storageBucket' => 'FCM Storage Bucket',
-            'fcm_messagingSenderId' => 'FCM Messaging Sender Id',
-            'fcm_appId' => 'FCM App Id',
-            'fcm_measurementId' => 'FCM Measurement Id',
-            'fcm_cr' => 'FCM Admin Json',
-            'fcm_database_url' => 'FCM Database Url',
-            'fcm_vapid' => 'FCM Vapid',
-        ],
         'email' => [
             'title' => 'Email Settings',
             'description' => 'Update email provider connection settings',
