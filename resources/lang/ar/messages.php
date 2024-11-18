@@ -4,13 +4,18 @@ return [
     'group' => 'الإعدادات',
     'back' => 'رجوع',
     'actions' => [
-        "send" => [
-            "label" => "إرسال التنبيه",
-            "form" => [
-                "template_id" => "القالب",
+        'send' => [
+            'label' => 'إرسال التنبيه',
+            'form' => [
+                'template_id' => 'القالب',
+                'model_id' => 'المستخدم',
+                'model_type' => 'نوع المستخدم',
+                'privacy' => 'الخصوصية',
+                'public' => 'عام',
+                'private' => 'خاص',
             ],
-            "notification" => "تم إرسال التنبيه",
-        ]
+            'notification' => 'تم إرسال التنبيه',
+        ],
     ],
     'templates' => [
         'title' => 'التنبيهات',

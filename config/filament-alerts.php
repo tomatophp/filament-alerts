@@ -1,13 +1,23 @@
 <?php
 
 return [
+    /**
+     * ---------------------------------------------
+     * Default Languages
+     * ---------------------------------------------
+     * set the default languages
+     */
     'lang' => [
         'ar' => 'arabic',
         'en' => 'english',
     ],
 
-    'drivers' => [],
-
+    /**
+     * ---------------------------------------------
+     * Pre Defined Drivers and Actions
+     * ---------------------------------------------
+     * if you want to use predefined drivers and actions
+     */
     'predefined' => [
         'types' => true,
         'actions' => true,
@@ -15,10 +25,22 @@ return [
         'drivers' => true,
     ],
 
+    /**
+     * ---------------------------------------------
+     * Custom Email Template
+     * ---------------------------------------------
+     * if you want to use custom email template
+     */
     'email' => [
         'template' => null,
     ],
 
+    /**
+     * ---------------------------------------------
+     * Resource Building
+     * ---------------------------------------------
+     * if you want to use the resource custom class
+     */
     'resource' => [
         'table' => [
             'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateTable::class,
@@ -41,6 +63,12 @@ return [
         ],
     ],
 
+    /**
+     * ---------------------------------------------
+     * Try User Model
+     * ---------------------------------------------
+     * set user model that you can use when you try any template
+     */
     'try' => [
         'model' => \App\Models\User::class,
     ],

@@ -10,45 +10,30 @@ Send notification to users using notification templates and multi notification c
 
 ## Features
 
-- Send Notification to users
-- Use Filament Native Notification
-- Use Notification Templates
-- Full FCM Service Worker Integration
-- Use Multiple Notification Channels
-- API to get notifications
-- Hide Notifications Resources
-- Use Slack Driver
-- Use Discord Driver
-- Use Reverb Driver
-- Use SMS Misr Driver
-- Use Email Driver
-- Use Database Driver
-- Use MessageBird Driver
-
+- [x] Send Notification to users using drivers
+- [x] Use Filament Native Notification
+- [x] Use Notification Templates
+- [x] Notification Logs
+- [x] Use Multiple Notification Channels
+- [x] Hide Notifications Resources
+- [x] Use Database Driver
+- [x] Use Email Driver
 
 ## Screenshots
 
-![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/create-template.png)
-![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/notifications.png)
-![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/notify.png)
-![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/templates.png)
+![Templates](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/templates.png)
+![Create Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/create-template.png)
+![Create Template Image](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/create-template-v2.png)
+![Edit Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/edit-template.png)
+![Logs](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/logs.png)
+![Send Notification](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/send.png)
+![Try](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/try.png)
+![View Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/view-template.png)
 
 ## Installation
 
-before use this package make sure you have installed 
-
-- [Filament Spatie Translatable](https://filamentphp.com/plugins/filament-spatie-translatable)
-- [Filament Spatie Media Library](https://filamentphp.com/plugins/filament-spatie-media-library)
-- [Filament Settings Hub](https://github.com/tomatophp/filament-settings-hub)
-
 ```bash
 composer require tomatophp/filament-alerts
-```
-
-now you need to publish and migrate settings table
-
-```bash
-php artisan vendor:publish --provider="Spatie\LaravelSettings\LaravelSettingsServiceProvider" --tag="migrations"
 ```
 
 after install your package please run this command
@@ -123,12 +108,8 @@ Notification::make('send')
             ->url('https://google.com')
             ->markAsRead()
     ])
-    ->sendToDiscord(auth()->user())
-    ->sendToEmail(auth()->user())
-    ->broadcast(auth()->user())
-    ->sendToDatabase(auth()->user())
-    ->sendToSlack(auth()->user())
-    ->sendToFCM(auth()->user())
+    ->sendUse(auth()->user(), \TomatoPHP\FilamentAlerts\Services\Drivers\EmailDriver::class);
+  
 ```
 
 ### Notification Service
@@ -140,95 +121,34 @@ to create a new template you can use template CRUD and make sure that the templa
 to send a notification you must use our helper SendNotification::class like
 
 ```php
-SendNotification::make($template->providers)
-    ->template($template->key)
-    ->findTitle($matchesTitle)
-    ->replaceTitle($titleFill)
-    ->findBody($matchesBody)
-    ->replaceBody($titleBody)
-    ->model(User::class)
-    ->id(User::first()->id)
-    ->privacy('private')
-    ->fire();
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
+
+FilamentAlerts::notify(User::first())
+    ->template($template->id)
+    ->title([
+        "find-text" => "change with this"
+    ])
+    ->body([
+        "find-text" => "change with this"
+    ])
+    ->send();
 ```
 
-where `$template` is selected of the template by key and $matchesTitle and $matchesBody is an array of matches to replace the template and $titleFill and $titleBody are an array of values to replace the matches
+where `$template` is selected of the template by key or id, and title, body use to select and replace string on the template with custom data
 
 ### Notification Channels
 
 you can use multiple notification channels like
 
 - Email
-- SMS
-- FCM
-- Reverb
 - Database
-- Slack
-- Discord
 
 it can be working with direct user methods like
 
 ```php
-$user->notifySMSMisr(string $message);
 $user->notifyEmail(string $message, ?string $subject = null, ?string $url = null);
-$user->notifyFCMSDK(string $message, string $type='web', ?string $title=null, ?string $url=null, ?string $image=null, ?string $icon=null, ?array $data=[]);
 $user->notifyDB(string $message, ?string $title=null, ?string $url =null);
-$user->notifySlack(string $title,string $message=null,?string $url=null, ?string $image=null, ?string $webhook=null);
-$user->notifyDiscord(string $title,string $message=null,?string $url=null, ?string $image=null, ?string $webhook=null);
 ```
-
-### Use FCM Notifications Provider
-
-to make FCM Notification Work you need to install [Filament Settings Hub](https://www.github.com/tomatophp/filament-settings-hub) and allow use Setting Hub on the Plugin
-
-```php
-->plugin(\TomatoPHP\FilamentAlerts\FilamentAlertsPlugin::make()
-    ->useSettingsHub()
-    ->useFCM()
-)
-```
-
-than you need to install `filament-fcm` package by use this command
-
-```bash
-composer require tomatophp/filament-fcm
-```
-
-and add the service provider plugin
-
-```php
-->plugin(\TomatoPHP\FilamentFcm\FilamentFcmPlugin::make())
-```
-
-now you need to update config
-
-
-```dotenv
-# Firebase Project
-FIREBASE_API_KEY=
-FIREBASE_AUTH_DOMAIN=
-FIREBASE_DATABASE_URL=
-FIREBASE_PROJECT_ID=
-FIREBASE_STORAGE_BUCKET=
-FIREBASE_MESSAGING_SENDER_ID=
-FIREBASE_APP_ID=
-FIREBASE_MEASUREMENT_ID=
-
-# Firebase Cloud Messaging
-FIREBASE_VAPID=
-
-# Firebase Alert Sound
-FCM_ALERT_SOUND=
-```
-
-than run this command
-
-```bash
-php artisan filament-fcm:install
-```
-
-it will generate FCM worker for you to make notifications working on the background.
-
 
 ### Hide Notifications Resources
 
@@ -240,41 +160,161 @@ to hide the notification resources from the sidebar you can use the plugin metho
 )
 ```
 
-### Use Slack Driver
+## Use Email Settings
 
-to use slack driver you must set the slack webhook on the settings hub and use the plugin method `useSlack` like
-
-```php
-->plugin(\TomatoPHP\FilamentAlerts\FilamentAlertsPlugin::make()
-    ->useSlack()
-)
-```
-
-now on your `.env` file add a `SLACK_WEBHOOK` key with the webhook URL
-
-### Use Discord Driver
-
-to use discord driver you must set the discord webhook on the settings hub and use the plugin method `useDiscord` like
+we have build a Email settings to change your SMTP settings direct from GUI to allow this feature just add this method to the plugin
 
 ```php
 ->plugin(\TomatoPHP\FilamentAlerts\FilamentAlertsPlugin::make()
-    ->useDiscord()
+    ->useSettingsHub()
 )
 ```
 
-now on your `.env` file add a `DISCORD_WEBHOOK` key with the webhook URL
+## User Alerts Resource Hooks
 
-## API
+we have add a lot of hooks to make it easy to attach actions, columns, filters, etc
 
-we are support some API to get the notification and make some actions you can find it under `api/notifications` route
-
-you can change the user model by use the plugin method `apiModel` like
+### Table Columns
 
 ```php
-->plugin(\TomatoPHP\FilamentAlerts\FilamentAlertsPlugin::make()
-    ->apiModel(User::class)
-)
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateTable;
+
+public function boot()
+{
+    NotificationsTemplateTable::register([
+        \Filament\Tables\Columns\TextColumn::make('something')
+    ]);
+}
 ```
+
+### Table Actions
+
+```php
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateActions;
+
+public function boot()
+{
+    NotificationsTemplateActions::register([
+        \Filament\Tables\Actions\ReplicateAction::make()
+    ]);
+}
+```
+
+### Table Filters
+
+```php
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateFilters;
+
+public function boot()
+{
+    NotificationsTemplateFilters::register([
+        \Filament\Tables\Filters\SelectFilter::make('something')
+    ]);
+}
+```
+
+### Table Bulk Actions
+
+```php
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateBulkActions;
+
+public function boot()
+{
+    NotificationsTemplateBulkActions::register([
+        \Filament\Tables\BulkActions\DeleteAction::make()
+    ]);
+}
+```
+
+### From Components
+
+```php
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form\NotificationsTemplateForm;
+
+public function boot()
+{
+    NotificationsTemplateForm::register([
+        \Filament\Forms\Components\TextInput::make('something')
+    ]);
+}
+```
+
+### Page Actions
+
+```php
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ManagePageActions;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\EditPageActions;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ViewPageActions;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\CreatePageActions;
+
+public function boot()
+{
+    ManagePageActions::register([
+        Filament\Actions\Action::make('action')
+    ]);
+    
+    EditPageActions::register([
+        Filament\Actions\Action::make('action')
+    ]);
+    
+    ViewPageActions::register([
+        Filament\Actions\Action::make('action')
+    ]);
+    
+    CreatePageActions::register([
+        Filament\Actions\Action::make('action')
+    ]);
+}
+```
+
+### Infolist Entries
+
+```php
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Infolist\NotificationsTemplateInfoList;
+
+public function boot()
+{
+    NotificationsTemplateInfoList::register([
+       \Filament\Infolists\Components\TextEntry::make('something')
+    ]);
+}
+```
+
+## Custom Resource Classes
+
+you can customize all resource classes to be any class you want with the same return from the config file
+
+```php
+/**
+ * ---------------------------------------------
+ * Resource Building
+ * ---------------------------------------------
+ * if you want to use the resource custom class
+ */
+'resource' => [
+    'table' => [
+        'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateTable::class,
+        'filters' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateFilters::class,
+        'actions' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateActions::class,
+        'header-actions' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateHeaderActions::class,
+        'bulkActions' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateBulkActions::class,
+    ],
+    'form' => [
+        'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form\NotificationsTemplateForm::class,
+    ],
+    'infolist' => [
+        'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Infolist\NotificationsTemplateInfoList::class,
+    ],
+    'pages' => [
+        'list' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ManagePageActions::class,
+        'create' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\CreatePageActions::class,
+        'edit' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\EditPageActions::class,
+        'view' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ViewPageActions::class,
+    ],
+]
+```
+
+
 ## Publish Assets
 
 you can publish config file by use this command
@@ -299,6 +339,30 @@ you can publish migrations file by use this command
 
 ```bash
 php artisan vendor:publish --tag="filament-alerts-migrations"
+```
+
+## Testing
+
+if you like to run `PEST` testing just use this command
+
+```bash
+composer test
+```
+
+## Code Style
+
+if you like to fix the code style just use this command
+
+```bash
+composer format
+```
+
+## PHPStan
+
+if you like to check the code by `PHPStan` just use this command
+
+```bash
+composer analyse
 ```
 
 ## Other Filament Packages

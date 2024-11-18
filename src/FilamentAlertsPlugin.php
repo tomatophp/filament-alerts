@@ -19,6 +19,7 @@ use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationUser;
 use TomatoPHP\FilamentAlerts\Services\Drivers\DatabaseDriver;
 use TomatoPHP\FilamentAlerts\Services\Drivers\EmailDriver;
 use TomatoPHP\FilamentSettingsHub\Facades\FilamentSettingsHub;
+use TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin;
 use TomatoPHP\FilamentSettingsHub\Services\Contracts\SettingHold;
 
 class FilamentAlertsPlugin implements Plugin
@@ -28,7 +29,7 @@ class FilamentAlertsPlugin implements Plugin
         return 'filament-alerts';
     }
 
-    public ?bool $useSettingHub = false;
+    public ?bool $useSettingsHub = false;
 
     public ?bool $hideNotificationsResource = false;
 
@@ -44,10 +45,17 @@ class FilamentAlertsPlugin implements Plugin
             ->resources((! $this->hideNotificationsResource) ? [
                 NotificationsLogsResource::class,
                 NotificationsTemplateResource::class,
-            ] : [])
-            ->pages($this->useSettingHub ? [
-                EmailSettingsPage::class,
             ] : []);
+
+        if ($this->useSettingsHub) {
+            if (! $panel->hasPlugin('filament-settings-hub')) {
+                $panel->plugin(FilamentSettingsHubPlugin::make());
+            }
+            $panel->pages([
+                EmailSettingsPage::class,
+            ]);
+        }
+
     }
 
     public function hideNotificationsResource(?bool $hideNotificationsResource = true): static
@@ -57,9 +65,9 @@ class FilamentAlertsPlugin implements Plugin
         return $this;
     }
 
-    public function useSettingsHub(?bool $useSettingHub = true): static
+    public function useSettingsHub(?bool $useSettingsHub = true): static
     {
-        $this->useSettingHub = $useSettingHub;
+        $this->useSettingsHub = $useSettingsHub;
 
         return $this;
     }
@@ -73,7 +81,7 @@ class FilamentAlertsPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
-        if (class_exists(FilamentSettingsHub::class) && $this->useSettingHub) {
+        if (class_exists(FilamentSettingsHub::class) && $this->useSettingsHub) {
             FilamentSettingsHub::register([
                 SettingHold::make()
                     ->label('filament-alerts::messages.settings.email.title')

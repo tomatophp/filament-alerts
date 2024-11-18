@@ -32,6 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugin(
                 FilamentAlertsPlugin::make()
+                    ->useSettingsHub()
             )
             ->resources([
                 UserResource::class,

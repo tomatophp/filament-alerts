@@ -46,7 +46,6 @@ class FilamentAlertsServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/lang' => base_path('lang/vendor/filament-alerts'),
         ], 'filament-alerts-lang');
 
-
         $this->app->bind('filament-alerts', function () {
             return new NotificationService;
         });

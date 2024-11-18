@@ -13,6 +13,7 @@ use Filament\SpatieLaravelSettingsPluginServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
+use GeneaLabs\LaravelModelCaching\Providers\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Concerns\WithWorkbench;
@@ -79,6 +80,7 @@ abstract class TestCase extends BaseTestCase
             MediaLibraryServiceProvider::class,
             SpatieLaravelSettingsPluginServiceProvider::class,
             FilamentIconsServiceProvider::class,
+            Service::class,
             FilamentSettingsHubServiceProvider::class,
             FilamentAlertsServiceProvider::class,
             AdminPanelProvider::class,

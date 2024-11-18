@@ -4,13 +4,18 @@ return [
     'group' => 'Settings',
     'back' => 'Back',
     'actions' => [
-        "send" => [
-            "label" => "Send Notification",
-            "form" => [
-                "template_id" => "Template",
+        'send' => [
+            'label' => 'Send Notification',
+            'form' => [
+                'template_id' => 'Template',
+                'model_id' => 'User',
+                'model_type' => 'User Type',
+                'privacy' => 'Privacy',
+                'public' => 'Public',
+                'private' => 'Private',
             ],
-            "notification" => "Notification has been sent",
-        ]
+            'notification' => 'Notification has been sent',
+        ],
     ],
     'templates' => [
         'title' => 'Notifications',

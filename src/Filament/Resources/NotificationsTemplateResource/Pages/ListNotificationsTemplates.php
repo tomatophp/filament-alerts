@@ -9,8 +9,6 @@ class ListNotificationsTemplates extends ListRecords
 {
     use ListRecords\Concerns\Translatable;
 
-    public ?string $activeLocale = null;
-
     protected static string $resource = NotificationsTemplateResource::class;
 
     public function getTitle(): string

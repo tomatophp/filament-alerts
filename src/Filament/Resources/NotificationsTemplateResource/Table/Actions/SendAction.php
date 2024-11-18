@@ -21,25 +21,25 @@ class SendAction extends Action
                 Forms\Components\Hidden::make('template_id')
                     ->default($record->id),
                 Forms\Components\Select::make('privacy')
-                    ->label(trans('filament-alerts::messages.notifications.form.privacy'))
+                    ->label(trans('filament-alerts::messages.actions.send.form.privacy'))
                     ->searchable()
                     ->columnSpanFull()
                     ->options([
-                        'public' => 'Public',
-                        'private' => 'Private',
+                        'public' => trans('filament-alerts::messages.actions.send.form.public'),
+                        'private' => trans('filament-alerts::messages.actions.send.form.private'),
                     ])
                     ->live()
                     ->required()
                     ->default('public'),
                 Forms\Components\Select::make('model_type')
                     ->searchable()
-                    ->label(trans('filament-alerts::messages.notifications.form.user_type'))
+                    ->label(trans('filament-alerts::messages.actions.send.form.model_type'))
                     ->options(FilamentAlerts::loadUsers()->pluck('label', 'model')->toArray())
                     ->preload()
                     ->required()
                     ->live(),
                 Forms\Components\Select::make('model_id')
-                    ->label(trans('filament-alerts::messages.notifications.form.user'))
+                    ->label(trans('filament-alerts::messages.actions.send.form.model_id'))
                     ->searchable()
                     ->hidden(fn (Forms\Get $get): bool => $get('privacy') !== 'private')
                     ->options(fn (Forms\Get $get) => $get('model_type') ? $get('model_type')::pluck('name', 'id')->toArray() : [])

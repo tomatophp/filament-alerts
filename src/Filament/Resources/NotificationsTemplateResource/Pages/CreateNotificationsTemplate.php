@@ -9,8 +9,6 @@ class CreateNotificationsTemplate extends CreateRecord
 {
     use CreateRecord\Concerns\Translatable;
 
-    public ?string $activeLocale = null;
-
     protected static string $resource = NotificationsTemplateResource::class;
 
     protected function getHeaderActions(): array

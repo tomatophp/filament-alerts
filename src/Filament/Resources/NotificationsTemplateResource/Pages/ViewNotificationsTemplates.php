@@ -10,8 +10,6 @@ class ViewNotificationsTemplates extends ViewRecord
 {
     use ListRecords\Concerns\Translatable;
 
-    public ?string $activeLocale = null;
-
     protected static string $resource = NotificationsTemplateResource::class;
 
     protected function getHeaderActions(): array

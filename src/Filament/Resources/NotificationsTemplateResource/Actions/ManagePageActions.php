@@ -19,8 +19,8 @@ final class ManagePageActions
                 ->hiddenLabel()
                 ->action(fn () => redirect()->to(NotificationsLogsResource::getUrl()))
                 ->color('info')
-                ->tooltip(trans('filament-alerts::messages.notifications.logs'))
-                ->label(trans('filament-alerts::messages.notifications.logs')),
+                ->tooltip(trans('filament-alerts::messages.logs.title'))
+                ->label(trans('filament-alerts::messages.logs.title')),
             LocaleSwitcher::make(),
         ];
     }

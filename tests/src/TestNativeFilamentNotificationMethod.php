@@ -3,16 +3,11 @@
 namespace TomatoPHP\FilamentAlerts\Tests;
 
 use Filament\Notifications\Notification;
-use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages;
 use TomatoPHP\FilamentAlerts\Services\Drivers\DatabaseDriver;
-use TomatoPHP\FilamentAlerts\Services\Drivers\EmailDriver;
-use TomatoPHP\FilamentAlerts\Tests\Models\NotificationsTemplate;
 use TomatoPHP\FilamentAlerts\Tests\Models\User;
-use TomatoPHP\FilamentAlerts\Tests\Resources\UserResource\Pages\ListUsers;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     actingAs(User::factory()->create());
