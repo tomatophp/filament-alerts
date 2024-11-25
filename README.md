@@ -149,6 +149,7 @@ you can use multiple notification channels like
 - Email
 - Database
 - [Discord](https://www.github.com/tomatophp/filament-discord-driver)
+- [Firebase Cloud Messages](https://www.github.com/tomatophp/filament-fcm-driver)
 
 it can be working with direct user methods like
 
