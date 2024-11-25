@@ -65,6 +65,7 @@ class FilamentAlertsServiceProvider extends ServiceProvider
                 modelId: $user->id,
                 image: $data['image'] ?? null,
                 data: $data,
+                notification: $this
             );
 
             return $this;

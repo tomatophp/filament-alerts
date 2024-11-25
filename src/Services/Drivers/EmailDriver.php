@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Services\Drivers;
 
+use Filament\Notifications\Notification;
 use TomatoPHP\FilamentAlerts\Jobs\NotifyEmailJob;
 
 class EmailDriver extends Driver
