@@ -88,8 +88,6 @@ class User extends Authenticatable
     ...
 ```
 
-and you must set the settings for FCM to get real-time notification
-
 ### Queue
 
 the notification is run on queue, so you must run the queue worker to send the notifications
@@ -150,6 +148,7 @@ you can use multiple notification channels like
 
 - Email
 - Database
+- [Discord](https://www.github.com/tomatophp/filament-discord-driver)
 
 it can be working with direct user methods like
 
