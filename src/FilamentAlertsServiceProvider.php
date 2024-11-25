@@ -2,8 +2,11 @@
 
 namespace TomatoPHP\FilamentAlerts;
 
+use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use TomatoPHP\FilamentAlerts\Services\Drivers\EmailDriver;
 use TomatoPHP\FilamentAlerts\Services\NotificationService;
 
 class FilamentAlertsServiceProvider extends ServiceProvider
@@ -48,6 +51,21 @@ class FilamentAlertsServiceProvider extends ServiceProvider
 
         $this->app->bind('filament-alerts', function () {
             return new NotificationService;
+        });
+
+        Notification::macro('sendUse', function (Model $user, string $driver = EmailDriver::class, array $data = []): static {
+            /** @var Notification $this */
+            app($driver)->sendIt(
+                title: $this->getTitle(),
+                body: $this->getBody(),
+                icon: $this->getIcon(),
+                type: $this->getStatus(),
+                url: count($this->getActions()) ? $this->getActions()[0]->getUrl() ?? null : null,
+                model: get_class($user),
+                modelId: $user->id
+            );
+
+            return $this;
         });
     }
 

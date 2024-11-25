@@ -55,7 +55,6 @@ class FilamentAlertsPlugin implements Plugin
                 EmailSettingsPage::class,
             ]);
         }
-
     }
 
     public function hideNotificationsResource(?bool $hideNotificationsResource = true): static
@@ -113,21 +112,6 @@ class FilamentAlertsPlugin implements Plugin
                 \Log::error($e);
             }
         }
-
-        Notification::macro('sendUse', function (Model $user, string $driver = EmailDriver::class, array $data = []): static {
-            /** @var Notification $this */
-            app($driver)->sendIt(
-                title: $this->getTitle(),
-                body: $this->getBody(),
-                icon: $this->getIcon(),
-                type: $this->getStatus(),
-                url: count($this->getActions()) ? $this->getActions()[0]->getUrl() ?? null : null,
-                model: get_class($user),
-                modelId: $user->id
-            );
-
-            return $this;
-        });
 
         if (config('filament-alerts.predefined.users')) {
             FilamentAlerts::register(
