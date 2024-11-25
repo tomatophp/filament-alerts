@@ -62,7 +62,9 @@ class FilamentAlertsServiceProvider extends ServiceProvider
                 type: $this->getStatus(),
                 url: count($this->getActions()) ? $this->getActions()[0]->getUrl() ?? null : null,
                 model: get_class($user),
-                modelId: $user->id
+                modelId: $user->id,
+                image: $data['image'] ?? null,
+                data: $data,
             );
 
             return $this;
