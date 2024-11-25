@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Services\Drivers;
 
+use Filament\Notifications\Notification;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 
 abstract class Driver
@@ -19,7 +20,8 @@ abstract class Driver
         ?string $type = 'info',
         ?string $action = 'system',
         ?array $data = [],
-        ?int $template_id = null
+        ?int $template_id = null,
+        ?Notification $notification = null
     ): void;
 
     public function send(
@@ -28,7 +30,8 @@ abstract class Driver
         int | string | null $modelId = null,
         array $title = [],
         array $body = [],
-        array $data = []
+        array $data = [],
+        ?Notification $notification = null
     ): void {
         $loadTemplate = FilamentAlerts::loadTemplate(
             $template,

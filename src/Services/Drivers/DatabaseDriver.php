@@ -23,6 +23,7 @@ class DatabaseDriver extends Driver
         ?string $action = 'system',
         ?array $data = [],
         ?int $template_id = null,
+        ?Notification $notification = null
     ): void {
         if ($modelId) {
             dispatch(new NotifyDatabaseJob([

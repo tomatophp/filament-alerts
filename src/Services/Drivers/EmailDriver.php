@@ -23,6 +23,7 @@ class EmailDriver extends Driver
         ?string $action = 'system',
         ?array $data = [],
         ?int $template_id = null,
+        ?Notification $notification = null
     ): void {
         if ($modelId) {
             $email = $model::find($modelId)?->email;
