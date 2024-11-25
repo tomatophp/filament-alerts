@@ -186,6 +186,7 @@ you can add a custom driver follow up `Driver` abstract class like this
 
 namespace TomatoPHP\FilamentAlerts\Services\Drivers;
 
+use Filament\Notifications\Notification;
 use TomatoPHP\FilamentAlerts\Jobs\NotifyDatabaseJob;
 
 class DatabaseDriver extends Driver
@@ -207,6 +208,7 @@ class DatabaseDriver extends Driver
         ?string $action = 'system',
         ?array $data = [],
         ?int $template_id = null,
+        ?Notification $notification = null
     ): void {
         if ($modelId) {
             dispatch(new NotifyDatabaseJob([
