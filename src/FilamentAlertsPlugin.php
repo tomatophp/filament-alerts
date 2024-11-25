@@ -3,10 +3,8 @@
 namespace TomatoPHP\FilamentAlerts;
 
 use Filament\Contracts\Plugin;
-use Filament\Notifications\Notification;
 use Filament\Panel;
 use Filament\SpatieLaravelTranslatablePlugin;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 use TomatoPHP\FilamentAlerts\Filament\Pages\EmailSettingsPage;
