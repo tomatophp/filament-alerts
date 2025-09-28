@@ -2,16 +2,16 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\Actions;
 
+use Filament\Actions;
 use Filament\Notifications\Notification;
-use Filament\Tables;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 
 class TryAction extends Action
 {
-    public static function make(): Tables\Actions\Action
+    public static function make(): Actions\Action
     {
-        return Tables\Actions\Action::make('try')
+        return Actions\Action::make('try')
             ->iconButton()
             ->tooltip(trans('filament-alerts::messages.templates.actions.try'))
             ->label(trans('filament-alerts::messages.templates.actions.try'))

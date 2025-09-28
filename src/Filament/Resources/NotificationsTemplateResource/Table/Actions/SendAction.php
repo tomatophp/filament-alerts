@@ -2,22 +2,23 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\Actions;
 
+use Filament\Actions;
 use Filament\Forms;
 use Filament\Notifications\Notification;
-use Filament\Tables;
+use Filament\Schemas\Components\Utilities\Get;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 
 class SendAction extends Action
 {
-    public static function make(): Tables\Actions\Action
+    public static function make(): Actions\Action
     {
-        return Tables\Actions\Action::make('send')
+        return Actions\Action::make('send')
             ->requiresConfirmation()
             ->iconButton()
             ->label(trans('filament-alerts::messages.actions.send.label'))
             ->tooltip(trans('filament-alerts::messages.actions.send.label'))
             ->icon('heroicon-o-bell')
-            ->form(fn ($record) => [
+            ->schema(fn ($record) => [
                 Forms\Components\Hidden::make('template_id')
                     ->default($record->id),
                 Forms\Components\Select::make('privacy')
@@ -41,8 +42,8 @@ class SendAction extends Action
                 Forms\Components\Select::make('model_id')
                     ->label(trans('filament-alerts::messages.actions.send.form.model_id'))
                     ->searchable()
-                    ->hidden(fn (Forms\Get $get): bool => $get('privacy') !== 'private')
-                    ->options(fn (Forms\Get $get) => $get('model_type') ? $get('model_type')::pluck('name', 'id')->toArray() : [])
+                    ->hidden(fn (Get $get): bool => $get('privacy') !== 'private')
+                    ->options(fn (Get $get) => $get('model_type') ? $get('model_type')::pluck('name', 'id')->toArray() : [])
                     ->required(),
             ])
             ->action(function (array $data, $record) {

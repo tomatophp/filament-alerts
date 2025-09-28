@@ -13,8 +13,8 @@ class NotificationsTemplateTable
     {
         return $table
             ->deferLoading()
-            ->bulkActions(config('filament-alerts.resource.table.bulkActions')::make())
-            ->actions(config('filament-alerts.resource.table.actions')::make())
+            ->toolbarActions(config('filament-alerts.resource.table.bulkActions')::make())
+            ->recordActions(config('filament-alerts.resource.table.actions')::make())
             ->filters(config('filament-alerts.resource.table.filters')::make())
             ->headerActions(config('filament-alerts.resource.table.header-actions')::make())
             ->columns(self::getColumns());

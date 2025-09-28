@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Tests;
 
+use Filament\Actions\Testing\TestAction;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages;
 use TomatoPHP\FilamentAlerts\Tests\Models\NotificationsTemplate;
@@ -176,7 +177,10 @@ it('can save template data', function () {
     ])
         ->fillForm([
             'name' => $newData->name,
-            'title' => $newData->title,
+            'title' => [
+                'en' => $newData->title,
+                'ar' => $newData->title,
+            ],
         ])
         ->call('save')
         ->assertHasNoFormErrors();
@@ -192,7 +196,7 @@ it('can delete template', function () {
     livewire(Pages\EditNotificationsTemplate::class, [
         'record' => $template->getRouteKey(),
     ])
-        ->callAction('deleteSelectedNotificationsTemplate');
+        ->callAction(TestAction::make('deleteSelectedNotificationsTemplate')->arguments(['record' => $template->getKey()]));
 
     assertEmpty(NotificationsTemplate::query()->find($template->getRouteKey()));
 });

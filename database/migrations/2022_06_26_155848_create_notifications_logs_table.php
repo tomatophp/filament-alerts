@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('notifications_logs', function (Blueprint $table) {
             $table->id();
 
-            //If Selected Record On the model
+            // If Selected Record On the model
             $table->string('model_type')->nullable();
             $table->unsignedBigInteger('model_id')->nullable();
 

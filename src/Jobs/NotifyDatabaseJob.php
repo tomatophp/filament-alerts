@@ -77,7 +77,7 @@ class NotifyDatabaseJob implements ShouldQueue
             ->icon($notification->icon)
             ->color($notification->type)
             ->actions($notification->url ? [
-                \Filament\Notifications\Actions\Action::make('view')
+                \Filament\Actions\Action::make('view')
                     ->label('View')
                     ->url($notification->url)
                     ->markAsRead(),

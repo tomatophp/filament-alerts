@@ -3,12 +3,11 @@
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages;
 
 use Filament\Resources\Pages\ListRecords;
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource;
 
 class ListNotificationsTemplates extends ListRecords
 {
-    use ListRecords\Concerns\Translatable;
-
     protected static string $resource = NotificationsTemplateResource::class;
 
     public function getTitle(): string
@@ -23,6 +22,6 @@ class ListNotificationsTemplates extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return config('filament-alerts.resource.pages.list')::make($this);
+        return FilamentAlerts::getPageActions(self::class);
     }
 }

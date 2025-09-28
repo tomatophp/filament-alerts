@@ -21,7 +21,7 @@ trait InteractsWithNotifications
             'subject' => $subject,
             'message' => $message,
             'url' => $url,
-        ]));
+        ]))->onQueue(config('filament-alerts.queue'));
     }
 
     public function notifyDB(
@@ -35,7 +35,7 @@ trait InteractsWithNotifications
             'title' => $title,
             'body' => $message,
             'url' => $url,
-        ]));
+        ]))->onQueue(config('filament-alerts.queue'));
     }
 
     public function getUserNotifications()

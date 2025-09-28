@@ -2,15 +2,15 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\Actions;
 
+use Filament\Actions;
 use Filament\Notifications\Notification;
-use Filament\Tables;
 use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 
 class CloneAction extends Action
 {
-    public static function make(): Tables\Actions\Action
+    public static function make(): Actions\Action
     {
-        return Tables\Actions\Action::make('clone')
+        return Actions\Action::make('clone')
             ->iconButton()
             ->tooltip(trans('filament-alerts::messages.templates.actions.clone'))
             ->label(trans('filament-alerts::messages.templates.actions.clone'))

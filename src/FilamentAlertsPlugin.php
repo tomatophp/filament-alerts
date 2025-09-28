@@ -4,12 +4,16 @@ namespace TomatoPHP\FilamentAlerts;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Filament\SpatieLaravelTranslatablePlugin;
 use Illuminate\Support\Facades\Config;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 use TomatoPHP\FilamentAlerts\Filament\Pages\EmailSettingsPage;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsLogsResource;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsLogsResource\Pages\ManageNotificationsLogs;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\Components;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages\EditNotificationsTemplate;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages\ListNotificationsTemplates;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages\ViewNotificationsTemplates;
 use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationAction;
 use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationDriver;
 use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationType;
@@ -39,7 +43,6 @@ class FilamentAlertsPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel
-            ->plugin(SpatieLaravelTranslatablePlugin::make())
             ->resources((! $this->hideNotificationsResource) ? [
                 NotificationsLogsResource::class,
                 NotificationsTemplateResource::class,
@@ -78,14 +81,32 @@ class FilamentAlertsPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
+        FilamentAlerts::registerAction(Components\CreateAction::make(), ListNotificationsTemplates::class);
+        FilamentAlerts::registerAction([
+            Components\EditAction::make(),
+            Components\DeleteAction::make(),
+        ], ViewNotificationsTemplates::class);
+
+        FilamentAlerts::registerAction([
+            Components\ViewAction::make(),
+            Components\DeleteAction::make(),
+        ], EditNotificationsTemplate::class);
+
         if (class_exists(FilamentSettingsHub::class) && $this->useSettingsHub) {
             FilamentSettingsHub::register([
                 SettingHold::make()
                     ->label('filament-alerts::messages.settings.email.title')
                     ->icon('heroicon-o-envelope')
                     ->page(EmailSettingsPage::class)
-                    ->order(2)
+                    ->order(1)
                     ->description('filament-alerts::messages.settings.email.description')
+                    ->group('filament-alerts::messages.settings.group'),
+                SettingHold::make()
+                    ->label('filament-alerts::messages.logs.title')
+                    ->icon('heroicon-o-arrows-up-down')
+                    ->page(ManageNotificationsLogs::class)
+                    ->order(2)
+                    ->description('filament-alerts::messages.logs.description')
                     ->group('filament-alerts::messages.settings.group'),
             ]);
 

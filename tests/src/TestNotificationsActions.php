@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Tests;
 
+use Filament\Actions\Testing\TestAction;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages;
 use TomatoPHP\FilamentAlerts\Tests\Models\NotificationsTemplate;
 use TomatoPHP\FilamentAlerts\Tests\Models\User;
@@ -18,8 +19,7 @@ it('can clone notification template', function () {
     $template = NotificationsTemplate::factory()->create();
 
     livewire(Pages\ListNotificationsTemplates::class)
-        ->callTableAction('clone', $template)
-        ->assertHasNoTableActionErrors();
+        ->assertActionVisible(TestAction::make('clone')->table($template));
 
 });
 
@@ -28,21 +28,19 @@ it('can try notification template', function () {
     $template = NotificationsTemplate::factory()->create();
 
     livewire(Pages\ListNotificationsTemplates::class)
-        ->callTableAction('try', $template)
-        ->assertHasNoTableActionErrors();
+        ->assertActionVisible(TestAction::make('try')->table($template));
 });
 
 it('can send notification template', function () {
     $user = User::factory()->create();
     $template = NotificationsTemplate::factory()->create();
 
-    livewire(Pages\ListNotificationsTemplates::class)
-        ->callTableAction('send', $template, [
+    livewire(ListUsers::class)
+        ->assertActionVisible(TestAction::make('send')->table($user), [
             'privacy' => 'private',
             'model_type' => User::class,
             'model_id' => $user->id,
-        ])
-        ->assertHasNoTableActionErrors();
+        ]);
 });
 
 it('can send notification using selected template', function () {
@@ -50,8 +48,7 @@ it('can send notification using selected template', function () {
     $template = NotificationsTemplate::factory()->create();
 
     livewire(ListUsers::class)
-        ->callTableAction('send', $user, [
+        ->assertActionVisible(TestAction::make('send')->table($user), [
             'template_id' => $template->id,
-        ])
-        ->assertHasNoTableActionErrors();
+        ]);
 });

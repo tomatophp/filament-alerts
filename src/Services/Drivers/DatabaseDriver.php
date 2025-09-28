@@ -38,7 +38,7 @@ class DatabaseDriver extends Driver
                 'action' => $action,
                 'data' => $data,
                 'template_id' => $template_id,
-            ]));
+            ]))->onQueue(config('filament-alerts.queue'));
         } else {
             foreach ($model::all() as $user) {
                 dispatch(new NotifyDatabaseJob([
@@ -52,7 +52,7 @@ class DatabaseDriver extends Driver
                     'action' => $action,
                     'data' => $data,
                     'template_id' => $template_id,
-                ]));
+                ]))->onQueue(config('filament-alerts.queue'));
             }
         }
 

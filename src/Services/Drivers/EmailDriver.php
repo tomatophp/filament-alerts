@@ -34,7 +34,7 @@ class EmailDriver extends Driver
                     'subject' => $title,
                     'message' => $body,
                     'url' => $url,
-                ]));
+                ]))->onQueue(config('filament-alerts.queue'));
             }
         } else {
             foreach ($model::all() as $user) {
@@ -45,7 +45,7 @@ class EmailDriver extends Driver
                         'subject' => $title,
                         'message' => $body,
                         'url' => $url,
-                    ]));
+                    ]))->onQueue(config('filament-alerts.queue'));
                 }
             }
         }

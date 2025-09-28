@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
 
-            //If Selected Record On the model
+            // If Selected Record On the model
             $table->string('model_type')->nullable();
             $table->unsignedBigInteger('model_id')->nullable();
 
-            //If Selected Template
+            // If Selected Template
             $table->foreignId('template_id')->nullable()->constrained('notifications_templates')->onDelete('cascade');
 
-            //Else on public
+            // Else on public
             $table->text('title');
             $table->text('description')->nullable();
             $table->string('url')->nullable();
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('privacy')->default('public')->nullable();
             $table->json('data')->nullable();
 
-            //If Created By
+            // If Created By
             $table->foreignId('created_by')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();

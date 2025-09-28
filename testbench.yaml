@@ -9,9 +9,11 @@ providers:
   - Filament\Support\SupportServiceProvider
   - Filament\Tables\TablesServiceProvider
   - Filament\Widgets\WidgetsServiceProvider
+  - Filament\Schemas\SchemasServiceProvider
   - RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider
   - Filament\SpatieLaravelSettingsPluginServiceProvider
   - TomatoPHP\FilamentIcons\FilamentIconsServiceProvider
+  - TomatoPHP\FilamentTranslationComponent\FilamentTranslationComponentServiceProvider
   - TomatoPHP\FilamentSettingsHub\FilamentSettingsHubServiceProvider
   - TomatoPHP\FilamentAlerts\FilamentAlertsServiceProvider
   - TomatoPHP\FilamentAlerts\Tests\AdminPanelProvider

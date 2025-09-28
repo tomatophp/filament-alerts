@@ -2,8 +2,10 @@
 
 namespace TomatoPHP\FilamentAlerts\Services;
 
+use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages\ListNotificationsTemplates;
 use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationAction;
 use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationDriver;
@@ -22,6 +24,8 @@ class NotificationService
     protected array $templates = [];
 
     protected array $users = [];
+
+    protected array $pageActions = [];
 
     public function register(object | array $class): void
     {
@@ -140,5 +144,21 @@ class NotificationService
         }
 
         return $notificationTemplate;
+    }
+
+    public function registerAction(Action | array $action, ?string $page = ListNotificationsTemplates::class): void
+    {
+        if (is_array($action)) {
+            foreach ($action as $item) {
+                $this->registerAction($item, $page);
+            }
+        } else {
+            $this->pageActions[$page][] = $action;
+        }
+    }
+
+    public function getPageActions(?string $page = null): array
+    {
+        return $page ? ($this->pageActions[$page] ?? []) : [];
     }
 }

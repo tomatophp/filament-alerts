@@ -2,24 +2,24 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form;
 
-use Filament\Forms;
 use Filament\Forms\Components\Field;
-use Filament\Forms\Form;
+use Filament\Schemas;
+use Filament\Schemas\Schema;
 
 class NotificationsTemplateForm
 {
     protected static array $schema = [];
 
-    public static function make(Form $form): Form
+    public static function make(Schema $form): Schema
     {
-        return $form->schema(self::getSchema());
+        return $form->schema(self::getSchema())->columns(1);
     }
 
     public static function getDefaultComponents(): array
     {
         return [
-            Forms\Components\Section::make('Template Details')
-                ->description('The Name of the template and the unique key to access the template from the code')
+            Schemas\Components\Section::make(trans('filament-alerts::messages.templates.sections.details.title'))
+                ->description(trans('filament-alerts::messages.templates.sections.details.description'))
                 ->columns(6)
                 ->schema([
                     Components\Name::make(),
@@ -28,16 +28,16 @@ class NotificationsTemplateForm
                     Components\Providers::make(),
                     Components\Action::make(),
                 ]),
-            Forms\Components\Section::make('Notification Content')
-                ->description('The title and body of the notification')
+            Schemas\Components\Section::make(trans('filament-alerts::messages.templates.sections.content.title'))
+                ->description(trans('filament-alerts::messages.templates.sections.content.description'))
                 ->columns(2)
                 ->schema([
                     Components\Title::make(),
-                    Components\Icon::make(),
                     Components\Body::make(),
+                    Components\Icon::make(),
                 ]),
-            Forms\Components\Section::make('Notification Media and URL')
-                ->description('The image and the URL to redirect the user to')
+            Schemas\Components\Section::make(trans('filament-alerts::messages.templates.sections.media.title'))
+                ->description(trans('filament-alerts::messages.templates.sections.media.description'))
                 ->columns(2)
                 ->schema([
                     Components\Image::make(),

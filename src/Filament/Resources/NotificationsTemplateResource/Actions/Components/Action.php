@@ -2,9 +2,9 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\Components;
 
-use Filament\Actions\StaticAction;
+use Filament\Actions;
 
 abstract class Action
 {
-    abstract public static function make(): StaticAction;
+    abstract public static function make(): Actions\Action;
 }

@@ -45,9 +45,24 @@ return [
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ],
+        'sections' => [
+            'details' => [
+                'title' => 'Template Details',
+                'description' => 'The Name of the template and the unique key to access the template from the code',
+            ],
+            'content' => [
+                'title' => 'Notification Content',
+                'description' => 'The title and body of the notification',
+            ],
+            'media' => [
+                'title' => 'Notification Media and URL',
+                'description' => 'The image and the URL to redirect the user to',
+            ],
+        ],
     ],
     'logs' => [
         'title' => 'Logs',
+        'description' => 'Get Logs of Notifications',
         'form' => [
             'user' => 'User',
             'title' => 'Title',

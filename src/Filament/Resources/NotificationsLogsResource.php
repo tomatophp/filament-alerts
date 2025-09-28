@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -12,7 +13,7 @@ class NotificationsLogsResource extends Resource
 {
     protected static ?string $model = NotificationsLogs::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-exclamation-circle';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-exclamation-circle';
 
     public static function getNavigationGroup(): string
     {

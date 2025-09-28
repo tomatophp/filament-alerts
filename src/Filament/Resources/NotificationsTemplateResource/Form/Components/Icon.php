@@ -10,6 +10,7 @@ class Icon extends Component
     {
         return IconPicker::make('icon')
             ->label(trans('filament-alerts::messages.templates.form.icon'))
+            ->columnSpanFull()
             ->default('heroicon-o-check-circle');
     }
 }

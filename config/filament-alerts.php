@@ -55,12 +55,6 @@ return [
         'infolist' => [
             'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Infolist\NotificationsTemplateInfoList::class,
         ],
-        'pages' => [
-            'list' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ManagePageActions::class,
-            'create' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\CreatePageActions::class,
-            'edit' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\EditPageActions::class,
-            'view' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ViewPageActions::class,
-        ],
     ],
 
     /**
@@ -72,4 +66,13 @@ return [
     'try' => [
         'model' => \App\Models\User::class,
     ],
+
+    /**
+     * ---------------------------------------------
+     * Queue Name
+     * ---------------------------------------------
+     * The queue name for notifications dispatching events
+     */
+    'queue' => 'default',
+
 ];

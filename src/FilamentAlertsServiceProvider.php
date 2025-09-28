@@ -13,38 +13,38 @@ class FilamentAlertsServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //Register generate command
+        // Register generate command
         $this->commands([
             \TomatoPHP\FilamentAlerts\Console\FilamentAlertsInstall::class,
         ]);
 
-        //Register Config file
+        // Register Config file
         $this->mergeConfigFrom(__DIR__ . '/../config/filament-alerts.php', 'filament-alerts');
 
-        //Publish Config
+        // Publish Config
         $this->publishes([
             __DIR__ . '/../config/filament-alerts.php' => config_path('filament-alerts.php'),
         ], 'filament-alerts-config');
 
-        //Register Migrations
+        // Register Migrations
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        //Publish Migrations
+        // Publish Migrations
         $this->publishes([
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'filament-alerts-migrations');
-        //Register views
+        // Register views
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'filament-alerts');
 
-        //Publish Views
+        // Publish Views
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/filament-alerts'),
         ], 'filament-alerts-views');
 
-        //Register Langs
+        // Register Langs
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'filament-alerts');
 
-        //Publish Lang
+        // Publish Lang
         $this->publishes([
             __DIR__ . '/../resources/lang' => base_path('lang/vendor/filament-alerts'),
         ], 'filament-alerts-lang');
