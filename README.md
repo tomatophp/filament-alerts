@@ -386,28 +386,14 @@ public function boot()
 ### Page Actions
 
 ```php
-use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ManagePageActions;
-use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\EditPageActions;
-use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ViewPageActions;
-use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\CreatePageActions;
+use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Pages\ListNotificationsTemplates;
 
 public function boot()
 {
-    ManagePageActions::register([
+    FilamentAlerts::registerAction(action: [
         Filament\Actions\Action::make('action')
-    ]);
-    
-    EditPageActions::register([
-        Filament\Actions\Action::make('action')
-    ]);
-    
-    ViewPageActions::register([
-        Filament\Actions\Action::make('action')
-    ]);
-    
-    CreatePageActions::register([
-        Filament\Actions\Action::make('action')
-    ]);
+    ], page: ListNotificationsTemplates::class);
 }
 ```
 
@@ -448,13 +434,7 @@ you can customize all resource classes to be any class you want with the same re
     ],
     'infolist' => [
         'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Infolist\NotificationsTemplateInfoList::class,
-    ],
-    'pages' => [
-        'list' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ManagePageActions::class,
-        'create' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\CreatePageActions::class,
-        'edit' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\EditPageActions::class,
-        'view' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\ViewPageActions::class,
-    ],
+    ]
 ]
 ```
 
