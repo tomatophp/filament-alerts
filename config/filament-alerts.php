@@ -73,6 +73,6 @@ return [
      * ---------------------------------------------
      * The queue name for notifications dispatching events
      */
-    'queue' => 'default',
+    'queue' => env('FILAMENT_ALERTS_QUEUE', 'default'),
 
 ];
