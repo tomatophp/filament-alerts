@@ -7,7 +7,7 @@ use TomatoPHP\FilamentAlerts\Services\Drivers\EmailDriver;
 
 {
     /*
-     * @method static static sendUse(Model $user, string $driver = EmailDriver::class, array $data=[])
+     * @method static sendUse(Model $user, string $driver = EmailDriver::class, array $data=[])
      */
     class Notification
     {

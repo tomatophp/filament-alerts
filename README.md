@@ -38,6 +38,13 @@ Send notification to users using notification templates and multi notification c
 ![Try](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/try.png)
 ![View Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/view-template.png)
 
+## Drivers
+
+we have ready to use drivers for the Filament Alerts you can check 
+
+- [Filament Discord Driver](https://github.com/tomatophp/filament-discord-driver)
+- [Filament FCM Driver](https://github.com/tomatophp/filament-fcm-driver)
+
 ## Installation
 
 ```bash
