@@ -7,8 +7,6 @@ use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource;
 
 class EditNotificationsTemplate extends EditRecord
 {
-    use EditRecord\Concerns\Translatable;
-
     protected static string $resource = NotificationsTemplateResource::class;
 
     protected function getHeaderActions(): array

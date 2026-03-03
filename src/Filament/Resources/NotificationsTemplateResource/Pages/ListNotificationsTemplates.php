@@ -7,8 +7,6 @@ use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource;
 
 class ListNotificationsTemplates extends ListRecords
 {
-    use ListRecords\Concerns\Translatable;
-
     protected static string $resource = NotificationsTemplateResource::class;
 
     public function getTitle(): string

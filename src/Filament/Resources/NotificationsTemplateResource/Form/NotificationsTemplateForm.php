@@ -4,13 +4,13 @@ namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResou
 
 use Filament\Forms;
 use Filament\Forms\Components\Field;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 
 class NotificationsTemplateForm
 {
     protected static array $schema = [];
 
-    public static function make(Form $form): Form
+    public static function make(Schema $form): Schema
     {
         return $form->schema(self::getSchema());
     }
