@@ -16,7 +16,7 @@ class UserResource extends Resource
 
     public static function form(Schema $form): Schema
     {
-        return parent::form($form);
+        return $form;
     }
 
     public static function table(Table $table): Table
