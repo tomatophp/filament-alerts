@@ -10,17 +10,14 @@ use Filament\Forms\FormsServiceProvider;
 use Filament\Infolists\InfolistsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Schemas\SchemasServiceProvider;
-use Filament\SpatieLaravelSettingsPluginServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
-use GeneaLabs\LaravelModelCaching\Providers\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
-use Spatie\LaravelSettings\LaravelSettingsServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 use TomatoPHP\FilamentAlerts\FilamentAlertsServiceProvider;
@@ -28,8 +25,6 @@ use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationDriver;
 use TomatoPHP\FilamentAlerts\Services\Drivers\DatabaseDriver;
 use TomatoPHP\FilamentAlerts\Services\Drivers\EmailDriver;
 use TomatoPHP\FilamentAlerts\Tests\Models\User;
-use TomatoPHP\FilamentIcons\FilamentIconsServiceProvider;
-use TomatoPHP\FilamentSettingsHub\FilamentSettingsHubServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -58,13 +53,15 @@ abstract class TestCase extends BaseTestCase
 
     protected function defineDatabaseMigrations(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../../vendor/tomatophp/filament-settings-hub/migrations');
+        if (class_exists(\TomatoPHP\FilamentSettingsHub\FilamentSettingsHubServiceProvider::class)) {
+            $this->loadMigrationsFrom(__DIR__ . '/../../vendor/tomatophp/filament-settings-hub/migrations');
+        }
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
     }
 
     protected function getPackageProviders($app): array
     {
-        return [
+        $providers = [
             ActionsServiceProvider::class,
             BladeCaptureDirectiveServiceProvider::class,
             BladeHeroiconsServiceProvider::class,
@@ -78,15 +75,28 @@ abstract class TestCase extends BaseTestCase
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
-            LaravelSettingsServiceProvider::class,
             MediaLibraryServiceProvider::class,
-            SpatieLaravelSettingsPluginServiceProvider::class,
-            FilamentIconsServiceProvider::class,
-            Service::class,
-            FilamentSettingsHubServiceProvider::class,
             FilamentAlertsServiceProvider::class,
             AdminPanelProvider::class,
         ];
+
+        if (class_exists(\Spatie\LaravelSettings\LaravelSettingsServiceProvider::class)) {
+            $providers[] = \Spatie\LaravelSettings\LaravelSettingsServiceProvider::class;
+        }
+
+        if (class_exists(\Filament\SpatieLaravelSettingsPluginServiceProvider::class)) {
+            $providers[] = \Filament\SpatieLaravelSettingsPluginServiceProvider::class;
+        }
+
+        if (class_exists(\TomatoPHP\FilamentIcons\FilamentIconsServiceProvider::class)) {
+            $providers[] = \TomatoPHP\FilamentIcons\FilamentIconsServiceProvider::class;
+        }
+
+        if (class_exists(\TomatoPHP\FilamentSettingsHub\FilamentSettingsHubServiceProvider::class)) {
+            $providers[] = \TomatoPHP\FilamentSettingsHub\FilamentSettingsHubServiceProvider::class;
+        }
+
+        return $providers;
     }
 
     public function getEnvironmentSetUp($app): void
@@ -101,7 +111,9 @@ abstract class TestCase extends BaseTestCase
             __DIR__ . '/../../vendor/orchestra/testbench-core/laravel',
         ]);
 
-        $app['config']->set('filament-icons.cache', false);
+        if (class_exists(\TomatoPHP\FilamentIcons\FilamentIconsServiceProvider::class)) {
+            $app['config']->set('filament-icons.cache', false);
+        }
         $app['config']->set('queue.default', 'sync');
         $app['config']->set('filament-alerts.try.model', User::class);
 

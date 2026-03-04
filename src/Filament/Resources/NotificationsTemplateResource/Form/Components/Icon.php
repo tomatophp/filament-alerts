@@ -2,13 +2,20 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form\Components;
 
-use TomatoPHP\FilamentIcons\Components\IconPicker;
+use Filament\Forms\Components\Field;
+use Filament\Forms\Components\TextInput;
 
 class Icon extends Component
 {
-    public static function make(): IconPicker
+    public static function make(): Field
     {
-        return IconPicker::make('icon')
+        if (class_exists(\TomatoPHP\FilamentIcons\Components\IconPicker::class)) {
+            return \TomatoPHP\FilamentIcons\Components\IconPicker::make('icon')
+                ->label(trans('filament-alerts::messages.templates.form.icon'))
+                ->default('heroicon-o-check-circle');
+        }
+
+        return TextInput::make('icon')
             ->label(trans('filament-alerts::messages.templates.form.icon'))
             ->default('heroicon-o-check-circle');
     }
