@@ -26,21 +26,19 @@
         }
     },
     "require": {
-        "php": "^8.1|^8.2",
+        "php": "^8.2",
         "tomatophp/console-helpers": "^1.1",
-        "filament/filament": "^3.0",
-        "filament/notifications": "^3.0",
-        "filament/spatie-laravel-media-library-plugin": "^3.2",
-        "filament/spatie-laravel-translatable-plugin": "^3.2",
-        "tomatophp/filament-icons": "^1.0",
-        "tomatophp/filament-settings-hub": "^2.0"
+        "filament/filament": "^5.0",
+        "filament/spatie-laravel-media-library-plugin": "^5.0",
+        "tomatophp/filament-icons": "^4.0",
+        "tomatophp/filament-settings-hub": "^4.0"
     },
     "require-dev": {
-        "livewire/livewire": "^2.10|^3.0",
-        "orchestra/testbench": "^9.5",
-        "pestphp/pest": "^2.36"
+        "livewire/livewire": "^3.0",
+        "orchestra/testbench": "^10.0",
+        "pestphp/pest": "^3.0"
     },
-    "version": "2.2.3",
+    "version": "5.0.0",
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true

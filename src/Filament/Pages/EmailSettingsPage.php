@@ -6,6 +6,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\SettingsPage;
+use Filament\Schemas\Schema;
 use TomatoPHP\FilamentAlerts\Settings\EmailSettings;
 
 class EmailSettingsPage extends SettingsPage
@@ -19,7 +20,7 @@ class EmailSettingsPage extends SettingsPage
         return trans('filament-alerts::messages.settings.email.title');
     }
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Action::make('back')->action(fn () => redirect()->route('filament.' . filament()->getCurrentPanel()->getId() . '.pages.settings-hub'))->color('danger')->label(trans('filament-alerts::messages.back')),
@@ -31,9 +32,9 @@ class EmailSettingsPage extends SettingsPage
         return false;
     }
 
-    protected function getFormSchema(): array
+    public function form(Schema $schema): Schema
     {
-        return [
+        return $schema->schema([
             Grid::make(['default' => 1])->schema([
                 TextInput::make('mail_mailer')
                     ->label(trans('filament-alerts::messages.settings.email.mail_mailer'))
@@ -60,7 +61,6 @@ class EmailSettingsPage extends SettingsPage
                     ->label(trans('filament-alerts::messages.settings.email.mail_from_name'))
                     ->hint(config('filament-alerts.show_hint') ? 'setting("mail_from_name")' : null),
             ]),
-
-        ];
+        ]);
     }
 }

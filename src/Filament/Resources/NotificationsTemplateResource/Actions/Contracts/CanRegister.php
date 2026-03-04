@@ -3,8 +3,8 @@
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\Contracts;
 
 use Filament\Actions\StaticAction;
-use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Filament\Schemas\Schema;
 use Filament\Support\Concerns\EvaluatesClosures;
 
 use function Filament\Support\get_model_label;
@@ -31,7 +31,7 @@ trait CanRegister
                 $action->record(method_exists(self::$page, 'getRecord') ? self::$page->getRecord() : null)
                     ->model(method_exists(self::$page, 'getModel') ? self::$page->getModel() : null)
                     ->modelLabel(method_exists(self::$page, 'getModelLabel') ? get_model_label(self::$page->getModel()) : null)
-                    ->form(fn (Form $form) => app(self::$page->getResource())::form($form))
+                    ->form(fn (Schema $form) => app(self::$page->getResource())::form($form))
                     ->url(fn () => isset(app(self::$page->getResource())::getPages()[$action->getName()]) ? app(app(self::$page->getResource())::getPages()[$action->getName()]->getPage())->getUrl(['record' => method_exists(self::$page, 'getRecord') ? self::$page->getRecord() : null]) : null);
             }
 

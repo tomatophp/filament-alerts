@@ -3,7 +3,6 @@
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions;
 
 use Filament\Actions\Action;
-use Filament\Actions\LocaleSwitcher;
 use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsLogsResource;
 
 final class ManagePageActions
@@ -21,7 +20,6 @@ final class ManagePageActions
                 ->color('info')
                 ->tooltip(trans('filament-alerts::messages.logs.title'))
                 ->label(trans('filament-alerts::messages.logs.title')),
-            LocaleSwitcher::make(),
         ];
     }
 }

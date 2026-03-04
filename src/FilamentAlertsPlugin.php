@@ -4,7 +4,6 @@ namespace TomatoPHP\FilamentAlerts;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Filament\SpatieLaravelTranslatablePlugin;
 use Illuminate\Support\Facades\Config;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
 use TomatoPHP\FilamentAlerts\Filament\Pages\EmailSettingsPage;
@@ -39,7 +38,6 @@ class FilamentAlertsPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel
-            ->plugin(SpatieLaravelTranslatablePlugin::make())
             ->resources((! $this->hideNotificationsResource) ? [
                 NotificationsLogsResource::class,
                 NotificationsTemplateResource::class,
