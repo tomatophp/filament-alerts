@@ -15,9 +15,6 @@ use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationType;
 use TomatoPHP\FilamentAlerts\Services\Concerns\NotificationUser;
 use TomatoPHP\FilamentAlerts\Services\Drivers\DatabaseDriver;
 use TomatoPHP\FilamentAlerts\Services\Drivers\EmailDriver;
-use TomatoPHP\FilamentSettingsHub\Facades\FilamentSettingsHub;
-use TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin;
-use TomatoPHP\FilamentSettingsHub\Services\Contracts\SettingHold;
 
 class FilamentAlertsPlugin implements Plugin
 {
@@ -43,9 +40,9 @@ class FilamentAlertsPlugin implements Plugin
                 NotificationsTemplateResource::class,
             ] : []);
 
-        if ($this->useSettingsHub) {
+        if ($this->useSettingsHub && class_exists(\TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin::class)) {
             if (! $panel->hasPlugin('filament-settings-hub')) {
-                $panel->plugin(FilamentSettingsHubPlugin::make());
+                $panel->plugin(\TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin::make());
             }
             $panel->pages([
                 EmailSettingsPage::class,
@@ -76,9 +73,9 @@ class FilamentAlertsPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
-        if (class_exists(FilamentSettingsHub::class) && $this->useSettingsHub) {
-            FilamentSettingsHub::register([
-                SettingHold::make()
+        if (class_exists(\TomatoPHP\FilamentSettingsHub\Facades\FilamentSettingsHub::class) && $this->useSettingsHub) {
+            \TomatoPHP\FilamentSettingsHub\Facades\FilamentSettingsHub::register([
+                \TomatoPHP\FilamentSettingsHub\Services\Contracts\SettingHold::make()
                     ->label('filament-alerts::messages.settings.email.title')
                     ->icon('heroicon-o-envelope')
                     ->page(EmailSettingsPage::class)
