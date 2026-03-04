@@ -2,11 +2,12 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form\Components;
 
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\TextInput;
 
 class Icon extends Component
 {
-    public static function make(): TextInput
+    public static function make(): Field
     {
         if (class_exists(\TomatoPHP\FilamentIcons\Components\IconPicker::class)) {
             return \TomatoPHP\FilamentIcons\Components\IconPicker::make('icon')
