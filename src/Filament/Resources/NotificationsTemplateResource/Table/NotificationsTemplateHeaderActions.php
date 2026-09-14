@@ -2,6 +2,8 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table;
 
+use Filament\Actions\Action;
+
 class NotificationsTemplateHeaderActions
 {
     /**
@@ -26,11 +28,11 @@ class NotificationsTemplateHeaderActions
         return array_merge(self::getDefaultActions(), self::$actions);
     }
 
-    public static function register(\Filament\Tables\Actions\Action | array $action): void
+    public static function register(Action | array $action): void
     {
         if (is_array($action)) {
             foreach ($action as $item) {
-                if ($item instanceof \Filament\Tables\Actions\Action) {
+                if ($item instanceof Action) {
                     self::$actions[] = $item;
                 }
             }

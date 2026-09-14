@@ -2,14 +2,17 @@
 
 namespace TomatoPHP\FilamentAlerts\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Models\Role;
 use Spatie\Translatable\HasTranslations;
+use TomatoPHP\FilamentAlerts\Database\Factories\NotificationsTemplateFactory;
 
 class NotificationsTemplate extends Model implements HasMedia
 {
+    use HasFactory;
     use HasTranslations;
     use InteractsWithMedia;
 
@@ -43,5 +46,10 @@ class NotificationsTemplate extends Model implements HasMedia
         if (class_exists(Role::class)) {
             return $this->belongsToMany(Role::class, 'template_has_roles', 'template_id', 'role_id');
         }
+    }
+
+    protected static function newFactory(): NotificationsTemplateFactory
+    {
+        return NotificationsTemplateFactory::new();
     }
 }

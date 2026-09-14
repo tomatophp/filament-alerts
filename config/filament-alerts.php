@@ -1,5 +1,14 @@
 <?php
 
+use App\Models\User;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form\NotificationsTemplateForm;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\InfoList\NotificationsTemplateInfoList;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateActions;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateBulkActions;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateFilters;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateHeaderActions;
+use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateTable;
+
 return [
     /**
      * ---------------------------------------------
@@ -43,17 +52,17 @@ return [
      */
     'resource' => [
         'table' => [
-            'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateTable::class,
-            'filters' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateFilters::class,
-            'actions' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateActions::class,
-            'header-actions' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateHeaderActions::class,
-            'bulkActions' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\NotificationsTemplateBulkActions::class,
+            'class' => NotificationsTemplateTable::class,
+            'filters' => NotificationsTemplateFilters::class,
+            'actions' => NotificationsTemplateActions::class,
+            'header-actions' => NotificationsTemplateHeaderActions::class,
+            'bulkActions' => NotificationsTemplateBulkActions::class,
         ],
         'form' => [
-            'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Form\NotificationsTemplateForm::class,
+            'class' => NotificationsTemplateForm::class,
         ],
         'infolist' => [
-            'class' => \TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Infolist\NotificationsTemplateInfoList::class,
+            'class' => NotificationsTemplateInfoList::class,
         ],
     ],
 
@@ -64,7 +73,7 @@ return [
      * set user model that you can use when you try any template
      */
     'try' => [
-        'model' => \App\Models\User::class,
+        'model' => User::class,
     ],
 
     /**

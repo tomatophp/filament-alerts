@@ -2,6 +2,8 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table;
 
+use Filament\Tables\Filters\BaseFilter;
+
 class NotificationsTemplateFilters
 {
     /**
@@ -27,11 +29,11 @@ class NotificationsTemplateFilters
         return array_merge(self::getDefaultFilters(), self::$filters);
     }
 
-    public static function register(\Filament\Tables\Filters\BaseFilter | array $action): void
+    public static function register(BaseFilter | array $action): void
     {
         if (is_array($action)) {
             foreach ($action as $item) {
-                if ($item instanceof \Filament\Tables\Filters\BaseFilter) {
+                if ($item instanceof BaseFilter) {
                     self::$filters[] = $item;
                 }
             }

@@ -29,14 +29,14 @@ Send notification to users using notification templates and multi notification c
 
 ## Screenshots
 
-![Templates](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/templates.png)
-![Create Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/create-template.png)
-![Create Template Image](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/create-template-v2.png)
-![Edit Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/edit-template.png)
-![Logs](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/logs.png)
-![Send Notification](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/send.png)
-![Try](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/try.png)
-![View Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/view-template.png)
+| Light | Dark |
+|-------|------|
+| ![Templates](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/templates-light.png) | ![Templates](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/templates-dark.png) |
+| ![Create Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/create-template-light.png) | ![Create Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/create-template-dark.png) |
+| ![Edit Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/edit-template-light.png) | ![Edit Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/edit-template-dark.png) |
+| ![View Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/view-template-light.png) | ![View Template](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/view-template-dark.png) |
+| ![Logs](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/logs-light.png) | ![Logs](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/logs-dark.png) |
+| ![Email Settings](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/email-settings-light.png) | ![Email Settings](https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/email-settings-dark.png) |
 
 ## Drivers
 
@@ -44,6 +44,13 @@ we have ready to use drivers for the Filament Alerts you can check
 
 - [Filament Discord Driver](https://github.com/tomatophp/filament-discord-driver)
 - [Filament FCM Driver](https://github.com/tomatophp/filament-fcm-driver)
+
+## Requirements
+
+| Package version | Filament | Laravel     | PHP  |
+|-----------------|----------|-------------|------|
+| 5.x             | 5.x      | 12.x, 13.x  | 8.2+ |
+| 4.x             | 4.x      | 11.x, 12.x  | 8.2+ |
 
 ## Installation
 
@@ -57,11 +64,10 @@ after install your package please run this command
 php artisan filament-alerts:install
 ```
 
-if you are not using this package as a plugin please register the plugin on `/app/Providers/Filament/AdminPanelProvider.php`
+finally register the plugin on `/app/Providers/Filament/AdminPanelProvider.php`
 
 ```php
-->plugin(\TomatoPHP\FilamentAlerts\FilamentAlertsPlugin::make()
-)
+->plugin(\TomatoPHP\FilamentAlerts\FilamentAlertsPlugin::make())
 ```
 
 ## Usage
@@ -116,7 +122,7 @@ Notification::make('send')
     ->icon('heroicon-o-bell')
     ->color('success')
     ->actions([
-        \Filament\Notifications\Actions\Action::make('view')
+        \Filament\Actions\Action::make('view')
             ->label('View')
             ->url('https://google.com')
             ->markAsRead()
@@ -167,11 +173,11 @@ $user->notifyDB(string $message, ?string $title=null, ?string $url =null);
 
 ### Hide Notifications Resources
 
-to hide the notification resources from the sidebar you can use the plugin method `hideNotificationsResources` like
+to hide the notification resources from the sidebar you can use the plugin method `hideNotificationsResource` like
 
 ```php
 ->plugin(\TomatoPHP\FilamentAlerts\FilamentAlertsPlugin::make()
-    ->hideNotificationsResources()
+    ->hideNotificationsResource()
 )
 ```
 
@@ -346,7 +352,7 @@ use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Ta
 public function boot()
 {
     NotificationsTemplateActions::register([
-        \Filament\Tables\Actions\ReplicateAction::make()
+        \Filament\Actions\ReplicateAction::make()
     ]);
 }
 ```
@@ -372,7 +378,7 @@ use TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Ta
 public function boot()
 {
     NotificationsTemplateBulkActions::register([
-        \Filament\Tables\BulkActions\DeleteAction::make()
+        \Filament\Actions\DeleteBulkAction::make()
     ]);
 }
 ```

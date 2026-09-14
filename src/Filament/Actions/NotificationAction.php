@@ -6,7 +6,7 @@ use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
-use TomatoPHP\FilamentAlerts\Tests\Models\NotificationsTemplate;
+use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 
 class NotificationAction extends Action
 {

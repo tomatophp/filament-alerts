@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Jobs;
 
+use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -77,7 +78,7 @@ class NotifyDatabaseJob implements ShouldQueue
             ->icon($notification->icon)
             ->color($notification->type)
             ->actions($notification->url ? [
-                \Filament\Actions\Action::make('view')
+                Action::make('view')
                     ->label('View')
                     ->url($notification->url)
                     ->markAsRead(),

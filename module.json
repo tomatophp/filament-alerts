@@ -23,7 +23,7 @@
     "icon": "heroicon-c-bell",
     "placeholder": "https://raw.githubusercontent.com/tomatophp/filament-alerts/master/arts/3x1io-tomato-alerts.jpg",
     "type": "plugin",
-    "version": "v2.0.4",
+    "version": "v5.0.0",
     "github" : "https://github.com/tomatophp/filament-alerts",
     "docs" : "https://github.com/tomatophp/filament-alerts"
 }

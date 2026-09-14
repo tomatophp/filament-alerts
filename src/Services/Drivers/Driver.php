@@ -4,6 +4,7 @@ namespace TomatoPHP\FilamentAlerts\Services\Drivers;
 
 use Filament\Notifications\Notification;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
+use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 
 abstract class Driver
 {
@@ -39,6 +40,10 @@ abstract class Driver
             $body,
         );
 
+        if (! $loadTemplate) {
+            return;
+        }
+
         $this->sendIt(
             title: $loadTemplate->title,
             model: $model,
@@ -50,7 +55,9 @@ abstract class Driver
             type: $loadTemplate->type,
             action: $loadTemplate->action,
             data: $data,
-            template_id: $template
+            template_id: is_numeric($template)
+                ? (int) $template
+                : NotificationsTemplate::query()->where('key', $template)->value('id')
         );
     }
 }

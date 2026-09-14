@@ -6,6 +6,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use TomatoPHP\FilamentAlerts\Console\FilamentAlertsInstall;
 use TomatoPHP\FilamentAlerts\Services\Drivers\EmailDriver;
 use TomatoPHP\FilamentAlerts\Services\NotificationService;
 
@@ -15,7 +16,7 @@ class FilamentAlertsServiceProvider extends ServiceProvider
     {
         // Register generate command
         $this->commands([
-            \TomatoPHP\FilamentAlerts\Console\FilamentAlertsInstall::class,
+            FilamentAlertsInstall::class,
         ]);
 
         // Register Config file
