@@ -2,6 +2,12 @@
     "name": "tomatophp/filament-alerts",
     "type": "library",
     "description": "Send notification to users using notification templates and multi notification channels, it's support Filament Native Notification Service with macro, and a full integration to FCM service worker notifications",
+    "homepage": "https://tomatophp.com/en/plugins/filament-alerts",
+    "support": {
+        "issues": "https://github.com/tomatophp/filament-alerts/issues",
+        "source": "https://github.com/tomatophp/filament-alerts",
+        "docs": "https://tomatophp.com/en/plugins/filament-alerts"
+    },
     "keywords": [
         "php",
         "laravel",
